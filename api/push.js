@@ -14,7 +14,9 @@
 
 const webpush = require('web-push');
 
-const VAPID_PUBLIC_KEY = (process.env.VAPID_PUBLIC_KEY || '').replace(/\s+/g, '');
+const DEFAULT_VAPID_PUBLIC = 'BL5p_98asNkagVDnRvKAJl0WF2pOU0NSriVqDKKFXi2Cnfhb_dy6F1QqPDpOymq71xwIGztfxY_-XX1c0qmRBJY';
+const _envPub = (process.env.VAPID_PUBLIC_KEY || '').replace(/\s+/g, '');
+const VAPID_PUBLIC_KEY = _envPub.length === 87 ? _envPub : DEFAULT_VAPID_PUBLIC;
 const VAPID_PRIVATE_KEY = (process.env.VAPID_PRIVATE_KEY || '').replace(/\s+/g, '');
 const VAPID_SUBJECT = (process.env.VAPID_SUBJECT || 'mailto:soray135@example.com').trim();
 const MAX_SUBSCRIPTIONS = 40;
