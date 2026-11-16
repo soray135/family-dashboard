@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F6F1FB">
 <meta name="robots" content="noindex, nofollow">
-<title>우리집 가족 대시보드</title>
+<title>우리가족 대시보드</title>
 <style>
 /* ============ base ============ */
 *, *::before, *::after { box-sizing: border-box; }
@@ -658,6 +658,24 @@ select.q-xp, #wishWho{
   background:#F6F3FC; padding:2.5px 8px; border-radius:7px;
   font-variant-numeric:tabular-nums;
 }
+.chat-head-right{ display:flex; align-items:center; gap:6px; flex:0 0 auto; }
+.chat-unread{
+  font-size:10.5px; font-weight:800; color:#fff; letter-spacing:-0.02em;
+  background:linear-gradient(180deg,#8B7BF5,#7361EE);
+  padding:3px 7px; border-radius:7px;
+  box-shadow:0 3px 8px rgba(115,97,238,.28);
+  animation:popIn .28s cubic-bezier(.22,1,.36,1) both;
+}
+.bell-btn{
+  display:inline-flex; align-items:center; gap:3px;
+  font-size:10.5px; font-weight:800; color:#8C84A3; letter-spacing:-0.02em;
+  background:#F8F6FD; border:1px solid #EFEAF8;
+  padding:3px 7px; border-radius:7px;
+  transition:background .15s, color .15s, border-color .15s;
+}
+.bell-btn:hover{ background:#F1ECFC; color:#6C5FD0; }
+.bell-btn.on{ color:#6C5FD0; background:#F1ECFC; border-color:#DCD2FB; }
+@keyframes popIn{ from{ transform:scale(.7); opacity:0; } to{ transform:none; opacity:1; } }
 .who-pick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .who-chip{
   display:flex; flex-direction:column; align-items:center; gap:2px;
@@ -961,6 +979,29 @@ select.q-xp, #wishWho{
 .sheet-actions{ display:flex; gap:8px; margin-top:16px; }
 .sheet-actions .btn{ flex:1; justify-content:center; padding:11px 14px; font-size:13.5px; }
 
+/* gate — 가족 비밀 코드 입력 */
+.gate-sheet{ max-width:400px; padding:24px 22px 18px; text-align:center; }
+.gate-ico{ font-size:34px; line-height:1; margin-bottom:8px; }
+.gate-sheet .sheet-title{ text-align:center; font-size:18px; margin-bottom:8px; letter-spacing:-0.04em; }
+.gate-lead{ font-size:12.5px; font-weight:600; color:#8A82A0; line-height:1.65; word-break:keep-all; margin-bottom:15px; }
+.gate-form{ display:flex; gap:7px; }
+.gate-form input{
+  flex:1; min-width:0;
+  padding:11px 13px;
+  border-radius:12px; border:1px solid #EAE4F6; background:#FBFAFE;
+  font-size:14px; font-weight:700; letter-spacing:.01em;
+}
+.gate-form input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
+.gate-form .btn{ flex:0 0 auto; padding:0 16px; }
+.gate-form .btn[disabled]{ opacity:.6; }
+.gate-msg{ min-height:15px; margin-top:9px; font-size:11.5px; font-weight:700; color:#C0543E; line-height:1.5; word-break:keep-all; }
+.gate-msg.ok{ color:#2F7D64; }
+.gate-skip{
+  margin-top:13px; font-size:11.5px; font-weight:700; color:#A79FB8;
+  text-decoration:underline; text-underline-offset:3px;
+}
+.gate-skip:hover{ color:#6C5FD0; }
+
 /* backup */
 .backup-list{ display:flex; flex-direction:column; gap:8px; }
 .backup-item{
@@ -975,6 +1016,39 @@ select.q-xp, #wishWho{
 .backup-item .bi-txt small{ display:block; font-size:11px; color:#A79FB8; font-weight:600; margin-top:2px; word-break:keep-all; }
 
 /* toast */
+/* 새 메시지 배너 */
+.notif-bar{
+  position:fixed; left:50%; top:max(12px, env(safe-area-inset-top));
+  z-index:140;
+  display:flex; align-items:center; gap:9px;
+  max-width:min(92vw,430px);
+  padding:10px 11px 10px 11px;
+  background:#fff;
+  border:1px solid #EFE9FB; border-radius:16px;
+  box-shadow:0 16px 38px rgba(88,70,150,.2), 0 2px 8px rgba(88,70,150,.08);
+  transform:translate(-50%,-160%); opacity:0; pointer-events:none;
+  transition:transform .34s cubic-bezier(.22,1,.36,1), opacity .22s ease;
+  cursor:pointer;
+}
+.notif-bar.on{ transform:translate(-50%,0); opacity:1; pointer-events:auto; }
+.notif-bar .nb-av{
+  flex:0 0 auto; width:29px; height:29px; border-radius:10px;
+  display:grid; place-items:center; font-size:15px;
+  background:linear-gradient(180deg,#F7F3FF,#F1ECFE);
+}
+.notif-bar .nb-txt{ flex:1; min-width:0; font-size:12.5px; line-height:1.42; word-break:keep-all; }
+.notif-bar .nb-txt b{ font-weight:800; color:#37304A; margin-right:4px; }
+.notif-bar .nb-txt span{ color:#6E6685; font-weight:650; }
+.notif-bar .nb-more{
+  flex:0 0 auto; font-size:10px; font-weight:800; color:#7361EE;
+  background:#F1ECFE; padding:2px 6px; border-radius:6px;
+}
+.notif-bar .nb-x{
+  flex:0 0 auto; width:22px; height:22px; border-radius:7px;
+  display:grid; place-items:center; font-size:11px; color:#B6AEC4;
+}
+.notif-bar .nb-x:hover{ background:#F6F2FD; color:#6C5FD0; }
+
 .toast-wrap{
   position:fixed; left:50%; bottom:26px; transform:translateX(-50%);
   z-index:120;
@@ -1172,7 +1246,7 @@ select.q-xp, #wishWho{
   <header class="topbar">
     <div class="brand-wrap">
       <span class="brand-home" aria-hidden="true">🏠</span>
-      <h1 class="brand" id="dashTitle" contenteditable="true" spellcheck="false" role="textbox" aria-label="대시보드 제목">하성·하윤이네 가족 대시보드</h1>
+      <h1 class="brand" id="dashTitle" contenteditable="true" spellcheck="false" role="textbox" aria-label="대시보드 제목">우리가족 대시보드</h1>
     </div>
     <div class="clock-pill" aria-live="off">
       <span id="clockDate">–</span><span class="sep">·</span><b id="clockTime">–</b>
@@ -1324,7 +1398,11 @@ select.q-xp, #wishWho{
     <section class="card chat-card" aria-label="가족 톡">
       <div class="chat-head">
         <h2 class="card-title">💬 가족 톡</h2>
-        <span class="chat-count" id="chatCount">0</span>
+        <div class="chat-head-right">
+          <button class="chat-unread" type="button" id="chatUnread" hidden>새 메시지 0</button>
+          <span class="chat-count" id="chatCount">0</span>
+          <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
+        </div>
       </div>
       <div class="who-pick" id="whoPick" role="group" aria-label="보낸 사람 고르기">
         <button type="button" class="who-chip" data-who="엄마" aria-pressed="false"><span class="wc-av" aria-hidden="true">👩</span>엄마</button>
@@ -1391,7 +1469,7 @@ select.q-xp, #wishWho{
     </div>
     <div class="field">
       <label for="ddayName">무엇을 기다리나요?</label>
-      <input id="ddayName" placeholder="예) 하윤이 발레 발표회" maxlength="40">
+      <input id="ddayName" placeholder="예) 가족여행 출발" maxlength="40">
     </div>
     <div class="field">
       <label for="ddayDate">날짜</label>
@@ -1448,17 +1526,17 @@ select.q-xp, #wishWho{
       <input id="syncUrl" placeholder="https://my-family-default-rtdb.asia-southeast1.firebasedatabase.app" autocomplete="off" spellcheck="false" inputmode="url">
     </div>
     <div class="field">
-      <label for="syncRoom">가족 방 코드</label>
-      <input id="syncRoom" placeholder="hasung-hayun" autocomplete="off" spellcheck="false" maxlength="40">
+      <label for="syncRoom">가족 비밀 코드</label>
+      <input id="syncRoom" placeholder="가족끼리 정한 비밀 코드" autocomplete="off" spellcheck="false" maxlength="40">
     </div>
     <div class="sync-help">
-      <b>이미 준비돼 있어요</b>
+      <b>이렇게 쓰면 돼요</b>
       <ol>
-        <li>주소와 방 코드(<b>hasung-hayun</b>)가 미리 채워져 있고, 열면 바로 연결돼요</li>
-        <li>가족 기기에서도 같은 주소·방 코드로 열면 채팅 · 퀘스트 · 일정이 함께 맞춰져요</li>
-        <li>끄면 이 기기에만 저장되고, 인터넷이 없어도 그대로 열려요 (아래 <b>실시간 해제</b>)</li>
+        <li>가족끼리 정한 <b>비밀 코드</b>를 넣고 저장하면 바로 연결돼요 (주소는 이미 채워져 있어요)</li>
+        <li>가족 기기에서도 같은 코드를 넣으면 채팅 · 퀘스트 · 일정이 함께 맞춰져요</li>
+        <li>코드를 바꾸면 그 코드의 방으로 옮겨가고, 끄면 이 기기에만 저장되고 인터넷 없이도 열려요 (아래 <b>실시간 해제</b>)</li>
       </ol>
-      <p>방 코드를 아는 사람은 같이 볼 수 있어요. 필요하면 남이 짐작하기 어려운 코드로 바꿔 주세요 (예: <b>hasung-hayun-7391</b>).<br>연결이 안 되면 console.firebase.google.com → <b>Realtime Database</b> → 규칙(Rules)에서 읽기·쓰기를 열어 둬요 — <code>"read": true, "write": true</code></p>
+      <p>비밀 코드를 아는 사람은 함께 볼 수 있어요. 짐작하기 어렵게 가족만 아는 숫자를 붙여 보세요 (예: <b>우리집-7391</b>).<br>연결이 안 되면 console.firebase.google.com → <b>Realtime Database</b> → 규칙(Rules)에서 읽기·쓰기를 열어 둬요 — <code>"read": true, "write": true</code></p>
     </div>
     <p class="sync-status" id="syncStatus" data-kind="off">이 기기에만 저장되는 로컬 모드예요</p>
     <div class="sheet-actions">
@@ -1471,10 +1549,25 @@ select.q-xp, #wishWho{
   </div>
 </div>
 
+<!-- ── 🔑 가족 비밀 코드 입력 (이 기기에 코드가 없을 때 한 번) ── -->
+<div class="modal gate" id="gateModal" role="dialog" aria-modal="true" aria-labelledby="gateTitle">
+  <div class="sheet gate-sheet">
+    <div class="gate-ico" aria-hidden="true">🔑</div>
+    <div class="sheet-title" id="gateTitle">가족 비밀 코드 입력</div>
+    <p class="gate-lead">가족끼리 정한 비밀 코드를 입력하면 우리집 대시보드에 바로 연결돼요. 한 번 입력하면 이 기기에서는 다음부터 자동으로 열려요.</p>
+    <form class="gate-form" id="gateForm" autocomplete="off">
+      <input id="gateInput" placeholder="비밀 코드" maxlength="40" aria-label="가족 비밀 코드" spellcheck="false" autocapitalize="off">
+      <button class="btn btn-primary" type="submit" id="gateGo">입장하기</button>
+    </form>
+    <p class="gate-msg" id="gateMsg" role="status" aria-live="polite"></p>
+    <button class="gate-skip" type="button" id="gateSkip">비밀 코드 없이 이 기기에서만 쓰기</button>
+  </div>
+</div>
+
 <!-- ── 대기화면 ── -->
 <div class="standby" id="standby" role="dialog" aria-modal="true" aria-label="대기화면">
   <div class="sb-top">
-    <div class="sb-brand"><span aria-hidden="true">🏠</span><span id="sbBrand">하성·하윤이네 가족 대시보드</span></div>
+    <div class="sb-brand"><span aria-hidden="true">🏠</span><span id="sbBrand">우리가족 대시보드</span></div>
     <button class="sb-close" type="button" id="standbyClose">닫기 (Esc)</button>
   </div>
   <div class="sb-main">
@@ -1503,6 +1596,12 @@ select.q-xp, #wishWho{
   </div>
 </div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
+<div class="notif-bar" id="notifBar" role="status" aria-live="polite">
+  <span class="nb-av" id="notifAv" aria-hidden="true">💬</span>
+  <span class="nb-txt"><b id="notifWho"></b><span id="notifText"></span></span>
+  <span class="nb-more" id="notifMore" hidden>+1</span>
+  <button class="nb-x" type="button" id="notifClose" aria-label="알림 닫기">✕</button>
+</div>
 <div class="toast-wrap" id="toastWrap" aria-live="polite"></div>
 
 <script>
@@ -1827,7 +1926,7 @@ const CREATURES = [
 ];
 const CREATURE_MAP = Object.fromEntries(CREATURES.map(c => [c.key, c]));
 /* =========================================================
-   우리집 가족 대시보드 — 앱 로직
+   우리가족 대시보드 — 앱 로직
    ========================================================= */
 const STORE_KEY = 'sora-home-dashboard-v1';
 const WEEK = ['일','월','화','수','목','금','토'];
@@ -1873,15 +1972,12 @@ const guessIcon = text => {
 
 /* ---------- 기본값 ---------- */
 function seed() {
-  const E1 = uid(), E2 = uid(), E3 = uid(), E4 = uid(), E5 = uid();
-  const D1 = uid(), D2 = uid(), D3 = uid(), D4 = uid(), D5 = uid();
-  const ago = m => Date.now() - m * 60000;
   return {
     v: 1,
-    title: '하성·하윤이네 가족 대시보드',
+    title: '우리가족 대시보드',
     kids: {
       haseong: {
-        name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 65, dexMax: 2,
+        name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 0, dexMax: 2,
         quests: [
           { id: uid(), text: '리딩앤', xp: 15, done: false },
           { id: uid(), text: '연산', xp: 20, done: false },
@@ -1896,7 +1992,7 @@ function seed() {
         ]
       },
       hayun: {
-        name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 55, dexMax: 2,
+        name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexMax: 2,
         quests: [
           { id: uid(), text: '한글 2장', xp: 20, done: false },
           { id: uid(), text: '수학 2장', xp: 20, done: false },
@@ -1906,26 +2002,17 @@ function seed() {
         ]
       }
     },
-    events: {
-      '2026-11-19': [{ id: E1, text: '하성 등교 9시 35분까지', ddayId: D1 }, { id: uid(), text: '클콘 선예 (20시)', ddayId: null }],
-      '2026-11-21': [{ id: E2, text: '엘클럽 · 롯데홈쇼핑 해지', ddayId: D2 }],
-      '2026-11-26': [{ id: E3, text: '하윤 졸업여행 — 간식 · 물 · 물티슈 · 수저통', ddayId: D3 }],
-      '2026-12-04': [{ id: E4, text: '하윤 발레 발표회 (오후 6시)', ddayId: D4 }],
-      '2026-12-27': [{ id: E5, text: '후쿠오카 가족여행 출발 (12/27~30)', ddayId: D5 }]
-    },
-    ddays: [
-      { id: D1, evId: E1, icon: '🎒', title: '하성 등교 9시 35분까지', date: '2026-11-19' },
-      { id: D2, evId: E2, icon: '📵', title: '엘클럽 · 롯데홈쇼핑 해지', date: '2026-11-21' },
-      { id: D3, evId: E3, icon: '🧳', title: '하윤 졸업여행 준비물', date: '2026-11-26' },
-      { id: D4, evId: E4, icon: '🩰', title: '하윤 발레 발표회', date: '2026-12-04' },
-      { id: D5, evId: E5, icon: '✈️', title: '후쿠오카 가족여행 출발', date: '2026-12-27' }
-    ],
+    /* 공개 페이지에 실제 일정이 남지 않도록 비워 둡니다 — 가족 방에 연결하면 그 방의 일정을 불러와요 */
+    events: {},
+    ddays: [],
     wishes: [],
     chat: {
       me: '엄마',
+      /* 처음 열었을 때 사용법이 한눈에 보이도록 둔 예시예요 — 말풍선의 × 로 바로 지울 수 있어요.
+         실제 가족 대화·아이 일정은 공개 소스에 넣지 않습니다 */
       msgs: [
-        { id: uid(), who: '엄마', text: '오늘 퀘스트 다 하면 간식 있대~ 🍓', at: ago(52), reactions: {} },
-        { id: uid(), who: '하성', text: '응 지금 하고 있어!', at: ago(47), reactions: { '❤️': ['엄마'] } }
+        { id: uid(), who: '엄마', text: '우리 가족 대시보드에 온 걸 환영해요 🙂', at: Date.now() - 52 * 60000, reactions: {} },
+        { id: uid(), who: '하성', text: '여기서 하루 퀘스트를 체크하면 경험치가 쌓여요!', at: Date.now() - 47 * 60000, reactions: { '❤️': ['엄마'] } },
       ]
     }
   };
@@ -2086,7 +2173,12 @@ function confetti(count = 38) {
   }
 }
 function openModal(sel) { $(sel).classList.add('open'); }
-function closeModals() { $$('.modal.open').forEach(m => m.classList.remove('open')); }
+function closeModals(opts) {
+  $$('.modal.open').forEach(m => {
+    if (m.id === 'gateModal' && !(opts && opts.force)) return;   /* 비밀 코드 창은 코드를 넣거나 '이 기기에서만'을 누르면 닫혀요 */
+    m.classList.remove('open');
+  });
+}
 
 /* ---------- 시계 ---------- */
 function tickClock() {
@@ -2438,7 +2530,9 @@ function renderChat() {
 function sendChat(text) {
   const t = String(text == null ? '' : text).trim();
   if (!t) return false;
-  state.chat.msgs.push({ id: uid(), who: state.chat.me, text: t.slice(0, 300), at: Date.now(), reactions: {} });
+  const msg = { id: uid(), who: state.chat.me, text: t.slice(0, 300), at: Date.now(), reactions: {} };
+  markSent(msg.id);            /* 이 기기에서 보낸 메시지는 알림에서 빼요 */
+  state.chat.msgs.push(msg);
   save();
   renderChat();
   return true;
@@ -2649,7 +2743,7 @@ function bindEvents() {
   // 제목
   const titleEl = $('#dashTitle');
   titleEl.addEventListener('input', () => {
-    state.title = titleEl.textContent.trim() || '우리집 가족 대시보드';
+    state.title = titleEl.textContent.trim() || '우리가족 대시보드';
     save();
   });
   titleEl.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); titleEl.blur(); } });
@@ -2876,17 +2970,41 @@ function bindEvents() {
     reactChat(last.id, b.dataset.emoji);
   });
 
+  // 💬 새 메시지 알림
+  $('#bellBtn').addEventListener('click', toggleBell);
+  $('#chatUnread').addEventListener('click', scrollChatIntoView);
+  $('#notifBar').addEventListener('click', e => {
+    if (e.target.closest('#notifClose')) { hideChatBanner(); return; }
+    scrollChatIntoView();
+  });
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) return;
+    restoreTitle();
+    catchUpChat(true);          /* 화면이 다시 켜지면 놓친 메시지를 한 번 확인해요 */
+  });
+  window.addEventListener('focus', () => { restoreTitle(); catchUpChat(); });
+  updateBell();
+
   // ☁️ 실시간
   $('#syncBtn').addEventListener('click', () => {
-    /* 직접 끈 뒤에 다시 열으면 기본 주소·방 코드를 다시 보여 줘요 (한 번에 다시 켤 수 있게) */
-    $('#syncUrl').value = sync.url || DEFAULT_SYNC.url || '';
-    $('#syncRoom').value = sync.room || DEFAULT_SYNC.room || '';
+    /* 주소는 기본값을 채워 두고, 방 코드는 이 기기에 저장된 값만 보여 줘요 */
+    $('#syncUrl').value = sync.url || defaultSyncUrl();
+    $('#syncRoom').value = sync.room || '';
     setSyncStatus(sync.status);
     openModal('#syncModal');
   });
   $('#syncTest').addEventListener('click', syncTest);
   $('#syncSave').addEventListener('click', syncSaveAndConnect);
   $('#syncOff').addEventListener('click', syncDisconnect);
+
+  // 🔑 비밀 코드 입력 창
+  $('#gateForm').addEventListener('submit', e => { e.preventDefault(); enterRoomFromGate($('#gateInput').value); });
+  $('#gateSkip').addEventListener('click', () => {
+    saveSyncCfg({ off: true });                       /* 다음부터 묻지 않고 이 기기에만 저장해요 */
+    closeModals({ force: true });
+    setSyncStatus('off', '🔒 비밀 코드 없이 이 기기에만 저장하고 있어요 · 나중에 ☁️ 에서 코드를 넣을 수 있어요');
+    toast('이 기기에만 저장할게요 · 나중에 ☁️ 버튼으로 가족 방에 연결할 수 있어요');
+  });
 
   // 상단 버튼
   $('#standbyBtn').addEventListener('click', enterStandby);
@@ -2927,15 +3045,15 @@ function bindEvents() {
    ☁️ 실시간 동기화 — Firebase Realtime Database REST + SSE
    (외부 스크립트 없이 브라우저 내장 fetch / EventSource만 사용)
    ========================================================= */
-const SYNC_KEY = 'sora-home-dashboard-sync-v1';
+const SYNC_KEY = 'sora-home-dashboard-sync-v2';
 const DEVICE_KEY = 'sora-home-dashboard-device-v1';
-/* 처음 열어도 손대지 않고 바로 가족 방에 붙도록 기본값을 넣어 둡니다.
+/* 방 코드는 소스에 넣지 않습니다 — 첫 접속 때 가족이 정한 비밀 코드를 입력받아 이 기기에만 저장해요.
    이 데이터베이스는 싱가포르 리전(asia-southeast1)에 있어서 아래 주소를 씁니다. */
 const DEFAULT_SYNC = {
   url: 'https://family-dashboard-1bc3e-default-rtdb.asia-southeast1.firebasedatabase.app',
-  room: 'hasung-hayun'
+  room: ''
 };
-const sync = { url: '', room: '', status: 'off' };
+const sync = { url: '', room: '', status: 'off', created: false };
 let syncES = null;
 let syncDoc = null;
 let pushTimer = null;
@@ -2949,19 +3067,28 @@ const DEVICE_ID = (() => {
   } catch (e) { return 'device'; }
 })();
 
-function defaultSyncCfg() {
-  const url = normDbUrl(DEFAULT_SYNC.url), room = normRoom(DEFAULT_SYNC.room);
-  return (url && room) ? { url, room, preset: true } : null;
+function defaultSyncUrl() { return normDbUrl(DEFAULT_SYNC.url); }
+/* 이 기기에 남아 있는 선택: 'linked'(코드 저장됨) · 'local'(코드 없이 쓰기로 함) · 'none'(아직 고르지 않음) */
+function syncChoice() {
+  try {
+    const raw = localStorage.getItem(SYNC_KEY);
+    if (!raw) return 'none';
+    const c = JSON.parse(raw);
+    if (c && c.off) return 'local';
+    if (c && normRoom(c.room)) return 'linked';
+  } catch (e) {}
+  return 'none';
 }
 function loadSyncCfg() {
   try {
     const raw = localStorage.getItem(SYNC_KEY);
-    if (!raw) return defaultSyncCfg();              /* 처음 접속 → 기본값으로 자동 연결 */
+    if (!raw) return null;                          /* 처음 접속 → 비밀 코드를 물어봐요 */
     const c = JSON.parse(raw);
     if (c && c.off) return null;                    /* 사용자가 직접 끈 경우만 로컬 모드 */
-    if (c && c.url && c.room) return { url: normDbUrl(c.url), room: normRoom(c.room) };
+    const room = normRoom(c && c.room);
+    if (room) return { url: normDbUrl(c && c.url) || defaultSyncUrl(), room };
   } catch (e) {}
-  return defaultSyncCfg();
+  return null;
 }
 function saveSyncCfg(c) {
   try {
@@ -3047,7 +3174,187 @@ function setAt(root, parts, value) {
   return base;
 }
 
-function applyRemoteDoc(d) {
+/* =========================================================
+   💬 새 메시지 알림 — 상단 배너 · 브라우저 알림 · 탭 제목 · 안 읽음 표시
+   ========================================================= */
+const NOTIF_KEY = 'sora-home-dashboard-notif-v1';
+const SEEN_KEY = 'sora-home-dashboard-lastseen-v1';
+const SENT_KEY = 'sora-home-dashboard-sent-v1';
+const BASE_TITLE = '우리가족 대시보드';
+let notifPref = (() => {
+  try {
+    const raw = localStorage.getItem(NOTIF_KEY);
+    if (raw === null) return ('Notification' in window) && Notification.permission === 'granted';
+    const c = JSON.parse(raw);
+    return !!(c && c.on);
+  } catch (e) { return false; }
+})();
+let seenRoom = '';
+let seenId = '';
+(() => {
+  try {
+    const c = JSON.parse(localStorage.getItem(SEEN_KEY) || '{}');
+    seenRoom = String((c && c.room) || '');
+    seenId = String((c && c.id) || '');
+  } catch (e) {}
+})();
+const SENT_IDS = (() => {
+  try {
+    const a = JSON.parse(localStorage.getItem(SENT_KEY) || '[]');
+    return new Set(Array.isArray(a) ? a : []);
+  } catch (e) { return new Set(); }
+})();
+let unreadCount = 0;
+let notifTimer = null;
+let lastCatchUp = 0;
+
+function saveNotifPref() { try { localStorage.setItem(NOTIF_KEY, JSON.stringify({ on: !!notifPref })); } catch (e) {} }
+/* 어디까지 봤는지 — 방과 메시지 id를 함께 저장해요 (방을 바꾸면 기준도 새로 잡습니다) */
+function saveSeen(id) {
+  seenRoom = sync.room || '';
+  seenId = id || '';
+  try { localStorage.setItem(SEEN_KEY, JSON.stringify({ room: seenRoom, id: seenId })); } catch (e) {}
+}
+function seenForThisRoom() { return !!sync.room && seenRoom === sync.room; }
+/* 이 기기에서 보낸 메시지는 알림에서 빼요 (다른 기기에서 온 것만 알려 드립니다) */
+function markSent(id) {
+  if (!id) return;
+  SENT_IDS.add(id);
+  try { localStorage.setItem(SENT_KEY, JSON.stringify(Array.from(SENT_IDS).slice(-40))); } catch (e) {}
+}
+function chatSorted(msgs) {
+  const list = Array.isArray(msgs) ? msgs : (msgs && typeof msgs === 'object' ? Object.values(msgs) : []);
+  return list.filter(m => m && typeof m.text === 'string' && m.text.trim())
+    .map(m => Object.assign({}, m, { at: Number(m.at) || 0 }))
+    .sort((a, b) => a.at - b.at);
+}
+/* 이 기기가 마지막으로 본 메시지 다음에 온 것들 */
+function afterSeen(list) {
+  if (!list.length) return [];
+  if (!seenId) return list.slice();
+  const i = list.findIndex(m => m.id === seenId);
+  if (i < 0) return [];                       /* 기록이 비워졌으면 조용히 넘어가요 */
+  return list.slice(i + 1);
+}
+function noteIncoming(msgs, opts) {
+  const list = chatSorted(msgs);
+  if (!seenForThisRoom()) {
+    /* 이 방을 이 기기에서 처음 보는 순간 — 이미 방에 있던 기록으로는 알리지 않고 기준만 맞춰요 */
+    saveSeen(list.length ? list[list.length - 1].id : '');
+    return;
+  }
+  const fresh = afterSeen(list).filter(m => !SENT_IDS.has(m.id));
+  if (!fresh.length) {
+    if (seenId && list.length && list.findIndex(m => m.id === seenId) < 0) saveSeen(list[list.length - 1].id);
+    else if (!document.hidden && list.length) saveSeen(list[list.length - 1].id);   /* 보고 있는 메시지는 본 것으로 */
+    return;
+  }
+  announceFresh(fresh, !!(opts && opts.away));
+}
+function announceFresh(fresh, away) {
+  const last = fresh[fresh.length - 1];
+  const n = fresh.length;
+  showChatBanner(last, n);
+  if (away || document.hidden) { unreadCount += n; renderUnread(); }
+  if (document.hidden) {
+    flashTitle();
+    showNativeNotification(last, n);
+  }
+  saveSeen(last.id);   /* 같은 메시지로 두 번 알리지 않도록요 */
+}
+function showChatBanner(m, n) {
+  const bar = $('#notifBar');
+  if (!bar) return;
+  const mem = MEMBER_MAP[m.who] || { av: '💬' };
+  $('#notifAv').textContent = mem.av || '💬';
+  $('#notifWho').textContent = m.who + ':';
+  $('#notifText').textContent = m.text.length > 70 ? m.text.slice(0, 70) + '…' : m.text;
+  const more = $('#notifMore');
+  if (more) { more.hidden = n <= 1; more.textContent = '+' + (n - 1); }
+  bar.classList.add('on');
+  clearTimeout(notifTimer);
+  notifTimer = setTimeout(hideChatBanner, 4000);
+}
+function hideChatBanner() {
+  const bar = $('#notifBar');
+  if (bar) bar.classList.remove('on');
+}
+function renderUnread() {
+  const el = $('#chatUnread');
+  if (!el) return;
+  el.hidden = unreadCount <= 0;
+  el.textContent = '새 메시지 ' + (unreadCount > 99 ? '99+' : unreadCount);
+  el.setAttribute('aria-label', `새 메시지 ${unreadCount}건 · 눌러서 확인`);
+}
+function clearUnread() {
+  if (!unreadCount) return;
+  unreadCount = 0;
+  renderUnread();
+}
+function scrollChatIntoView() {
+  const card = $('.chat-card');
+  if (card && card.scrollIntoView) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const log = $('#chatLog');
+  if (log) log.scrollTop = log.scrollHeight;
+  clearUnread();
+  hideChatBanner();
+}
+function flashTitle() { document.title = `💬 새 메시지! - ${BASE_TITLE}`; }
+function restoreTitle() { if (document.title !== BASE_TITLE) document.title = BASE_TITLE; }
+function updateBell() {
+  const b = $('#bellBtn');
+  if (!b) return;
+  const supported = ('Notification' in window);
+  const perm = supported ? Notification.permission : 'unsupported';
+  const on = supported && perm === 'granted' && notifPref;
+  b.classList.toggle('on', on);
+  b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  b.title = !supported ? '이 브라우저는 알림을 지원하지 않아요'
+    : perm === 'denied' ? '브라우저 설정에서 이 사이트의 알림을 허용해 주세요'
+    : on ? '새 메시지 알림 켜짐 · 누르면 꺼요'
+    : '누르면 새 메시지 알림을 켜요 (탭을 보고 있지 않을 때 알려 드려요)';
+}
+async function toggleBell() {
+  if (!('Notification' in window)) { toast('이 브라우저는 알림을 지원하지 않아요 · 화면 안 알림은 그대로 보여 드려요'); return; }
+  if (Notification.permission === 'denied') { toast('브라우저 설정에서 이 사이트의 알림을 허용해 주세요'); return; }
+  if (Notification.permission === 'granted') {
+    notifPref = !notifPref;
+  } else {
+    let res = 'default';
+    try { res = await Notification.requestPermission(); } catch (e) {}
+    if (res !== 'granted') { updateBell(); toast('알림을 허용하지 않아 화면 안 알림만 보여 드려요'); return; }
+    notifPref = true;
+  }
+  saveNotifPref();
+  updateBell();
+  toast(notifPref ? '🔔 새 메시지 알림을 켰어요 · 화면을 보고 있지 않을 때 알려 드려요' : '🔔 새 메시지 알림을 껐어요');
+}
+function showNativeNotification(m, n) {
+  if (!notifPref) return;
+  if (!('Notification' in window) || Notification.permission !== 'granted') return;
+  try {
+    const body = n > 1 ? `${m.text} (외 ${n - 1}건)` : m.text;
+    const note = new Notification(`${m.who} · 우리가족 대시보드`, { body, tag: 'family-chat', renotify: false });
+    note.onclick = () => { try { window.focus(); } catch (e) {} try { note.close(); } catch (e) {} };
+  } catch (e) { /* 휴대폰 브라우저처럼 알림 생성이 막힌 곳에서는 화면 안 알림만 보여 드려요 */ }
+}
+/* 화면이 다시 켜질 때 서버에서 한 번 받아 와 놓친 메시지를 확인해요 */
+async function catchUpChat(force) {
+  if (!sync.url || !sync.room) return;
+  if (document.hidden) return;
+  const now = Date.now();
+  if (!force && now - lastCatchUp < 4000) return;
+  lastCatchUp = now;
+  try {
+    const r = await fetch(roomUrl(), { cache: 'no-store' });
+    if (!r.ok) return;
+    const d = await r.json().catch(() => null);
+    const msgs = chatSorted(d && d.chat ? d.chat.msgs : null);
+    if (msgs.length) noteIncoming(msgs, { away: true });
+  } catch (e) { /* 오프라인이면 다음에 다시 */ }
+}
+
+function applyRemoteDoc(d, opts) {
   if (!d || typeof d !== 'object') return;
   const prevMe = state.chat && state.chat.me;
   state = docToState(d);
@@ -3055,6 +3362,8 @@ function applyRemoteDoc(d) {
   if (MEMBER_MAP[prevMe]) state.chat.me = prevMe;
   save({ push: false });
   renderAll();
+  /* 실시간으로 보고 있는 중이면 '지금 온 메시지', 연결 직후·화면 복귀라면 '자리를 비운 사이 온 메시지' */
+  noteIncoming(state.chat.msgs, { away: !(opts && opts.live) || document.hidden });
 }
 
 function onStreamEvent(kind, ev) {
@@ -3073,7 +3382,7 @@ function onStreamEvent(kind, ev) {
   if (!syncDoc) return;
   /* 이 기기가 올린 내용을 그대로 돌려받은 경우엔 다시 그리지 않아요 (무한 루프 방지) */
   if (syncDoc.meta && syncDoc.meta.by === DEVICE_ID) return;
-  applyRemoteDoc(syncDoc);
+  applyRemoteDoc(syncDoc, { live: true });
 }
 
 async function putDoc() {
@@ -3160,6 +3469,7 @@ async function syncConnect(opts) {
     const data = await r.json().catch(() => null);
     if (data && typeof data === 'object') {
       syncDoc = data;
+      sync.created = false;
       if (!(data.meta && data.meta.by === DEVICE_ID)) applyRemoteDoc(data);
       openStream();
       setSyncStatus('on');
@@ -3167,6 +3477,7 @@ async function syncConnect(opts) {
       if (!data.chat || !data.chat.msgs) schedulePush(60);
     } else {
       syncDoc = null;
+      sync.created = true;
       await putDoc();
       openStream();
       setSyncStatus('on');
@@ -3215,7 +3526,7 @@ async function syncSaveAndConnect() {
   const url = normDbUrl($('#syncUrl').value);
   const room = normRoom($('#syncRoom').value);
   if (!url) { toast('Firebase Database URL을 넣어 주세요'); $('#syncUrl').focus(); return; }
-  if (!room) { toast('가족 방 코드를 넣어 주세요 (예: hasung-hayun)'); $('#syncRoom').focus(); return; }
+  if (!room) { toast('가족끼리 정한 비밀 코드를 넣어 주세요'); $('#syncRoom').focus(); return; }
   sync.url = url; sync.room = room;
   $('#syncUrl').value = url; $('#syncRoom').value = room;
   saveSyncCfg({ url, room });
@@ -3230,6 +3541,45 @@ function syncDisconnect() {
   $('#syncUrl').value = ''; $('#syncRoom').value = '';
   toast('실시간 연동을 해제했어요 (로컬 모드)');
   closeModals();
+}
+
+/* ---------- 🔑 가족 비밀 코드 입력 창 ---------- */
+function openGate() {
+  const box = $('#gateModal');
+  if (!box) return;
+  box.classList.add('open');
+  setTimeout(() => { const el = $('#gateInput'); if (el) el.focus(); }, 140);
+}
+function setGateMsg(text, ok) {
+  const el = $('#gateMsg');
+  if (!el) return;
+  el.textContent = text || '';
+  el.classList.toggle('ok', !!ok && !!text);
+}
+async function enterRoomFromGate(raw) {
+  const room = normRoom(raw);
+  const input = $('#gateInput'), btn = $('#gateGo');
+  if (!room) { setGateMsg('가족끼리 정한 비밀 코드를 넣어 주세요'); if (input) input.focus(); return; }
+  const url = defaultSyncUrl();
+  if (!url) { setGateMsg('연결 주소가 준비되지 않았어요 · ☁️ 설정에서 직접 넣어 주세요'); return; }
+  sync.url = url; sync.room = room;
+  saveSyncCfg({ url, room });                 /* 이 기기에서는 다음부터 묻지 않도록 바로 저장해요 */
+  if (btn) { btn.disabled = true; btn.textContent = '연결 중…'; }
+  setGateMsg('🔑 코드를 확인하고 있어요…', true);
+  const ok = await syncConnect({ silent: true });
+  if (btn) { btn.disabled = false; btn.textContent = '입장하기'; }
+  if (!ok) {
+    setGateMsg('연결하지 못했어요 · 코드를 다시 확인하고, 인터넷이 되면 다시 시도해 주세요');
+    return;
+  }
+  setGateMsg('');
+  if (input) input.value = '';
+  catchUpChat(true);
+  const box = $('#gateModal');
+  if (box) box.classList.remove('open');
+  toast(sync.created
+    ? `🔑 '${room}' 방을 새로 열었어요 · 가족에게 같은 코드를 알려 주세요`
+    : `🔑 '${room}' 방에 연결됐어요 · 가족 기기와 함께 맞춰져요`);
 }
 
 /* ---------- 시작 ---------- */
@@ -3247,13 +3597,15 @@ function init() {
   } else if (!hasData) {
     toast('환영해요! 퀘스트를 체크하면 경험치가 쌓여요 ✨');
   }
+  const choice = syncChoice();
   const cfg = loadSyncCfg();
   if (cfg) {
     sync.url = cfg.url; sync.room = cfg.room;
     setSyncStatus('connecting');
-    syncConnect({ silent: true });
+    syncConnect({ silent: true }).then(() => catchUpChat(true));   /* 열자마자 놓친 메시지도 확인해요 */
   } else {
     setSyncStatus('off');
+    if (choice === 'none') openGate();   /* 이 기기에 코드가 없을 때만 → 가족 비밀 코드를 물어봐요 */
   }
 }
 if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
