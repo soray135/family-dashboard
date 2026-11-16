@@ -1697,7 +1697,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>파이리</span>
-            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>4</b>/<span data-dextotal>24</span></button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>4</b>/<span data-dextotal>32</span></button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -1741,7 +1741,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>피츄</span>
-            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>4</b>/<span data-dextotal>24</span></button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>4</b>/<span data-dextotal>32</span></button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -2723,28 +2723,74 @@ const CREATURES = [
       <ellipse cx="50" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
       <ellipse cx="90" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
     </svg>`
-  }
+  },
+  /* ---------- 25~37. 하성이 도감 — 전설·메가 포켓몬 (PokeAPI 공식 아트워크) ---------- */
+  { key:'giratina', name:'기라티나', emoji:'🌑' },
+  { key:'hooh', name:'칠색조', emoji:'🕊️' },
+  { key:'sharpedomega', name:'메가샤크니아', emoji:'🦈' },
+  { key:'kyogreprimal', name:'원시가이오가', emoji:'🌊' },
+  { key:'palkia', name:'펄기아', emoji:'💎' },
+  { key:'samurott', name:'대검귀', emoji:'🗡️' },
+  { key:'genesect', name:'게노세크트', emoji:'🤖' },
+  { key:'arceus', name:'아르세우스', emoji:'✨' },
+  { key:'groudonprimal', name:'원시그란돈', emoji:'🌋' },
+  { key:'steelixmega', name:'메가강철톤', emoji:'⛓️' },
+  { key:'dialga', name:'디아루가', emoji:'⏳' },
+  { key:'charizardmegax', name:'메가리자몽X', emoji:'🐉' },
+  { key:'charizardmegay', name:'메가리자몽Y', emoji:'🔥' },
+  /* ---------- 38. 토토로 (두 아이 도감 모두) ---------- */
+  { key:'totoro', name:'토토로', img:'assets/ghibli/totoro.png', emoji:'🌳' },
+  /* ---------- 39~46. 하윤이 도감 — 위시캣 (SAMG 공식 캐릭터) ---------- */
+  { key:'ainyang', name:'아이냥', img:'assets/wishcat/ainyang.png', emoji:'🐱' },
+  { key:'kokonyang', name:'코코냥', img:'assets/wishcat/kokonyang.png', emoji:'🎤' },
+  { key:'ttokttoknyang', name:'똑똑냥', img:'assets/wishcat/ttokttoknyang.png', emoji:'🤓' },
+  { key:'bebenyang', name:'베베냥', img:'assets/wishcat/bebenyang.png', emoji:'🍼' },
+  { key:'daldalnyang', name:'달달냥', img:'assets/wishcat/daldalnyang.png', emoji:'🧁' },
+  { key:'helssinyang', name:'헬씨냥', img:'assets/wishcat/helssinyang.png', emoji:'🎾' },
+  { key:'ippeunyang', name:'이쁘냥', img:'assets/wishcat/ippeunyang.png', emoji:'💄' },
+  { key:'reobeunyang', name:'러브냥', img:'assets/wishcat/reobeunyang.png', emoji:'💗' }
 ];
 const CREATURE_MAP = Object.fromEntries(CREATURES.map(c => [c.key, c]));
 /* ---------- 공식 아트워크 · 도감 해금 ---------- */
 const DEX_ID = {
   charmander: 4, pichu: 172, squirtle: 7, bulbasaur: 1, eevee: 133, jigglypuff: 39,
-  pikachu: 25, snorlax: 143, psyduck: 54, ditto: 132, caterpie: 10, mew: 151
+  pikachu: 25, snorlax: 143, psyduck: 54, ditto: 132, caterpie: 10, mew: 151,
+  /* 하성이 도감 — 전설·메가 포켓몬 (PokeAPI 번호 그대로) */
+  giratina: 487, hooh: 250, sharpedomega: 10070, kyogreprimal: 10077, palkia: 484,
+  samurott: 503, genesect: 649, arceus: 493, groudonprimal: 10078, steelixmega: 10072,
+  dialga: 483, charizardmegax: 10034, charizardmegay: 10035
 };
 CREATURES.forEach(c => { if (DEX_ID[c.key]) c.dex = DEX_ID[c.key]; });
 
-/* 처음부터 쓸 수 있는 친구 — 포켓몬 2 + 예쁜 친구 2 (디즈니 공주 6종은 모두 레벨업으로 열려요) */
+/* 처음부터 쓸 수 있는 친구 — 두 아이 모두 포켓몬 2 + 예쁜 친구 2 (나머지는 레벨업으로 열려요) */
 const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody'];
-/* 도감 순서 = 해금 순서. 엘사는 후반부 하이라이트 보상(Lv.15)으로 뒤에 배치해요 */
-const DEX_ORDER_KEYS = [
-  'charmander', 'pichu', 'cinnamoroll', 'mymelody',
-  'squirtle', 'hellokitty', 'cinderella', 'bulbasaur', 'pompompurin', 'rapunzel',
-  'eevee', 'pochacco', 'belle', 'pikachu', 'kuromi', 'ariel', 'snowwhite',
-  'elsa',
-  'jigglypuff', 'snorlax', 'psyduck', 'ditto', 'caterpie', 'mew'
-];
-const DEX_SEQ = DEX_ORDER_KEYS.map(k => CREATURE_MAP[k]).filter(Boolean)
-  .concat(CREATURES.filter(c => !DEX_ORDER_KEYS.includes(c.key)));
+/* 아이마다 도감이 따로 있어요 — 배열 순서가 곧 해금 순서(레벨이 오를 때마다 한 마리) */
+const KID_DEX_KEYS = {
+  /* 하성이 32종: 포켓몬 12 + 산리오 6 + 전설·메가 포켓몬 13 + 토토로 (디즈니 공주는 없어요) */
+  haseong: [
+    'charmander', 'pichu', 'cinnamoroll', 'mymelody',
+    'squirtle', 'hellokitty', 'bulbasaur', 'pompompurin', 'eevee', 'pochacco',
+    'pikachu', 'kuromi', 'jigglypuff', 'samurott', 'snorlax', 'psyduck',
+    'hooh', 'ditto', 'sharpedomega', 'totoro', 'steelixmega', 'genesect',
+    'mew', 'caterpie', 'palkia', 'dialga', 'kyogreprimal', 'groudonprimal',
+    'charizardmegax', 'charizardmegay', 'giratina', 'arceus'
+  ],
+  /* 하윤이 32종: 포켓몬 11 + 산리오 6 + 디즈니 공주 6 + 토토로 + 위시캣 8
+     (애벌레 캐터피는 하윤이 도감에서 빼요 · 엘사는 Lv.15 그대로) */
+  hayun: [
+    'charmander', 'pichu', 'cinnamoroll', 'mymelody',
+    'squirtle', 'hellokitty', 'cinderella', 'bulbasaur', 'pompompurin', 'rapunzel',
+    'eevee', 'pochacco', 'belle', 'pikachu', 'kuromi', 'ariel', 'snowwhite',
+    'elsa',
+    'jigglypuff', 'snorlax', 'psyduck', 'ditto', 'mew', 'totoro',
+    'ainyang', 'kokonyang', 'ttokttoknyang', 'bebenyang',
+    'daldalnyang', 'helssinyang', 'ippeunyang', 'reobeunyang'
+  ]
+};
+const KID_DEX = Object.fromEntries(Object.entries(KID_DEX_KEYS)
+  .map(([id, keys]) => [id, keys.map(k => CREATURE_MAP[k]).filter(Boolean)]));
+function kidDexSeq(kidId) { return KID_DEX[kidId] || KID_DEX.hayun; }
+function kidDexTotal(kidId) { return kidDexSeq(kidId).length; }
 /* 예전에 저장된 '직접 그린 친구' 키는 디즈니 공주로 이어받아요 */
 const LEGACY_CREATURE_KEYS = { princess: 'elsa', ballerina: 'cinderella', unicorn: 'rapunzel' };
 const POKE_ART = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
@@ -2774,23 +2820,29 @@ function artBox(c, opts) {
   wrap.appendChild(fb);
   return wrap;
 }
-function dexGoal(level) { return Math.min(MAX_DEX, STARTER_KEYS.length + Math.max(0, (Number(level) || 1) - 1)); }
-function ensureDex(k) {
-  const start = new Set(Array.isArray(k.dexOpen) ? k.dexOpen.filter(x => CREATURE_MAP[x]) : []);
+function dexGoal(kidId, level) {
+  return Math.min(kidDexTotal(kidId), STARTER_KEYS.length + Math.max(0, (Number(level) || 1) - 1));
+}
+function ensureDex(kidId, k) {
+  const seq = kidDexSeq(kidId);
+  const inDex = new Set(seq.map(c => c.key));
+  /* 아이 도감에 없는 친구(예: 하성이의 옛 디즈니 공주, 하윤이의 캐터피)는 여기서 빠져요 */
+  const start = new Set((Array.isArray(k.dexOpen) ? k.dexOpen : []).filter(x => inDex.has(x)));
   const open = new Set(start);
-  STARTER_KEYS.forEach(key => { if (CREATURE_MAP[key]) open.add(key); });
-  const goal = dexGoal(k.level);
-  for (const c of DEX_SEQ) { if (open.size >= goal) break; open.add(c.key); }
-  k.dexOpen = DEX_SEQ.filter(c => open.has(c.key)).map(c => c.key);
+  STARTER_KEYS.forEach(key => { if (inDex.has(key)) open.add(key); });
+  const goal = dexGoal(kidId, k.level);
+  for (const c of seq) { if (open.size >= goal) break; open.add(c.key); }
+  k.dexOpen = seq.filter(c => open.has(c.key)).map(c => c.key);
   return k.dexOpen.filter(x => !start.has(x));
 }
 /* 엘사를 포함한 디즈니 공주는 레벨로만 열려요 — 이미 저장된 기기·방에서도 한 번만 정리해요.
    레벨이 해금 기준(Lv.4 신데렐라 … Lv.15 엘사)에 못 미치면 그 친구는 도감에서 다시 잠급니다. */
-function tuneStarterDex(k) {
-  const allowed = new Set(DEX_SEQ.slice(0, dexGoal(k.level)).map(c => c.key));
+function tuneStarterDex(kidId, k) {
+  const seq = kidDexSeq(kidId);
+  const allowed = new Set(seq.slice(0, dexGoal(kidId, k.level)).map(c => c.key));
   const kept = (Array.isArray(k.dexOpen) ? k.dexOpen : []).filter(x => allowed.has(x));
-  STARTER_KEYS.forEach(key => { if (CREATURE_MAP[key] && !kept.includes(key)) kept.push(key); });
-  k.dexOpen = DEX_SEQ.filter(c => kept.includes(c.key)).map(c => c.key);
+  STARTER_KEYS.forEach(key => { if (allowed.has(key) && !kept.includes(key)) kept.push(key); });
+  k.dexOpen = seq.filter(c => kept.includes(c.key)).map(c => c.key);
   if (!k.dexOpen.includes(k.partner)) {
     k.partner = k.dexOpen.includes('mymelody') ? 'mymelody' : (k.dexOpen[0] || 'charmander');
   }
@@ -2809,7 +2861,6 @@ function msgPreview(m) {
    ========================================================= */
 const STORE_KEY = 'sora-home-dashboard-v1';
 const WEEK = ['일','월','화','수','목','금','토'];
-const MAX_DEX = CREATURES.length;
 const XP_PER_LEVEL = 200;   /* 이만큼 쌓일 때마다 레벨 +1 = 도감 새 친구 1마리 */
 
 const $  = (s, r = document) => r.querySelector(s);
@@ -2987,22 +3038,29 @@ function normalize(raw) {
       k.dexOpen = [...new Set(k.dexOpen.map(x => LEGACY_CREATURE_KEYS[x] || x))].filter(x => CREATURE_MAP[x]);
     } else {
       /* 예전 기록(앞에서부터 dexMax마리)은 그대로 이어받고, 새 친구는 레벨만큼 열어요 */
-      const legacy = Math.max(1, Math.min(MAX_DEX, Number(k.dexMax) || 2));
+      const legacy = Math.max(1, Math.min(kidDexTotal(id), Number(k.dexMax) || 2));
       k.dexOpen = STARTER_KEYS.filter(x => CREATURE_MAP[x]);
       let extra = Math.max(0, legacy - 2);
-      DEX_SEQ.forEach(c => {
+      kidDexSeq(id).forEach(c => {
         if (extra <= 0 || k.dexOpen.includes(c.key)) return;
         k.dexOpen.push(c.key); extra--;
       });
     }
-    ensureDex(k);
+    /* 아이 도감에 없는 친구(하성이의 디즈니 공주, 하윤이의 캐터피)는 여기서 정리되고,
+       레벨만큼의 친구 수로 다시 맞춥니다 */
+    ensureDex(id, k);
     /* 엘사 잠금 정리 — 처음 한 번만 (이후엔 저장된 도감을 그대로 씁니다).
        잠그고 나면 그 레벨만큼의 친구 수로 다시 맞춰요 */
-    if (Number(raw.starterTune1) !== 1) { tuneStarterDex(k); ensureDex(k); }
+    if (Number(raw.starterTune1) !== 1) { tuneStarterDex(id, k); ensureDex(id, k); }
     k.quests = Array.isArray(k.quests) ? k.quests.filter(q => q && typeof q.text === 'string')
       .map(q => ({ id: q.id || uid(), text: q.text, xp: Number(q.xp) || 20, done: !!q.done })) : base.kids[id].quests;
     const partnerKey = LEGACY_CREATURE_KEYS[k.partner] || k.partner;
     k.partner = CREATURE_MAP[partnerKey] ? partnerKey : base.kids[id].partner;
+    /* 쓰던 친구가 이 아이 도감에 없으면 스타터로 되돌려요 (예: 하성이의 옛 엘사) */
+    if (!k.dexOpen.includes(k.partner)) {
+      const first = kidDexSeq(id)[0];
+      k.partner = (first && first.key) || 'charmander';
+    }
     k.name = typeof k.name === 'string' && k.name.trim() ? k.name : base.kids[id].name;
     k.tag = typeof k.tag === 'string' ? k.tag : '';
   });
@@ -3290,13 +3348,13 @@ function renderDDay() {
 }
 
 /* ---------- 아이 카드 ---------- */
-function addXp(k, amount) {
+function addXp(kidId, k, amount) {
   k.xp += amount;
   while (k.xp >= XP_PER_LEVEL && k.level < 99) { k.xp -= XP_PER_LEVEL; k.level++; }
   while (k.xp < 0 && k.level > 1) { k.level--; k.xp += XP_PER_LEVEL; }
   if (k.xp < 0) k.xp = 0;
   if (k.xp >= XP_PER_LEVEL) k.xp = XP_PER_LEVEL - 1;
-  return ensureDex(k);
+  return ensureDex(kidId, k);
 }
 function questNode(kidId, q) {
   const li = document.createElement('li');
@@ -3326,7 +3384,7 @@ function renderKid(kidId) {
   pet.replaceChildren(artBox(cr));
   card.querySelector('[data-petname]').textContent = cr.name;
   card.querySelector('[data-dexcount]').textContent = k.dexOpen.length;
-  card.querySelector('[data-dextotal]').textContent = MAX_DEX;
+  card.querySelector('[data-dextotal]').textContent = kidDexTotal(kidId);
 
   const nameEl = card.querySelector('[data-field="name"]');
   if (document.activeElement !== nameEl) nameEl.textContent = k.name;
@@ -3367,7 +3425,7 @@ function celebrate(kidId, prevLevel, newKeys) {
   else art.innerHTML = '<div class="celeb-emoji">✨</div>';
   $('#celebTitle').textContent = `Lv.${k.level} 달성! 🎉`;
   $('#celebSub').innerHTML = c
-    ? `<b>${escapeHtml(c.name)}</b> 해금! 도감 ${k.dexOpen.length}/${MAX_DEX}`
+    ? `<b>${escapeHtml(c.name)}</b> 해금! 도감 ${k.dexOpen.length}/${kidDexTotal(kidId)}`
     : `${escapeHtml(k.name)}가 계속 자라고 있어요!`;
   const box = $('#celebrate');
   box.classList.add('on');
@@ -3384,7 +3442,7 @@ function toggleQuest(kidId, qid) {
   const wasAll = k.quests.length > 0 && k.quests.every(x => x.done);
   q.done = !q.done;
   const prevLevel = k.level;
-  const newKeys = addXp(k, q.done ? q.xp : -q.xp) || [];
+  const newKeys = addXp(kidId, k, q.done ? q.xp : -q.xp) || [];
   save();
   renderKid(kidId);
   const leveled = k.level > prevLevel;
@@ -3617,10 +3675,10 @@ function openDex(kidId) {
   dexKid = kidId;
   const k = state.kids[kidId];
   const open = new Set(k.dexOpen);
-  $('#dexTitle').innerHTML = `${escapeHtml(k.name)}의 도감<small>레벨이 오를 때마다 새 친구가 한 마리씩 열려요 · 지금 Lv.${k.level} · ${open.size}/${MAX_DEX}</small>`;
+  $('#dexTitle').innerHTML = `${escapeHtml(k.name)}의 도감<small>레벨이 오를 때마다 새 친구가 한 마리씩 열려요 · 지금 Lv.${k.level} · ${open.size}/${kidDexTotal(kidId)}</small>`;
   const grid = $('#dexGrid');
   grid.replaceChildren();
-  DEX_SEQ.forEach(c => {
+  kidDexSeq(kidId).forEach(c => {
     const unlocked = open.has(c.key);
     const el = document.createElement('button');
     el.type = 'button';
@@ -3648,7 +3706,7 @@ function openDex(kidId) {
     grid.appendChild(el);
   });
   const nextLv = Math.max(k.level + 1, k.dexOpen.length - STARTER_KEYS.length + 2);
-  $('#dexFoot').textContent = k.dexOpen.length >= MAX_DEX
+  $('#dexFoot').textContent = k.dexOpen.length >= kidDexTotal(kidId)
     ? `도감을 모두 모았어요! 🎉 다음엔 더 높은 레벨에 도전해 봐요 (Lv.${k.level})`
     : `다음 친구는 Lv.${nextLv}에서 열려요. 캐릭터를 누르면 그 친구로 바뀝니다.`;
   openModal('#dexModal');
