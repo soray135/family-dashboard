@@ -365,13 +365,17 @@ h1,h2,h3,p { margin:0; }
 .kid-tag:focus{ outline:none; border-color:var(--accent); color:#4B4266; background:#fff; }
 .kid-tag:empty::before{ content:attr(data-ph); color:#B4ACBF; }
 
-.pet-row{ display:flex; align-items:center; gap:7px; margin-top:6px; }
-.pet-name{ font-size:12.5px; font-weight:800; color:#5C5474; letter-spacing:-0.02em; }
+.pet-row{ display:flex; align-items:center; gap:3px; margin-top:6px; flex-wrap:nowrap; min-width:0; }
+.pet-name{
+  font-size:11px; font-weight:800; color:#5C5474; letter-spacing:-0.02em;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:0 1 auto;
+}
 .dex-btn{
-  display:inline-flex; align-items:center; gap:4px;
-  padding:3.5px 9px;
+  display:inline-flex; align-items:center; gap:3px;
+  flex:0 0 auto; white-space:nowrap;
+  padding:2px 6px;
   border-radius:999px;
-  font-size:11px; font-weight:750;
+  font-size:10.5px; font-weight:750;
   color:#7B6AD8;
   background:#EFEAFE;
   border:1px solid #E1D9FB;
@@ -381,6 +385,16 @@ h1,h2,h3,p { margin:0; }
 .dex-btn:hover{ background:#E6DFFC; }
 .dex-btn:active{ transform:scale(.97); }
 .dex-btn b{ font-weight:850; }
+/* 4칼럼이 되는 좁은 데스크톱(1280~1439)에서도 이름과 도감 버튼이 꼭 한 줄에 들어가도록 */
+@media (min-width:1280px) and (max-width:1439px){
+  .pet{ width:clamp(84px,6.6vw,112px); height:clamp(84px,6.6vw,112px); }
+  .dex-btn{ font-size:10.5px; padding:2px 5px; gap:2px; }
+  .dex-word{ position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap; }
+}
+/* 이름이 들어갈 자리가 넉넉한 화면(모바일·큰 화면)에서는 이름을 원래 크기로 보여 줘요 */
+@media (max-width:1279px), (min-width:1536px){
+  .pet-name{ font-size:12.5px; }
+}
 
 .lv-row{ display:flex; align-items:center; gap:7px; margin-top:9px; }
 .lv-badge{
@@ -1567,7 +1581,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>파이리</span>
-            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>5</b>/18</button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/18</button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -1611,7 +1625,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>피츄</span>
-            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>5</b>/18</button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/18</button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -2582,6 +2596,7 @@ function seed() {
   return {
     v: 1,
     xpTune: 1,          /* 하성이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
+    xpTune2: 1,         /* 하윤이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
     title: '우리가족 대시보드',
     kids: {
       haseong: {
@@ -2602,11 +2617,11 @@ function seed() {
       hayun: {
         name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
-          { id: uid(), text: '한글 2장', xp: 20, done: false },
-          { id: uid(), text: '수학 2장', xp: 20, done: false },
-          { id: uid(), text: '토도영어', xp: 20, done: false },
-          { id: uid(), text: '독서', xp: 15, done: false },
-          { id: uid(), text: '가방정리', xp: 15, done: false }
+          { id: uid(), text: '한글 2장', xp: 15, done: false },
+          { id: uid(), text: '수학 2장', xp: 15, done: false },
+          { id: uid(), text: '토도영어', xp: 15, done: false },
+          { id: uid(), text: '독서', xp: 10, done: false },
+          { id: uid(), text: '가방정리', xp: 10, done: false }
         ]
       }
     },
@@ -2727,6 +2742,16 @@ function normalize(raw) {
     out.kids.haseong.quests.forEach(q => { q.xp = Math.max(5, (Number(q.xp) || 20) - 5); });
   }
   out.xpTune = 1;
+  /* 하윤이 퀘스트 경험치도 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
+     기본 퀘스트는 정해진 값으로 맞추기 때문에, 가족 방에서 다시 불러와도 두 번 깎이지 않습니다 */
+  const HAYUN_XP_TUNE = { '한글 2장': 15, '수학 2장': 15, '토도영어': 15, '독서': 10, '가방정리': 10 };
+  if (Number(raw.xpTune2) !== 1) {
+    out.kids.hayun.quests.forEach(q => {
+      const tuned = HAYUN_XP_TUNE[q.text];
+      q.xp = tuned != null ? tuned : Math.max(5, (Number(q.xp) || 20) - 5);
+    });
+  }
+  out.xpTune2 = 1;
   out.events = {};
   const evSrc = (raw.events && typeof raw.events === 'object' && !Array.isArray(raw.events)) ? raw.events : base.events;
   Object.keys(evSrc).forEach(k => {
@@ -2755,7 +2780,7 @@ function load() {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     const st = normalize(parsed);
-    if (Number(parsed.xpTune) !== 1) {
+    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1) {
       /* 한 번 적용한 결과를 바로 저장해 다음에 또 깎이지 않도록 */
       try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {}
     }
@@ -3827,6 +3852,7 @@ function buildDoc() {
   return {
     v: 1,
     xpTune: 1,
+    xpTune2: 1,
     title: state.title,
     kids: state.kids,
     events: state.events,
@@ -3842,6 +3868,7 @@ function docToState(d) {
   return normalize({
     v: 1,
     xpTune: d.xpTune,
+    xpTune2: d.xpTune2,
     title: d.title,
     kids: d.kids || {},
     events: (d.events && typeof d.events === 'object') ? d.events : {},
@@ -4056,6 +4083,9 @@ function applyRemoteDoc(d, opts) {
   if (MEMBER_MAP[prevMe]) state.chat.me = prevMe;
   save({ push: false });
   renderAll();
+  /* 예전 방 문서에는 하윤이 조정 표시가 없어요 — 이 기기에서 한 번만 반영하고,
+     방에도 표시를 남겨 다른 기기·다음 불러오기에서 또 깎이지 않게 해요 */
+  if (Number(d.xpTune2) !== 1) schedulePush(600);
   /* 실시간으로 보고 있는 중이면 '지금 온 메시지', 연결 직후·화면 복귀라면 '자리를 비운 사이 온 메시지' */
   noteIncoming(state.chat.msgs, { away: !(opts && opts.live) || document.hidden });
 }
