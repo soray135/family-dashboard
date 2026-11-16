@@ -74,14 +74,14 @@ h1,h2,h3,p { margin:0; }
   z-index:1;
   max-width:1680px;
   margin:0 auto;
-  padding:20px clamp(14px,2vw,28px) 34px;
+  padding:16px clamp(14px,2vw,24px) 24px;
 }
 .topbar{
   display:flex;
   align-items:center;
   gap:14px 18px;
   flex-wrap:wrap;
-  padding:4px 6px 16px;
+  padding:2px 6px 12px;
 }
 .brand-wrap{ display:flex; align-items:center; gap:10px; min-width:0; }
 .brand-home{ font-size:23px; line-height:1; filter:drop-shadow(0 2px 3px rgba(180,120,80,.18)); transform:translateY(-1px); }
@@ -150,11 +150,14 @@ h1,h2,h3,p { margin:0; }
 .grid{
   display:grid;
   grid-template-columns:minmax(300px,1.2fr) minmax(248px,.96fr) minmax(248px,.96fr) minmax(300px,1.22fr);
-  gap:16px;
-  align-items:start;
+  gap:14px;
+  align-items:stretch;      /* 4개 칼럼의 위·아래 라인을 맞춥니다 */
 }
-.col-left{ display:flex; flex-direction:column; gap:16px; min-width:0; }
-.col-right{ display:flex; flex-direction:column; gap:16px; min-width:0; }
+.col-left{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
+.col-right{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
+/* 칼럼이 남는 높이를 마지막 카드가 채워 네 칼럼 바닥선이 정확히 맞도록 */
+.col-left > .dday-card{ flex:1 1 auto; }
+.col-right > .wish-card{ flex:1 1 auto; }
 
 /* ============ cards ============ */
 .card{
@@ -175,12 +178,12 @@ h1,h2,h3,p { margin:0; }
 .muted{ color:var(--ink-mute); font-size:12.5px; font-weight:600; }
 
 /* ============ calendar ============ */
-.cal-card{ padding:16px 14px 14px; }
-.cal-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:12px; padding:0 2px; }
-#calTitle{ font-size:16px; font-weight:800; letter-spacing:-0.03em; }
+.cal-card{ padding:14px 13px 12px; }
+.cal-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; margin-bottom:7px; padding:0 2px; }
+#calTitle{ font-size:14.5px; font-weight:800; letter-spacing:-0.03em; }
 .cal-nav{ display:flex; align-items:center; gap:4px; }
 .nav-btn{
-  min-width:30px; height:30px;
+  min-width:27px; height:27px;
   display:grid; place-items:center;
   border-radius:9px;
   color:#7A7292;
@@ -194,9 +197,9 @@ h1,h2,h3,p { margin:0; }
 .cal-week{
   display:grid; grid-template-columns:repeat(7,1fr);
   text-align:center;
-  font-size:11px; font-weight:750;
+  font-size:10.5px; font-weight:750;
   color:#A79FBB;
-  padding:0 0 6px;
+  padding:0 0 4px;
   letter-spacing:0;
 }
 .cal-week .sun{ color:#E7968A; }
@@ -204,10 +207,10 @@ h1,h2,h3,p { margin:0; }
 .cal-grid{ display:grid; grid-template-columns:repeat(7,1fr); gap:3px; }
 .cal-cell{
   position:relative;
-  aspect-ratio:1 / 1.02;
+  height:33px;
   display:flex; flex-direction:column; align-items:center; justify-content:center;
-  border-radius:11px;
-  font-size:12.5px; font-weight:650;
+  border-radius:9px;
+  font-size:12px; font-weight:650;
   color:#4C4463;
   font-variant-numeric:tabular-nums;
   background:transparent;
@@ -227,20 +230,21 @@ h1,h2,h3,p { margin:0; }
   box-shadow:0 6px 14px rgba(238,139,118,.34), inset 0 1px 0 rgba(255,255,255,.4);
 }
 .cal-cell.today:hover{ background:linear-gradient(160deg,#F5A08B,#EC8168); }
-.cal-dots{ position:absolute; bottom:4px; display:flex; gap:2.5px; }
+.cal-dots{ position:absolute; bottom:3px; display:flex; gap:2.5px; }
 .cal-dot{ width:4px; height:4px; border-radius:50%; background:#9A8AF2; }
 .cal-cell.today .cal-dot{ background:rgba(255,255,255,.92); }
 .cal-legacy{ display:none; }
 .cal-cell.has-dday .cal-dot{ background:#EF8A76; }
 
 /* ============ dday ============ */
-.dday-card{ padding:16px 14px 14px; }
-.dday-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; padding:0 2px; }
-.dday-list{ display:flex; flex-direction:column; gap:7px; }
+.dday-card{ padding:12px 13px 11px; display:flex; flex-direction:column; }
+.dday-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; padding:0 2px; }
+.dday-list{ display:flex; flex-direction:column; gap:4px; margin-bottom:7px; flex:1 1 auto; min-height:0; justify-content:space-between; }
 .dday-item{
-  display:flex; align-items:center; gap:9px;
-  padding:8px 9px 8px 8px;
-  border-radius:13px;
+  display:flex; align-items:center; gap:7px;
+  padding:5px 7px 5px 6px;
+  min-height:36px;
+  border-radius:10px;
   background:linear-gradient(180deg,#FCFAFF,#F8F5FE);
   border:1px solid #F1ECFA;
   transition:background .15s, border-color .15s;
@@ -248,26 +252,26 @@ h1,h2,h3,p { margin:0; }
 .dday-item:hover{ background:#F6F1FE; border-color:#E9E2FA; }
 .dday-ico{
   flex:0 0 auto;
-  width:30px; height:30px;
+  width:24px; height:24px;
   display:grid; place-items:center;
-  font-size:15px;
-  border-radius:9px;
+  font-size:12.5px;
+  border-radius:7px;
   background:#fff;
   box-shadow:0 1px 4px rgba(96,80,150,.09);
 }
 .dday-body{ min-width:0; flex:1; }
 .dday-title{
-  font-size:12.5px; font-weight:700; color:#443C5C;
-  display:block; line-height:1.32;
-  overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+  font-size:12px; font-weight:700; color:#443C5C;
+  display:block; line-height:1.22;
+  overflow:hidden; white-space:nowrap; text-overflow:ellipsis;
   word-break:keep-all;
 }
-.dday-date{ display:block; font-size:10.5px; color:#A198B6; font-weight:600; margin-top:2px; }
+.dday-date{ display:block; font-size:9.5px; color:#A198B6; font-weight:600; line-height:1.2; margin-top:1px; }
 .dday-badge{
   flex:0 0 auto;
-  padding:3px 7px;
-  border-radius:8px;
-  font-size:11px; font-weight:800;
+  padding:2px 6px;
+  border-radius:7px;
+  font-size:10.5px; font-weight:800;
   color:#6E5CD8;
   background:#EDE7FE;
   font-variant-numeric:tabular-nums;
@@ -277,27 +281,35 @@ h1,h2,h3,p { margin:0; }
 .dday-item.is-past{ opacity:.55; }
 .dday-item.is-past .dday-badge{ color:#8B84A0; background:#F1EEF7; }
 .dday-del{
-  flex:0 0 auto; width:20px; height:20px; border-radius:6px;
-  color:#C6BED8; font-size:14px; line-height:1;
+  flex:0 0 auto; width:18px; height:18px; border-radius:6px;
+  color:#C6BED8; font-size:13px; line-height:1;
   display:grid; place-items:center;
   opacity:0; transition:opacity .15s, background .15s, color .15s;
 }
 .dday-item:hover .dday-del{ opacity:1; }
 .dday-del:hover{ background:#FBE8E3; color:#DB6A54; }
+.dday-actions{ display:flex; gap:6px; margin-top:auto; }
+.dday-more{
+  flex:1; min-width:0; padding:5px 8px; border-radius:9px;
+  border:1px solid #EFEAF8; background:#FBFAFE;
+  color:#7C6ED0; font-size:11px; font-weight:800; letter-spacing:-0.02em;
+  transition:background .15s, border-color .15s, color .15s;
+}
+.dday-more:hover{ background:#F4F0FE; border-color:#E0D7F9; color:#6552D8; }
 .add-inline{
-  margin-top:10px; width:100%;
-  padding:8px;
-  border-radius:11px;
+  flex:1; min-width:0;
+  padding:6px 8px;
+  border-radius:9px;
   border:1.5px dashed #E2D9F6;
   background:#FCFAFF;
   color:#8C7AE0;
-  font-size:12.5px; font-weight:750;
+  font-size:11.5px; font-weight:750;
   transition:background .15s, border-color .15s, color .15s;
 }
 .add-inline:hover{ background:#F5F0FF; border-color:#CBBDF2; color:#6F5BDA; }
 
 /* ============ kid cards ============ */
-.kid-card{ padding:16px 16px 14px; overflow:hidden; }
+.kid-card{ padding:14px 14px 12px; overflow:hidden; display:flex; flex-direction:column; }
 .kid-card::before{
   content:"";
   position:absolute; inset:0 0 auto 0; height:120px;
@@ -434,11 +446,13 @@ h1,h2,h3,p { margin:0; }
 }
 .reset-btn:hover{ background:#F3EFFD; color:#6A5FC0; border-color:#E2DAF7; }
 
-.quest-list{ display:flex; flex-direction:column; gap:6px; }
+.quest-list{ display:flex; flex-direction:column; gap:6px; flex:1 1 auto; min-height:0; overflow-y:auto; align-content:flex-start; }
+.quest-list::-webkit-scrollbar{ width:5px; }
+.quest-list::-webkit-scrollbar-thumb{ background:#E7E1F4; border-radius:99px; }
 .quest{
   display:flex; align-items:center; gap:8px;
-  padding:7px 8px 7px 9px;
-  border-radius:12px;
+  padding:6px 8px 6px 9px;
+  border-radius:11px;
   background:#FCFBFE;
   border:1px solid #F3EFFA;
   transition:background .18s, border-color .18s, opacity .2s;
@@ -504,7 +518,7 @@ h1,h2,h3,p { margin:0; }
   padding:16px 6px; border:1.5px dashed #EFEAF8; border-radius:12px;
 }
 
-.quest-form{ display:flex; gap:6px; margin-top:9px; align-items:stretch; }
+.quest-form{ display:flex; gap:6px; margin-top:auto; padding-top:9px; align-items:stretch; }
 .q-input{
   flex:1; min-width:0;
   padding:8px 11px;
@@ -556,7 +570,7 @@ select.q-xp, #wishWho{
   cursor:pointer;
 }
 /* ============ wishlist ============ */
-.wish-card{ padding:16px 15px 15px; }
+.wish-card{ padding:12px 13px 11px; display:flex; flex-direction:column; }
 .wish-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .wish-count{
   font-size:11px; font-weight:800; color:#7A7290;
@@ -564,12 +578,12 @@ select.q-xp, #wishWho{
   font-variant-numeric:tabular-nums;
 }
 .wish-sub{
-  font-size:11.5px; color:#A79FB8; font-weight:600;
-  text-align:center; margin:8px 0 11px;
+  font-size:10.5px; color:#A79FB8; font-weight:600;
+  text-align:center; margin:4px 0 6px;
   letter-spacing:-0.02em;
   word-break:keep-all;
 }
-.wish-form{ display:flex; flex-direction:column; gap:6px; }
+.wish-form{ display:flex; flex-direction:column; gap:4px; }
 .wish-form input, .wish-form select{
   border-radius:11px;
   border:1px solid #EFEAF8;
@@ -579,15 +593,15 @@ select.q-xp, #wishWho{
 }
 .wish-form input::placeholder{ color:#B7AFC6; }
 .wish-form input:focus, .wish-form select:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
-#wishName{ padding:9px 11px; }
+#wishName{ padding:7px 10px; }
 .wish-row{ display:flex; gap:6px; }
 #wishWho{
   flex:0 0 auto; width:66px;
-  padding:8px 4px 8px 8px;
+  padding:6px 4px 6px 8px;
   appearance:none; -webkit-appearance:none;
   text-align:center; font-weight:750; color:#7B7290;
 }
-#wishMemo{ flex:1; min-width:0; padding:8px 10px; }
+#wishMemo{ flex:1; min-width:0; padding:6px 9px; }
 #wishAdd{
   flex:0 0 auto; width:38px; border-radius:11px;
   font-size:16px; font-weight:800; color:#fff;
@@ -598,11 +612,11 @@ select.q-xp, #wishWho{
 }
 #wishAdd:hover{ transform:translateY(-1px); }
 #wishAdd:active{ transform:translateY(1px) scale(.97); }
-.wish-list{ display:flex; flex-direction:column; gap:6px; margin-top:11px; }
+.wish-list{ display:flex; flex-direction:column; gap:4px; margin-top:7px; flex:1 1 auto; min-height:0; max-height:132px; overflow-y:auto; }
 .wish{
-  display:flex; align-items:flex-start; gap:8px;
-  padding:8px 8px 8px 9px;
-  border-radius:12px;
+  display:flex; align-items:flex-start; gap:7px;
+  padding:5px 7px 5px 8px;
+  border-radius:10px;
   background:#FCFBFE; border:1px solid #F3EFFA;
   transition:background .18s, opacity .18s;
   animation:slideIn .25s ease both;
@@ -634,15 +648,16 @@ select.q-xp, #wishWho{
 .wish:hover .wish-del{ opacity:1; }
 .wish-del:hover{ background:#FBE8E3; color:#DB6A54; }
 .wish-empty{
-  text-align:center; color:#B6AEC4; font-size:11.5px; font-weight:650;
-  padding:18px 6px;
-  border:1.5px dashed #EFEAF8; border-radius:13px;
-  margin-top:11px; line-height:1.6;
+  text-align:center; color:#B6AEC4; font-size:11px; font-weight:650;
+  padding:10px 6px;
+  border:1.5px dashed #EFEAF8; border-radius:12px;
+  margin-top:8px; line-height:1.55;
   word-break:keep-all;
+  flex:1 1 auto; display:grid; place-content:center;
 }
 .foot{
   text-align:center; color:#B3ABC4; font-size:11px; font-weight:600;
-  padding:26px 10px 4px; letter-spacing:-0.01em;
+  padding:14px 10px 2px; letter-spacing:-0.01em;
 }
 
 /* ============ 가족 톡 ============ */
@@ -651,7 +666,7 @@ select.q-xp, #wishWho{
 .who-chip[data-who="하성"], .msg[data-who="하성"]{ --who:#E9A15C; --who-soft:#FFF3E6; --who-line:#F7E0C6; --who-deep:#BE7A2B; }
 .who-chip[data-who="하윤"], .msg[data-who="하윤"]{ --who:#9C86F2; --who-soft:#F3EFFF; --who-line:#E1D8FC; --who-deep:#7359D8; }
 
-.chat-card{ padding:16px 14px 14px; display:flex; flex-direction:column; gap:9px; }
+.chat-card{ padding:11px 13px 10px; display:flex; flex-direction:column; gap:6px; }
 .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 2px; }
 .chat-count{
   font-size:11px; font-weight:800; color:#7A7290;
@@ -678,14 +693,14 @@ select.q-xp, #wishWho{
 @keyframes popIn{ from{ transform:scale(.7); opacity:0; } to{ transform:none; opacity:1; } }
 .who-pick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .who-chip{
-  display:flex; flex-direction:column; align-items:center; gap:2px;
-  padding:6px 2px 5px;
-  border-radius:11px;
+  display:flex; flex-direction:column; align-items:center; gap:1px;
+  padding:3px 2px 2px;
+  border-radius:9px;
   background:#FBFAFE; border:1.5px solid #F1ECFA;
-  color:#7E7695; font-size:10.5px; font-weight:750; letter-spacing:-0.02em;
+  color:#7E7695; font-size:9.5px; font-weight:750; letter-spacing:-0.02em;
   transition:background .15s, border-color .15s, color .15s, transform .12s;
 }
-.who-chip .wc-av{ font-size:15px; line-height:1.1; }
+.who-chip .wc-av{ font-size:13px; line-height:1.05; }
 .who-chip:hover{ background:#fff; border-color:#E4DCF6; }
 .who-chip:active{ transform:scale(.97); }
 .who-chip.sel{
@@ -696,11 +711,11 @@ select.q-xp, #wishWho{
 }
 
 .chat-log{
-  display:flex; flex-direction:column; gap:9px;
-  min-height:132px;
-  max-height:clamp(158px,23vh,286px);
+  display:flex; flex-direction:column; gap:6px;
+  min-height:96px;
+  max-height:clamp(104px,11.5vh,142px);
   overflow-y:auto; overscroll-behavior:contain;
-  padding:4px 2px 2px;
+  padding:3px 2px 1px;
   scroll-behavior:smooth;
 }
 .chat-log::-webkit-scrollbar{ width:6px; }
@@ -722,9 +737,9 @@ select.q-xp, #wishWho{
 .msg-bubble{
   position:relative;
   max-width:100%;
-  padding:7px 10px;
-  border-radius:14px; border-top-left-radius:5px;
-  font-size:12.4px; font-weight:600; line-height:1.45;
+  padding:6px 9px;
+  border-radius:13px; border-top-left-radius:5px;
+  font-size:12.2px; font-weight:600; line-height:1.45;
   color:#403856;
   background:var(--who-soft);
   border:1px solid var(--who-line);
@@ -765,8 +780,8 @@ select.q-xp, #wishWho{
 
 .reaction-row{ display:flex; gap:4px; }
 .re-btn{
-  flex:1; height:28px; border-radius:9px;
-  font-size:13px; line-height:1;
+  flex:1; height:24px; border-radius:8px;
+  font-size:12px; line-height:1;
   background:#FBFAFE; border:1px solid #F1ECFA;
   transition:transform .12s, background .15s, border-color .15s;
 }
@@ -777,16 +792,16 @@ select.q-xp, #wishWho{
 .chat-form{ display:flex; gap:6px; }
 .chat-input{
   flex:1; min-width:0;
-  padding:9px 12px;
-  border-radius:12px; border:1px solid #EFEAF8; background:#FBFAFE;
-  font-size:12.5px; font-weight:600; color:#463E5E;
+  padding:7px 10px;
+  border-radius:11px; border:1px solid #EFEAF8; background:#FBFAFE;
+  font-size:12px; font-weight:600; color:#463E5E;
   transition:border-color .15s, background .15s, box-shadow .15s;
 }
 .chat-input::placeholder{ color:#B7AFC6; }
 .chat-input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
 .chat-send{
-  flex:0 0 auto; width:38px; border-radius:12px;
-  color:#fff; font-size:15px; font-weight:800;
+  flex:0 0 auto; width:36px; border-radius:11px;
+  color:#fff; font-size:14px; font-weight:800;
   display:grid; place-items:center;
   background:linear-gradient(180deg,#8B7BF5,#7361EE);
   box-shadow:0 4px 10px rgba(115,97,238,.3), inset 0 1px 0 rgba(255,255,255,.3);
@@ -1199,15 +1214,15 @@ select.q-xp, #wishWho{
 
 /* ============ 🌤️ 날씨 ============ */
 .weather-card{
-  padding:14px 15px 13px;
+  padding:11px 14px 10px;
   background:linear-gradient(160deg,#FBFDFF 0%,#F6F9FE 52%,#FCF7FF 100%);
   border-color:#E9EEFA;
 }
 .wx-top{ display:flex; align-items:center; gap:10px; }
 .wx-now{ display:flex; align-items:center; gap:5px; flex:0 0 auto; }
-.wx-icon{ font-size:27px; line-height:1; filter:drop-shadow(0 3px 6px rgba(120,110,180,.18)); }
+.wx-icon{ font-size:24px; line-height:1; filter:drop-shadow(0 3px 6px rgba(120,110,180,.18)); }
 .wx-temp{ display:flex; align-items:baseline; color:#3E3757; font-variant-numeric:tabular-nums; }
-.wx-temp b{ font-size:25px; font-weight:850; letter-spacing:-0.045em; line-height:1; }
+.wx-temp b{ font-size:22px; font-weight:850; letter-spacing:-0.045em; line-height:1; }
 .wx-temp span{ font-size:12.5px; font-weight:750; color:#8E86A4; margin-left:1px; }
 .wx-place{ flex:1; min-width:0; }
 .wx-where{ font-size:10.5px; font-weight:800; color:#8B82A4; letter-spacing:-0.01em; }
@@ -1222,25 +1237,42 @@ select.q-xp, #wishWho{
 .wx-refresh:hover{ background:#fff; color:#6C5FD0; }
 .wx-refresh.spin{ animation:wxSpin .9s linear infinite; }
 @keyframes wxSpin{ to{ transform:rotate(360deg); } }
-.wx-meta{ display:flex; gap:5px; margin-top:9px; flex-wrap:wrap; }
+.wx-meta{ display:flex; gap:5px; margin-top:6px; flex-wrap:wrap; }
 .wx-chip{
-  font-size:10.5px; font-weight:750; color:#7A7292;
+  font-size:10px; font-weight:750; color:#7A7292;
   background:rgba(255,255,255,.92); border:1px solid #EDE8F8;
-  padding:3px 8px; border-radius:999px; letter-spacing:-0.01em;
+  padding:2px 7px; border-radius:999px; letter-spacing:-0.01em;
 }
 .wx-chip b{ font-weight:850; color:#4B4266; font-variant-numeric:tabular-nums; }
 .wx-outfit{
-  margin-top:8px; padding:8px 10px;
-  font-size:11.5px; font-weight:750; color:#5F5580;
-  line-height:1.45; word-break:keep-all;
+  margin-top:5px; padding:5px 8px;
+  font-size:10.5px; font-weight:750; color:#5F5580;
+  line-height:1.4; word-break:keep-all;
   border-radius:12px; border:1px solid #EAE2FA;
   background:linear-gradient(180deg,#F7F2FF,#F2F8FF);
 }
-.wx-note{ margin-top:6px; font-size:10px; font-weight:650; color:#B0A8C2; letter-spacing:-0.01em; }
+.wx-note{ margin-top:4px; font-size:9px; font-weight:650; color:#B0A8C2; letter-spacing:-0.01em; }
 
 /* ============ ⏱️ 공부 타이머 ============ */
-.timer-card{ padding:15px 15px 14px; }
+.timer-card{ padding:11px 13px 10px; }
 .timer-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.timer-head .card-title{ font-size:14.5px; }
+.timer-tabs{
+  display:flex; align-items:center; gap:2px; padding:2px;
+  border-radius:9px; background:#F4F0FD; border:1px solid #EBE4F9;
+}
+.timer-tabs .ttab{
+  padding:3px 8px; border-radius:7px;
+  font-size:10.5px; font-weight:800; letter-spacing:-0.02em; color:#8B82A4;
+  transition:background .15s, color .15s, box-shadow .15s;
+}
+.timer-tabs .ttab:hover{ color:#6C5FD0; }
+.timer-tabs .ttab.sel{
+  color:#fff; background:linear-gradient(180deg,#8B7BF5,#7361EE);
+  box-shadow:0 2px 6px rgba(115,97,238,.28);
+}
+.timer-pane[hidden]{ display:none; }
+.timer-row{ display:flex; align-items:center; justify-content:center; gap:8px; margin:3px 0 4px; }
 .timer-state{
   font-size:10px; font-weight:800; color:#8B7BF5; letter-spacing:-0.01em;
   background:#F2EEFF; border:1px solid #E4DCFB;
@@ -1249,17 +1281,17 @@ select.q-xp, #wishWho{
 .timer-state.run{ color:#fff; background:linear-gradient(180deg,#8B7BF5,#7361EE); border-color:transparent; }
 .timer-state.done{ color:#2F7D64; background:#E8F7F0; border-color:#CFEEDF; }
 .timer-display{
-  margin:8px 0 9px; text-align:center;
-  font-size:clamp(34px,3vw,42px); font-weight:850; letter-spacing:-0.05em;
+  text-align:center;
+  font-size:clamp(25px,2vw,30px); font-weight:850; letter-spacing:-0.05em;
   color:#3B3448; font-variant-numeric:tabular-nums;
-  text-shadow:0 6px 18px rgba(120,100,200,.14);
+  text-shadow:0 5px 15px rgba(120,100,200,.14);
   transition:color .2s;
 }
 .timer-display.warn{ color:#E9785F; }
 .timer-quick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .timer-quick button{
-  padding:7px 0; border-radius:10px;
-  font-size:11.5px; font-weight:800; color:#6E6685; letter-spacing:-0.02em;
+  padding:5px 0; border-radius:9px;
+  font-size:10.5px; font-weight:800; color:#6E6685; letter-spacing:-0.02em;
   background:#FAF8FE; border:1px solid #EEE8F9;
   transition:background .15s, color .15s, border-color .15s, transform .12s;
 }
@@ -1270,28 +1302,28 @@ select.q-xp, #wishWho{
   background:linear-gradient(180deg,#8B7BF5,#7361EE);
   box-shadow:0 4px 10px rgba(115,97,238,.26);
 }
-.timer-custom{ display:flex; align-items:center; gap:5px; margin-top:7px; }
+.timer-custom{ display:flex; align-items:center; gap:5px; margin-top:4px; }
 .timer-custom input{
-  flex:1; min-width:0; padding:7px 9px;
-  border-radius:10px; border:1px solid #EAE4F6; background:#FBFAFE;
-  font-size:12px; font-weight:700; text-align:center;
+  flex:1; min-width:0; padding:5px 9px;
+  border-radius:9px; border:1px solid #EAE4F6; background:#FBFAFE;
+  font-size:11.5px; font-weight:700; text-align:center;
   font-variant-numeric:tabular-nums;
 }
 .timer-custom input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
 .timer-custom input::-webkit-outer-spin-button,
 .timer-custom input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
 .timer-custom input[type=number]{ -moz-appearance:textfield; appearance:textfield; }
-.timer-unit{ font-size:11px; font-weight:750; color:#8E86A4; }
+.timer-unit{ font-size:10.5px; font-weight:750; color:#8E86A4; }
 .timer-custom button{
-  padding:7px 12px; border-radius:10px;
-  font-size:11.5px; font-weight:800; color:#6B5AE0;
+  padding:5px 10px; border-radius:9px;
+  font-size:11px; font-weight:800; color:#6B5AE0;
   background:#F2EEFF; border:1px solid #E4DCFB;
 }
 .timer-custom button:hover{ background:#EAE3FE; }
-.timer-actions{ display:flex; gap:6px; margin-top:8px; }
+.timer-actions{ display:flex; gap:6px; margin-top:4px; }
 .timer-actions .t-btn{
-  flex:1; padding:9px 0; border-radius:11px;
-  font-size:12.5px; font-weight:800; letter-spacing:-0.02em;
+  flex:1; padding:6px 0; border-radius:10px;
+  font-size:11.5px; font-weight:800; letter-spacing:-0.02em;
   transition:transform .12s, box-shadow .15s, background .15s;
 }
 .timer-actions .t-btn:active{ transform:translateY(1px) scale(.99); }
@@ -1303,8 +1335,26 @@ select.q-xp, #wishWho{
 .t-start.paused{ background:linear-gradient(180deg,#FFB37E,#F0975C); box-shadow:0 6px 14px rgba(240,151,92,.3); }
 .t-btn.t-mid{ color:#5A5178; background:#FAF8FE; border:1px solid #EEE8F9; }
 .t-reset{ color:#C2604B; background:#FDEDE9; border:1px solid #F8D6CD; }
-.timer-progress{ height:6px; margin-top:9px; border-radius:999px; background:#F1ECFA; overflow:hidden; }
+.timer-progress{ height:4px; margin-top:5px; border-radius:999px; background:#F1ECFA; overflow:hidden; }
 .timer-progress i{ display:block; height:100%; width:0; border-radius:999px; background:linear-gradient(90deg,#A795F7,#7ED3B2); transition:width .28s linear; }
+
+/* 스톱워치 */
+.sw-laps{
+  display:flex; flex-direction:column; gap:3px;
+  height:68px; overflow-y:auto; overscroll-behavior:contain;
+  margin-top:2px; padding:1px 1px 0;
+}
+.sw-laps::-webkit-scrollbar{ width:5px; }
+.sw-laps::-webkit-scrollbar-thumb{ background:#E4DEF3; border-radius:99px; }
+.sw-lap{
+  display:flex; align-items:center; justify-content:space-between; gap:6px;
+  padding:3px 8px; border-radius:8px;
+  background:#FBFAFE; border:1px solid #F3EFFA;
+  font-size:10.5px; font-weight:750; color:#8B82A4; letter-spacing:-0.01em;
+  animation:slideIn .2s ease both;
+}
+.sw-lap b{ color:#5B5180; font-variant-numeric:tabular-nums; font-size:11px; }
+.sw-empty{ margin:auto; font-size:10.5px; font-weight:650; color:#B6AEC4; text-align:center; line-height:1.6; }
 
 /* ============ 🙌 하이파이브 축하 ============ */
 .hifive{
@@ -1343,8 +1393,8 @@ select.q-xp, #wishWho{
 
 /* ============ 🎤 음성 메시지 ============ */
 .chat-mic{
-  flex:0 0 auto; min-width:38px; padding:0 9px;
-  border-radius:12px;
+  flex:0 0 auto; min-width:34px; padding:0 8px;
+  border-radius:11px;
   display:flex; align-items:center; justify-content:center; gap:4px;
   color:#7B6AD8; font-size:14px; font-weight:800;
   background:#F6F2FF; border:1px solid #E5DCFB;
@@ -1410,7 +1460,7 @@ select.q-xp, #wishWho{
   .quest-list.dense .qtext{ font-size:13px; }
   .dday-title{ font-size:13px; }
   .kid-name{ font-size:18px; }
-  .cal-cell{ font-size:13.5px; }
+  .cal-cell{ font-size:13.5px; height:42px; }
   .card{ padding:15px 14px; border-radius:20px; }
   .wish-list{ grid-template-columns:1fr; }
   .dex-grid{ grid-template-columns:repeat(3,1fr); }
@@ -1484,7 +1534,10 @@ select.q-xp, #wishWho{
           <span class="muted" id="ddayCount">0개</span>
         </div>
         <ul class="dday-list" id="ddayList"></ul>
-        <button class="add-inline" id="addDdayBtn" type="button">＋ D-Day 추가</button>
+        <div class="dday-actions">
+          <button class="dday-more" id="ddayMore" type="button" aria-expanded="false" hidden>전체 보기</button>
+          <button class="add-inline" id="addDdayBtn" type="button">＋ D-Day 추가</button>
+        </div>
       </section>
     </div>
 
@@ -1607,30 +1660,56 @@ select.q-xp, #wishWho{
       </form>
     </section>
 
-    <!-- ── ⏱️ 공부 타이머 ── -->
-    <section class="card timer-card" aria-label="공부 타이머">
+    <!-- ── ⏱️ 공부 타이머 / 스톱워치 ── -->
+    <section class="card timer-card" aria-label="공부 타이머와 스톱워치">
       <div class="timer-head">
         <h2 class="card-title">⏱️ 공부 타이머</h2>
-        <span class="timer-state" id="timerState">준비</span>
+        <div class="timer-tabs" role="tablist" aria-label="타이머 · 스톱워치">
+          <button type="button" class="ttab sel" data-tmode="timer" role="tab" aria-selected="true" aria-controls="timerPane">타이머</button>
+          <button type="button" class="ttab" data-tmode="stopwatch" role="tab" aria-selected="false" aria-controls="swPane">스톱워치</button>
+        </div>
       </div>
-      <div class="timer-display" id="timerDisplay" role="timer" aria-live="off" aria-label="남은 시간">10:00</div>
-      <div class="timer-quick" id="timerQuick" role="group" aria-label="간편 시간 선택">
-        <button type="button" data-min="5">5분</button>
-        <button type="button" data-min="10" class="sel">10분</button>
-        <button type="button" data-min="20">20분</button>
-        <button type="button" data-min="30">30분</button>
+
+      <!-- 타이머 -->
+      <div class="timer-pane" id="timerPane" role="tabpanel" aria-label="타이머">
+        <div class="timer-row">
+          <div class="timer-display" id="timerDisplay" role="timer" aria-live="off" aria-label="남은 시간">10:00</div>
+          <span class="timer-state" id="timerState">준비</span>
+        </div>
+        <div class="timer-quick" id="timerQuick" role="group" aria-label="간편 시간 선택">
+          <button type="button" data-min="5">5분</button>
+          <button type="button" data-min="10" class="sel">10분</button>
+          <button type="button" data-min="20">20분</button>
+          <button type="button" data-min="30">30분</button>
+        </div>
+        <form class="timer-custom" id="timerForm" autocomplete="off">
+          <input id="timerMin" type="number" inputmode="numeric" min="1" max="180" step="1" placeholder="직접 입력" aria-label="분 직접 입력">
+          <span class="timer-unit">분</span>
+          <button type="submit" aria-label="입력한 시간으로 설정">설정</button>
+        </form>
+        <div class="timer-actions">
+          <button class="t-btn t-start" id="timerStart" type="button">시작</button>
+          <button class="t-btn t-mid" id="timerPause" type="button">일시정지</button>
+          <button class="t-btn t-reset" id="timerReset" type="button">초기화</button>
+        </div>
+        <div class="timer-progress" aria-hidden="true"><i id="timerBar"></i></div>
       </div>
-      <form class="timer-custom" id="timerForm" autocomplete="off">
-        <input id="timerMin" type="number" inputmode="numeric" min="1" max="180" step="1" placeholder="직접 입력" aria-label="분 직접 입력">
-        <span class="timer-unit">분</span>
-        <button type="submit" aria-label="입력한 시간으로 설정">설정</button>
-      </form>
-      <div class="timer-actions">
-        <button class="t-btn t-start" id="timerStart" type="button">시작</button>
-        <button class="t-btn t-mid" id="timerPause" type="button">일시정지</button>
-        <button class="t-btn t-reset" id="timerReset" type="button">초기화</button>
+
+      <!-- 스톱워치 -->
+      <div class="timer-pane" id="swPane" role="tabpanel" aria-label="스톱워치" hidden>
+        <div class="timer-row">
+          <div class="timer-display" id="swDisplay" role="timer" aria-live="off" aria-label="경과 시간">00:00</div>
+          <span class="timer-state" id="swState">준비</span>
+        </div>
+        <div class="sw-laps" id="swLaps" role="log" aria-live="off" aria-label="기록">
+          <p class="sw-empty">기록을 누르면<br>여기에 쌓여요</p>
+        </div>
+        <div class="timer-actions">
+          <button class="t-btn t-start" id="swStart" type="button">시작</button>
+          <button class="t-btn t-mid" id="swLap" type="button">기록</button>
+          <button class="t-btn t-reset" id="swReset" type="button">초기화</button>
+        </div>
       </div>
-      <div class="timer-progress" aria-hidden="true"><i id="timerBar"></i></div>
     </section>
 
     <!-- ── 🛒 엄마 이거 사주세요 ── -->
@@ -2796,19 +2875,24 @@ function removeEventById(evId) {
     if (!state.events[k].length) delete state.events[k];
   });
 }
+let ddayExpanded = false;          /* 6개 이상일 때만 '전체 보기'로 펼칩니다 */
+const DDAY_LIMIT = 5;
 function renderDDay() {
   const list = $('#ddayList');
   const items = sortedDDays();
   $('#ddayCount').textContent = `${items.length}개`;
   list.replaceChildren();
+  const more = $('#ddayMore');
   if (!items.length) {
     const li = document.createElement('li');
     li.className = 'quest-empty';
     li.textContent = '기다리는 날을 추가해 보세요 📌';
     list.appendChild(li);
+    if (more) { more.hidden = true; more.setAttribute('aria-expanded', 'false'); }
     return;
   }
-  items.forEach(it => {
+  const shown = (!ddayExpanded && items.length > DDAY_LIMIT) ? items.slice(0, DDAY_LIMIT) : items;
+  shown.forEach(it => {
     const li = document.createElement('li');
     li.className = 'dday-item' + (it.d === 0 ? ' is-today' : '') + (it.d < 0 ? ' is-past' : '');
     li.dataset.id = it.id;
@@ -2827,6 +2911,11 @@ function renderDDay() {
     li.append(ico, body, bd, del);
     list.appendChild(li);
   });
+  if (more) {
+    more.hidden = items.length <= DDAY_LIMIT;
+    more.textContent = ddayExpanded ? '접기' : `전체 ${items.length}개 보기`;
+    more.setAttribute('aria-expanded', ddayExpanded ? 'true' : 'false');
+  }
 }
 
 /* ---------- 아이 카드 ---------- */
@@ -3385,6 +3474,11 @@ function bindEvents() {
     if (!b) return;
     ddayEmoji = b.dataset.emoji;
     $$('[data-emoji]', emojiRow).forEach(x => x.classList.toggle('sel', x === b));
+  });
+  const ddayMore = $('#ddayMore');
+  if (ddayMore) ddayMore.addEventListener('click', () => {
+    ddayExpanded = !ddayExpanded;
+    renderDDay();
   });
   $('#addDdayBtn').addEventListener('click', () => {
     $('#ddayName').value = '';
@@ -4343,6 +4437,109 @@ function bindTimer() {
   if (p) p.addEventListener('click', timerPause);
   if (r) r.addEventListener('click', () => { timerStop(); theTimer.left = theTimer.total; timerPaint(); });
   timerPaint();
+
+  /* 타이머 ↔ 스톱워치 탭 */
+  const tabs = $('.timer-tabs');
+  if (tabs) tabs.addEventListener('click', e => {
+    const b = e.target.closest('[data-tmode]');
+    if (!b) return;
+    setTimerMode(b.dataset.tmode);
+  });
+  const swStartBtn = $('#swStart'), swLapBtn = $('#swLap'), swResetBtn = $('#swReset');
+  if (swStartBtn) swStartBtn.addEventListener('click', swToggle);
+  if (swLapBtn) swLapBtn.addEventListener('click', swLap);
+  if (swResetBtn) swResetBtn.addEventListener('click', swReset);
+  swRenderLaps();
+  swPaint();
+}
+
+/* ---------- 스톱워치 (같은 카드의 '스톱워치' 탭) ---------- */
+const theWatch = { running: false, base: 0, startAt: 0, id: null, laps: [] };
+function swElapsed() {
+  return theWatch.base + (theWatch.running ? (Date.now() - theWatch.startAt) : 0);
+}
+function fmtWatch(ms) {
+  const t = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
+  return h ? `${h}:${pad2(m)}:${pad2(s)}` : `${pad2(m)}:${pad2(s)}`;
+}
+function swPaint() {
+  const disp = $('#swDisplay');
+  if (!disp) return;
+  disp.textContent = fmtWatch(swElapsed());
+  const st = $('#swState');
+  if (st) {
+    st.textContent = theWatch.running ? '재는 중' : (theWatch.base > 0 ? '일시정지' : '준비');
+    st.classList.toggle('run', theWatch.running);
+    st.classList.remove('done');
+  }
+  const btn = $('#swStart');
+  if (btn) btn.textContent = theWatch.running ? '일시정지' : (theWatch.base > 0 ? '계속' : '시작');
+}
+function swToggle() {
+  if (theWatch.running) {                        /* 멈춤 */
+    theWatch.base = swElapsed();
+    theWatch.running = false;
+    if (theWatch.id) { clearInterval(theWatch.id); theWatch.id = null; }
+    swPaint();
+    return;
+  }
+  audioCtx();
+  theWatch.startAt = Date.now();
+  theWatch.running = true;
+  theWatch.id = setInterval(swPaint, 200);
+  swPaint();
+}
+function swRenderLaps() {
+  const box = $('#swLaps');
+  if (!box) return;
+  box.replaceChildren();
+  if (!theWatch.laps.length) {
+    const p = document.createElement('p');
+    p.className = 'sw-empty';
+    p.append('기록을 누르면', document.createElement('br'), '여기에 쌓여요');
+    box.appendChild(p);
+    return;
+  }
+  theWatch.laps.forEach((ms, i) => {
+    const row = document.createElement('div');
+    row.className = 'sw-lap';
+    const lab = document.createElement('span');
+    lab.textContent = `기록 ${i + 1}`;
+    const val = document.createElement('b');
+    val.textContent = fmtWatch(ms);
+    row.append(lab, val);
+    box.appendChild(row);
+  });
+  box.scrollTop = box.scrollHeight;
+}
+function swLap() {
+  if (!theWatch.running && theWatch.base <= 0) { toast('먼저 시작을 눌러 주세요'); return; }
+  theWatch.laps.push(swElapsed());
+  swRenderLaps();
+  const box = $('#swLaps');
+  if (box) box.scrollTop = box.scrollHeight;
+  toast(`🏁 기록 ${theWatch.laps.length} · ${fmtWatch(theWatch.laps[theWatch.laps.length - 1])}`);
+}
+function swReset() {
+  if (theWatch.id) { clearInterval(theWatch.id); theWatch.id = null; }
+  theWatch.running = false; theWatch.base = 0; theWatch.startAt = 0; theWatch.laps = [];
+  swRenderLaps();
+  swPaint();
+}
+function setTimerMode(mode) {
+  const sw = mode === 'stopwatch';
+  const tp = $('#timerPane'), sp = $('#swPane');
+  if (!tp || !sp) return;
+  tp.hidden = sw;
+  sp.hidden = !sw;
+  const tabs = $('.timer-tabs');
+  if (tabs) $$('.ttab', tabs).forEach(b => {
+    const on = b.dataset.tmode === mode;
+    b.classList.toggle('sel', on);
+    b.setAttribute('aria-selected', on ? 'true' : 'false');
+  });
+  if (sw) swPaint(); else timerPaint();
 }
 
 /* =========================================================
