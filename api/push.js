@@ -14,9 +14,9 @@
 
 const webpush = require('web-push');
 
-const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY || '';
-const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || '';
-const VAPID_SUBJECT = process.env.VAPID_SUBJECT || 'mailto:soray135@example.com';
+const VAPID_PUBLIC_KEY = (process.env.VAPID_PUBLIC_KEY || '').replace(/\s+/g, '');
+const VAPID_PRIVATE_KEY = (process.env.VAPID_PRIVATE_KEY || '').replace(/\s+/g, '');
+const VAPID_SUBJECT = (process.env.VAPID_SUBJECT || 'mailto:soray135@example.com').trim();
 const MAX_SUBSCRIPTIONS = 40;
 
 function sendJson(res, status, body) {
