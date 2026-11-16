@@ -1226,6 +1226,7 @@ select.q-xp, #wishWho{
 .art .art-svg{ display:none; width:100%; height:100%; }
 .art.fallback .art-svg{ display:grid; place-items:center; }
 .art .art-svg svg{ width:100%; height:100%; display:block; }
+.art .art-emo{ font-size:clamp(24px,2.6vw,40px); line-height:1; }
 .pet img{ width:100%; height:100%; object-fit:contain; }
 .dex-item.locked .art{ filter:grayscale(1) brightness(1.03) opacity(.28); }
 .celeb-emoji{ font-size:52px; line-height:1; }
@@ -2109,42 +2110,37 @@ const CREATURES = [
       <ellipse cx="80" cy="122" rx="8" ry="4.6" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1"/>
     </svg>`
   },
-  /* 5. 티아라 공주님 */
+  /* 5. 엘사 */
   {
-    key:'princess', name:'티아라 공주님',
+    key:'elsa', name:'엘사', img:'assets/disney/elsa.png', emoji:'❄️'
+  },
+  /* 6. 꼬부기 */
+  {
+    key:'squirtle', name:'꼬부기',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><radialGradient id="halo-pri" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF3E1" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF3E1" stop-opacity=".8"/><stop offset="100%" stop-color="#FFE2BC" stop-opacity="0"/></radialGradient></defs>
-      <circle cx="70" cy="72" r="66" fill="url(#halo-pri)"/>
-      <ellipse cx="70" cy="128" rx="26" ry="4.4" fill="#C18B4E" opacity=".15"/>
-      <path d="M70 78 C54 80 46 96 42 122 L98 122 C94 96 86 80 70 78 Z" fill="#FFB3CD"/>
-      <path d="M70 84 C58 86 52 100 49 122 L91 122 C88 100 82 86 70 84 Z" fill="#FFC8DC"/>
-      <path d="M70 96 C64 96 60 100 58 106 C62 104 78 104 82 106 C80 100 76 96 70 96 Z" fill="#FFE3EE" opacity=".85"/>
-      <path d="M54 88 C44 92 40 100 41 108" fill="none" stroke="#FFE3CF" stroke-width="7" stroke-linecap="round"/>
-      <path d="M86 88 C96 92 100 100 99 108" fill="none" stroke="#FFE3CF" stroke-width="7" stroke-linecap="round"/>
-      <rect x="65" y="72" width="10" height="12" rx="5" fill="#FFE3CF"/>
-      <ellipse cx="70" cy="52" rx="28" ry="27" fill="#6B4A38"/>
-      <path d="M42 52 C38 66 38 80 42 92 C46 78 46 64 48 56 Z" fill="#6B4A38"/>
-      <path d="M98 52 C102 66 102 80 98 92 C94 78 94 64 92 56 Z" fill="#6B4A38"/>
-      <ellipse cx="70" cy="58" rx="24" ry="23" fill="#FFE3CF"/>
-      <path d="M46 46 C50 32 60 27 70 27 C80 27 90 32 94 46 C88 39 82 43 76 40 C70 44 62 39 57 43 C52 41 49 43 46 46 Z" fill="#6B4A38"/>
-      <ellipse cx="53" cy="64" rx="5.4" ry="3.4" fill="#FFB4A8" opacity=".8"/>
-      <ellipse cx="87" cy="64" rx="5.4" ry="3.4" fill="#FFB4A8" opacity=".8"/>
-      <ellipse cx="60" cy="59" rx="3.6" ry="4.6" fill="#4A3550"/>
-      <ellipse cx="80" cy="59" rx="3.6" ry="4.6" fill="#4A3550"/>
-      <circle cx="61.2" cy="57.2" r="1.4" fill="#fff"/>
-      <circle cx="81.2" cy="57.2" r="1.4" fill="#fff"/>
-      <path d="M56.2 55.2 l-2.4 -2 M83.8 55.2 l2.4 -2" stroke="#4A3550" stroke-width="1.6" stroke-linecap="round"/>
-      <path d="M66.8 67.6 q3.2 3 6.4 0" fill="none" stroke="#D9797E" stroke-width="1.8" stroke-linecap="round"/>
-      <path d="M52 33 L58 20 L64 28 L70 16 L76 28 L82 20 L88 33 Z" fill="#FFD166" stroke="#E8B33F" stroke-width="1.2" stroke-linejoin="round"/>
-      <circle cx="70" cy="20" r="2.8" fill="#FF8FB0"/>
-      <circle cx="57.6" cy="24" r="1.9" fill="#FFF3C4"/>
-      <circle cx="82.4" cy="24" r="1.9" fill="#FFF3C4"/>
-      <circle cx="70" cy="81" r="2.2" fill="#FFD166"/>
-      <path d="M110 44 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#FFE0A8"/>
-      <path d="M33 72 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFD9E6"/>
+      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#5F86A8" opacity=".09"/>
+      <path d="M94 106 c13 3 18 -6 12 -14" fill="none" stroke="#8ECBE6" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="95" cy="94" rx="19" ry="18" fill="#E7C9A3"/>
+      <ellipse cx="95" cy="94" rx="15" ry="14" fill="#C88D5A"/>
+      <path d="M83 84 C90 88 96 90 104 88" fill="none" stroke="#B57C4C" stroke-width="1.4" opacity=".7"/>
+      <ellipse cx="52" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
+      <ellipse cx="78" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
+      <ellipse cx="66" cy="96" rx="24" ry="21" fill="#A6D8EE"/>
+      <ellipse cx="66" cy="100" rx="15" ry="14" fill="#FFEAC0"/>
+      <ellipse cx="45" cy="92" rx="6.5" ry="10" transform="rotate(-20 45 92)" fill="#A6D8EE"/>
+      <ellipse cx="87" cy="92" rx="6.5" ry="10" transform="rotate(20 87 92)" fill="#A6D8EE"/>
+      <ellipse cx="64" cy="58" rx="26" ry="23" fill="#A6D8EE"/>
+      <ellipse cx="53" cy="42" rx="11" ry="6" transform="rotate(-22 53 42)" fill="#D9F0FB" opacity=".8"/>
+      <ellipse cx="54" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
+      <ellipse cx="74" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
+      <circle cx="55.6" cy="55.5" r="1.8" fill="#fff"/>
+      <circle cx="75.6" cy="55.5" r="1.8" fill="#fff"/>
+      <path d="M60 71 Q64 76 68 71" fill="none" stroke="#5C86A0" stroke-width="2.3" stroke-linecap="round"/>
+      <ellipse cx="45" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
+      <ellipse cx="83" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
     </svg>`
   },
-  /* 6. 헬로키티 */
+  /* 7. 헬로키티 */
   {
     key:'hellokitty', name:'헬로키티', img:'assets/sanrio/hellokitty.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2192,33 +2188,39 @@ const CREATURES = [
       <ellipse cx="81" cy="122" rx="8.5" ry="4.8" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1"/>
     </svg>`
   },
-  /* 7. 꼬부기 */
+  /* 8. 신데렐라 */
   {
-    key:'squirtle', name:'꼬부기',
+    key:'cinderella', name:'신데렐라', img:'assets/disney/cinderella.png', emoji:'👠'
+  },
+  /* 9. 이상해씨 */
+  {
+    key:'bulbasaur', name:'이상해씨',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#5F86A8" opacity=".09"/>
-      <path d="M94 106 c13 3 18 -6 12 -14" fill="none" stroke="#8ECBE6" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="95" cy="94" rx="19" ry="18" fill="#E7C9A3"/>
-      <ellipse cx="95" cy="94" rx="15" ry="14" fill="#C88D5A"/>
-      <path d="M83 84 C90 88 96 90 104 88" fill="none" stroke="#B57C4C" stroke-width="1.4" opacity=".7"/>
-      <ellipse cx="52" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
-      <ellipse cx="78" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
-      <ellipse cx="66" cy="96" rx="24" ry="21" fill="#A6D8EE"/>
-      <ellipse cx="66" cy="100" rx="15" ry="14" fill="#FFEAC0"/>
-      <ellipse cx="45" cy="92" rx="6.5" ry="10" transform="rotate(-20 45 92)" fill="#A6D8EE"/>
-      <ellipse cx="87" cy="92" rx="6.5" ry="10" transform="rotate(20 87 92)" fill="#A6D8EE"/>
-      <ellipse cx="64" cy="58" rx="26" ry="23" fill="#A6D8EE"/>
-      <ellipse cx="53" cy="42" rx="11" ry="6" transform="rotate(-22 53 42)" fill="#D9F0FB" opacity=".8"/>
-      <ellipse cx="54" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
-      <ellipse cx="74" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
-      <circle cx="55.6" cy="55.5" r="1.8" fill="#fff"/>
-      <circle cx="75.6" cy="55.5" r="1.8" fill="#fff"/>
-      <path d="M60 71 Q64 76 68 71" fill="none" stroke="#5C86A0" stroke-width="2.3" stroke-linecap="round"/>
-      <ellipse cx="45" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
-      <ellipse cx="83" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
+      <ellipse cx="70" cy="124" rx="32" ry="5" fill="#4F7F6A" opacity=".09"/>
+      <g>
+        <circle cx="94" cy="66" r="19" fill="#8CC96B"/>
+        <path d="M94 48 C92 58 92 74 94 84" fill="none" stroke="#78B556" stroke-width="1.5" opacity=".75"/>
+        <path d="M79 57 C86 62 93 63 102 61" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
+        <path d="M79 77 C86 73 92 73 101 75" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
+      </g>
+      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
+      <ellipse cx="76" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
+      <ellipse cx="63" cy="97" rx="25" ry="20" fill="#9BD3B7"/>
+      <ellipse cx="63" cy="101" rx="15" ry="11" fill="#C8EBDB" opacity=".55"/>
+      <path d="M48 42 C45 33 45 28 48 25 C52 28 54 35 54 42 Z" fill="#8DCDB0"/>
+      <path d="M78 42 C81 33 81 28 78 25 C74 28 72 35 72 42 Z" fill="#8DCDB0"/>
+      <ellipse cx="62" cy="58" rx="25" ry="22" fill="#9BD3B7"/>
+      <ellipse cx="51" cy="43" rx="10" ry="5.5" transform="rotate(-22 51 43)" fill="#DAF2E6" opacity=".75"/>
+      <ellipse cx="45" cy="70" rx="5.5" ry="4" fill="#7FBF9F" opacity=".5"/>
+      <ellipse cx="84" cy="64" rx="4.5" ry="3.4" fill="#7FBF9F" opacity=".45"/>
+      <ellipse cx="54" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
+      <ellipse cx="72" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
+      <circle cx="55.5" cy="55.8" r="1.7" fill="#fff"/>
+      <circle cx="73.5" cy="55.8" r="1.7" fill="#fff"/>
+      <path d="M54 70 Q63 78 73 70" fill="none" stroke="#5E937A" stroke-width="2.3" stroke-linecap="round"/>
     </svg>`
   },
-  /* 8. 폼폼푸린 */
+  /* 10. 폼폼푸린 */
   {
     key:'pompompurin', name:'폼폼푸린', img:'assets/sanrio/pompompurin.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2258,35 +2260,41 @@ const CREATURES = [
       <ellipse cx="82" cy="121" rx="9" ry="5" fill="#FFE199" stroke="#EFC66E" stroke-width="1"/>
     </svg>`
   },
-  /* 9. 이상해씨 */
+  /* 11. 라푼젤 */
   {
-    key:'bulbasaur', name:'이상해씨',
+    key:'rapunzel', name:'라푼젤', img:'assets/disney/rapunzel.png', emoji:'🌷'
+  },
+  /* 12. 이브이 */
+  {
+    key:'eevee', name:'이브이',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="32" ry="5" fill="#4F7F6A" opacity=".09"/>
-      <g>
-        <circle cx="94" cy="66" r="19" fill="#8CC96B"/>
-        <path d="M94 48 C92 58 92 74 94 84" fill="none" stroke="#78B556" stroke-width="1.5" opacity=".75"/>
-        <path d="M79 57 C86 62 93 63 102 61" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
-        <path d="M79 77 C86 73 92 73 101 75" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
-      </g>
-      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
-      <ellipse cx="76" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
-      <ellipse cx="63" cy="97" rx="25" ry="20" fill="#9BD3B7"/>
-      <ellipse cx="63" cy="101" rx="15" ry="11" fill="#C8EBDB" opacity=".55"/>
-      <path d="M48 42 C45 33 45 28 48 25 C52 28 54 35 54 42 Z" fill="#8DCDB0"/>
-      <path d="M78 42 C81 33 81 28 78 25 C74 28 72 35 72 42 Z" fill="#8DCDB0"/>
-      <ellipse cx="62" cy="58" rx="25" ry="22" fill="#9BD3B7"/>
-      <ellipse cx="51" cy="43" rx="10" ry="5.5" transform="rotate(-22 51 43)" fill="#DAF2E6" opacity=".75"/>
-      <ellipse cx="45" cy="70" rx="5.5" ry="4" fill="#7FBF9F" opacity=".5"/>
-      <ellipse cx="84" cy="64" rx="4.5" ry="3.4" fill="#7FBF9F" opacity=".45"/>
-      <ellipse cx="54" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
-      <ellipse cx="72" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
-      <circle cx="55.5" cy="55.8" r="1.7" fill="#fff"/>
-      <circle cx="73.5" cy="55.8" r="1.7" fill="#fff"/>
-      <path d="M54 70 Q63 78 73 70" fill="none" stroke="#5E937A" stroke-width="2.3" stroke-linecap="round"/>
+      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#8A6B4A" opacity=".09"/>
+      <path d="M90 100 C112 98 120 80 111 66 C103 76 95 88 88 94 Z" fill="#C89868"/>
+      <path d="M90 100 C106 98 113 87 108 77 C102 86 96 93 88 97 Z" fill="#F4E3C8"/>
+      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
+      <ellipse cx="78" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
+      <ellipse cx="66" cy="99" rx="24" ry="19" fill="#C89868"/>
+      <ellipse cx="64" cy="78" rx="23" ry="12" fill="#F4E3C8"/>
+      <ellipse cx="43" cy="94" rx="7" ry="9.5" transform="rotate(-16 43 94)" fill="#C89868"/>
+      <ellipse cx="89" cy="94" rx="7" ry="9.5" transform="rotate(16 89 94)" fill="#C89868"/>
+      <path d="M46 46 C39 32 33 20 27 12 C37 13 48 25 54 40 Z" fill="#C89868"/>
+      <path d="M48 43 C43 33 38 24 34 18 C41 21 47 30 51 39 Z" fill="#8E6440"/>
+      <path d="M84 46 C91 32 97 20 103 12 C93 13 82 25 76 40 Z" fill="#C89868"/>
+      <path d="M82 43 C87 33 92 24 96 18 C89 21 83 30 79 39 Z" fill="#8E6440"/>
+      <ellipse cx="64" cy="57" rx="24" ry="21" fill="#C89868"/>
+      <ellipse cx="53" cy="42" rx="10" ry="5.5" transform="rotate(-22 53 42)" fill="#E7C79E" opacity=".75"/>
+      <ellipse cx="64" cy="67" rx="12" ry="8" fill="#F4E3C8"/>
+      <ellipse cx="55" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
+      <ellipse cx="73" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
+      <circle cx="56.6" cy="54.4" r="1.9" fill="#fff"/>
+      <circle cx="74.6" cy="54.4" r="1.9" fill="#fff"/>
+      <ellipse cx="64" cy="64" rx="2.9" ry="2.3" fill="#6B4A32"/>
+      <path d="M60 70 Q64 73 68 70" fill="none" stroke="#8E6440" stroke-width="1.9" stroke-linecap="round"/>
+      <ellipse cx="46" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
+      <ellipse cx="82" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
     </svg>`
   },
-  /* 10. 포차코 */
+  /* 13. 포차코 */
   {
     key:'pochacco', name:'포차코', img:'assets/sanrio/pochacco.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2322,46 +2330,41 @@ const CREATURES = [
       <path d="M84 102 C92 98 98 104 94 108" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
     </svg>`
   },
-  /* 11. 발레리나 공주님 */
+  /* 14. 벨 */
   {
-    key:'ballerina', name:'발레리나 공주님',
+    key:'belle', name:'벨', img:'assets/disney/belle.png', emoji:'🌹'
+  },
+  /* 15. 피카츄 */
+  {
+    key:'pikachu', name:'피카츄',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><radialGradient id="halo-bal" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFEFF6" stop-opacity=".95"/><stop offset="60%" stop-color="#FFEFF6" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD4E7" stop-opacity="0"/></radialGradient></defs>
-      <circle cx="70" cy="72" r="66" fill="url(#halo-bal)"/>
-      <ellipse cx="70" cy="129" rx="26" ry="4.2" fill="#B98BC4" opacity=".15"/>
-      <path d="M70 74 C60 76 56 88 55 100 L85 100 C84 88 80 76 70 74 Z" fill="#FFC0D8"/>
-      <ellipse cx="70" cy="101" rx="34" ry="15" fill="#FFB6D2"/>
-      <ellipse cx="70" cy="97" rx="28" ry="12" fill="#FFD0E2"/>
-      <ellipse cx="70" cy="94" rx="22" ry="9" fill="#FFE3EE"/>
-      <path d="M64 108 L60 122 M76 108 L80 122" stroke="#FFE3CF" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="58" cy="125" rx="6" ry="3.4" fill="#FFAECB"/>
-      <ellipse cx="82" cy="125" rx="6" ry="3.4" fill="#FFAECB"/>
-      <path d="M57 82 C45 77 37 67 35 55" fill="none" stroke="#FFE3CF" stroke-width="6.4" stroke-linecap="round"/>
-      <path d="M83 82 C95 77 103 67 105 55" fill="none" stroke="#FFE3CF" stroke-width="6.4" stroke-linecap="round"/>
-      <circle cx="34" cy="52" r="4" fill="#FFE3CF"/>
-      <circle cx="106" cy="52" r="4" fill="#FFE3CF"/>
-      <rect x="65" y="68" width="10" height="12" rx="5" fill="#FFE3CF"/>
-      <ellipse cx="70" cy="44" rx="25" ry="24" fill="#5B4030"/>
-      <ellipse cx="70" cy="50" rx="21.5" ry="20.5" fill="#FFE3CF"/>
-      <path d="M48 40 C52 26 60 20 70 20 C80 20 88 26 92 40 C86 33 80 37 74 34 C68 38 60 33 55 37 C52 35 50 37 48 40 Z" fill="#5B4030"/>
-      <circle cx="70" cy="18" r="8.5" fill="#5B4030"/>
-      <path d="M62 17 a8 8 0 0 1 16 0" fill="none" stroke="#7A5744" stroke-width="1.5"/>
-      <path d="M62 15 C56 10 51 14 54 18 C57 21 60 19 62 17 Z" fill="#FF9DC2"/>
-      <path d="M78 15 C84 10 89 14 86 18 C83 21 80 19 78 17 Z" fill="#FF9DC2"/>
-      <circle cx="70" cy="16" r="2.6" fill="#F5779F"/>
-      <ellipse cx="54" cy="56" rx="5" ry="3.2" fill="#FFB4A8" opacity=".8"/>
-      <ellipse cx="86" cy="56" rx="5" ry="3.2" fill="#FFB4A8" opacity=".8"/>
-      <ellipse cx="61" cy="51" rx="3.4" ry="4.4" fill="#4A3550"/>
-      <ellipse cx="79" cy="51" rx="3.4" ry="4.4" fill="#4A3550"/>
-      <circle cx="62.2" cy="49.2" r="1.3" fill="#fff"/>
-      <circle cx="80.2" cy="49.2" r="1.3" fill="#fff"/>
-      <path d="M57.4 47.4 l-2.2 -1.8 M82.6 47.4 l2.2 -1.8" stroke="#4A3550" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M67 59 q3 2.8 6 0" fill="none" stroke="#D9797E" stroke-width="1.7" stroke-linecap="round"/>
-      <path d="M110 36 l1.5 3.6 3.6 1.5 -3.6 1.5 -1.5 3.6 -1.5 -3.6 -3.6 -1.5 3.6 -1.5 z" fill="#FFD9E6"/>
-      <path d="M28 58 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE9F2"/>
+      <ellipse cx="70" cy="124" rx="29" ry="5" fill="#9A7C2E" opacity=".1"/>
+      <path d="M90 104 L104 90 L98 87 L112 70 L105 70 L116 54 L96 70 L102 72 L90 87 Z" fill="#F6D45C"/>
+      <path d="M90 104 L98 96 L94 94 L90 99 Z" fill="#C08B54"/>
+      <g>
+        <path d="M48 44 C42 28 36 15 27 6 C31 4 36 6 40 11 C50 24 57 36 60 42 Z" fill="#F8D95E"/>
+        <path d="M27 6 C31 4 36 6 40 11 L34 17 C31 12 28 8 27 6 Z" fill="#3D3947"/>
+        <path d="M92 44 C98 28 104 15 113 6 C109 4 104 6 100 11 C90 24 83 36 80 42 Z" fill="#F8D95E"/>
+        <path d="M113 6 C109 4 104 6 100 11 L106 17 C109 12 112 8 113 6 Z" fill="#3D3947"/>
+      </g>
+      <ellipse cx="54" cy="114" rx="10" ry="6" fill="#EAC94F"/>
+      <ellipse cx="84" cy="114" rx="10" ry="6" fill="#EAC94F"/>
+      <ellipse cx="68" cy="98" rx="21" ry="18" fill="#F8D95E"/>
+      <ellipse cx="46" cy="100" rx="6.5" ry="9" transform="rotate(-18 46 100)" fill="#F8D95E"/>
+      <ellipse cx="90" cy="100" rx="6.5" ry="9" transform="rotate(18 90 100)" fill="#F8D95E"/>
+      <ellipse cx="68" cy="56" rx="26" ry="23" fill="#F8D95E"/>
+      <ellipse cx="56" cy="40" rx="11" ry="6" transform="rotate(-22 56 40)" fill="#FFF0A8" opacity=".8"/>
+      <ellipse cx="58" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
+      <ellipse cx="78" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
+      <circle cx="59.7" cy="52.4" r="1.9" fill="#fff"/>
+      <circle cx="79.7" cy="52.4" r="1.9" fill="#fff"/>
+      <circle cx="47" cy="67" r="6.4" fill="#F47C6E"/>
+      <circle cx="89" cy="67" r="6.4" fill="#F47C6E"/>
+      <ellipse cx="68" cy="63" rx="1.5" ry="1.9" fill="#8A6A28"/>
+      <path d="M62 69 Q68 75 74 69" fill="none" stroke="#A08030" stroke-width="2.3" stroke-linecap="round"/>
     </svg>`
   },
-  /* 12. 쿠로미 */
+  /* 16. 쿠로미 */
   {
     key:'kuromi', name:'쿠로미', img:'assets/sanrio/kuromi.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2406,105 +2409,15 @@ const CREATURES = [
       <ellipse cx="79" cy="122" rx="7.5" ry="4.4" fill="#312C40"/>
     </svg>`
   },
-  /* 13. 별빛 유니콘 */
+  /* 17. 에리얼 */
   {
-    key:'unicorn', name:'별빛 유니콘',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><radialGradient id="halo-uni" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F1EBFF" stop-opacity=".95"/><stop offset="60%" stop-color="#F1EBFF" stop-opacity=".8"/><stop offset="100%" stop-color="#DFD4FF" stop-opacity="0"/></radialGradient></defs>
-      <circle cx="70" cy="72" r="66" fill="url(#halo-uni)"/>
-      <ellipse cx="70" cy="129" rx="28" ry="4.4" fill="#8B7BF5" opacity=".15"/>
-      <path d="M96 100 C110 96 114 84 106 76" fill="none" stroke="#F5A8CB" stroke-width="6" stroke-linecap="round"/>
-      <path d="M100 104 C116 102 122 88 114 78" fill="none" stroke="#A695F3" stroke-width="4" stroke-linecap="round" opacity=".85"/>
-      <ellipse cx="70" cy="104" rx="26" ry="20" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1"/>
-      <rect x="56" y="112" width="8" height="14" rx="4" fill="#F4F0FE"/>
-      <rect x="76" y="112" width="8" height="14" rx="4" fill="#F4F0FE"/>
-      <path d="M88 92 l2.2 5.2 5.2 2.2 -5.2 2.2 -2.2 5.2 -2.2 -5.2 -5.2 -2.2 5.2 -2.2 z" fill="#FFD166"/>
-      <rect x="63" y="70" width="14" height="20" rx="7" fill="#FFFFFF"/>
-      <ellipse cx="70" cy="52" rx="27" ry="24" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1"/>
-      <path d="M52 34 C44 40 42 52 46 62 C48 50 52 42 58 38 Z" fill="#F5A8CB"/>
-      <path d="M56 31 C48 36 46 46 48 56" fill="none" stroke="#A695F3" stroke-width="4" stroke-linecap="round"/>
-      <path d="M62 29 C54 34 52 42 53 50" fill="none" stroke="#8FD9C4" stroke-width="3.4" stroke-linecap="round" opacity=".9"/>
-      <path d="M83 34 L92 17 L97 38 Z" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1.2"/>
-      <path d="M87 33 L92 23 L93 35 Z" fill="#FFD3E4"/>
-      <path d="M64 32 L70 6 L77 32 Z" fill="#FFD166" stroke="#E8B33F" stroke-width="1.2" stroke-linejoin="round"/>
-      <path d="M66.4 24 L73 26 M65.2 17 L71.6 19" stroke="#E8B33F" stroke-width="1.3" stroke-linecap="round"/>
-      <ellipse cx="50" cy="66" rx="5" ry="3.2" fill="#FFC7DB"/>
-      <ellipse cx="59" cy="55" rx="4" ry="5" fill="#4A3B6B"/>
-      <ellipse cx="59" cy="56" rx="2.4" ry="3.2" fill="#6C5AB8"/>
-      <circle cx="60.2" cy="53.4" r="1.4" fill="#fff"/>
-      <path d="M55 49.4 l-2.4 -2" stroke="#4A3B6B" stroke-width="1.6" stroke-linecap="round"/>
-      <ellipse cx="81" cy="55" rx="4" ry="5" fill="#4A3B6B"/>
-      <ellipse cx="81" cy="56" rx="2.4" ry="3.2" fill="#6C5AB8"/>
-      <circle cx="82.2" cy="53.4" r="1.4" fill="#fff"/>
-      <path d="M85 49.4 l2.4 -2" stroke="#4A3B6B" stroke-width="1.6" stroke-linecap="round"/>
-      <ellipse cx="70" cy="66" rx="8" ry="6" fill="#FBF7FF"/>
-      <ellipse cx="70" cy="64" rx="2.2" ry="1.7" fill="#C9A8D8"/>
-      <path d="M70 65.4 v2 M67.4 69.8 q2.6 2.6 5.2 0" fill="none" stroke="#C0A6CE" stroke-width="1.5" stroke-linecap="round"/>
-      <path d="M26 40 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#C9BCFA"/>
-      <path d="M112 56 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE0A8"/>
-    </svg>`
+    key:'ariel', name:'에리얼', img:'assets/disney/ariel.png', emoji:'🐚'
   },
-  /* 14. 이브이 */
+  /* 18. 백설공주 */
   {
-    key:'eevee', name:'이브이',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#8A6B4A" opacity=".09"/>
-      <path d="M90 100 C112 98 120 80 111 66 C103 76 95 88 88 94 Z" fill="#C89868"/>
-      <path d="M90 100 C106 98 113 87 108 77 C102 86 96 93 88 97 Z" fill="#F4E3C8"/>
-      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
-      <ellipse cx="78" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
-      <ellipse cx="66" cy="99" rx="24" ry="19" fill="#C89868"/>
-      <ellipse cx="64" cy="78" rx="23" ry="12" fill="#F4E3C8"/>
-      <ellipse cx="43" cy="94" rx="7" ry="9.5" transform="rotate(-16 43 94)" fill="#C89868"/>
-      <ellipse cx="89" cy="94" rx="7" ry="9.5" transform="rotate(16 89 94)" fill="#C89868"/>
-      <path d="M46 46 C39 32 33 20 27 12 C37 13 48 25 54 40 Z" fill="#C89868"/>
-      <path d="M48 43 C43 33 38 24 34 18 C41 21 47 30 51 39 Z" fill="#8E6440"/>
-      <path d="M84 46 C91 32 97 20 103 12 C93 13 82 25 76 40 Z" fill="#C89868"/>
-      <path d="M82 43 C87 33 92 24 96 18 C89 21 83 30 79 39 Z" fill="#8E6440"/>
-      <ellipse cx="64" cy="57" rx="24" ry="21" fill="#C89868"/>
-      <ellipse cx="53" cy="42" rx="10" ry="5.5" transform="rotate(-22 53 42)" fill="#E7C79E" opacity=".75"/>
-      <ellipse cx="64" cy="67" rx="12" ry="8" fill="#F4E3C8"/>
-      <ellipse cx="55" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
-      <ellipse cx="73" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
-      <circle cx="56.6" cy="54.4" r="1.9" fill="#fff"/>
-      <circle cx="74.6" cy="54.4" r="1.9" fill="#fff"/>
-      <ellipse cx="64" cy="64" rx="2.9" ry="2.3" fill="#6B4A32"/>
-      <path d="M60 70 Q64 73 68 70" fill="none" stroke="#8E6440" stroke-width="1.9" stroke-linecap="round"/>
-      <ellipse cx="46" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
-      <ellipse cx="82" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
-    </svg>`
+    key:'snowwhite', name:'백설공주', img:'assets/disney/snowwhite.png', emoji:'🍎'
   },
-  /* 15. 피카츄 */
-  {
-    key:'pikachu', name:'피카츄',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="29" ry="5" fill="#9A7C2E" opacity=".1"/>
-      <path d="M90 104 L104 90 L98 87 L112 70 L105 70 L116 54 L96 70 L102 72 L90 87 Z" fill="#F6D45C"/>
-      <path d="M90 104 L98 96 L94 94 L90 99 Z" fill="#C08B54"/>
-      <g>
-        <path d="M48 44 C42 28 36 15 27 6 C31 4 36 6 40 11 C50 24 57 36 60 42 Z" fill="#F8D95E"/>
-        <path d="M27 6 C31 4 36 6 40 11 L34 17 C31 12 28 8 27 6 Z" fill="#3D3947"/>
-        <path d="M92 44 C98 28 104 15 113 6 C109 4 104 6 100 11 C90 24 83 36 80 42 Z" fill="#F8D95E"/>
-        <path d="M113 6 C109 4 104 6 100 11 L106 17 C109 12 112 8 113 6 Z" fill="#3D3947"/>
-      </g>
-      <ellipse cx="54" cy="114" rx="10" ry="6" fill="#EAC94F"/>
-      <ellipse cx="84" cy="114" rx="10" ry="6" fill="#EAC94F"/>
-      <ellipse cx="68" cy="98" rx="21" ry="18" fill="#F8D95E"/>
-      <ellipse cx="46" cy="100" rx="6.5" ry="9" transform="rotate(-18 46 100)" fill="#F8D95E"/>
-      <ellipse cx="90" cy="100" rx="6.5" ry="9" transform="rotate(18 90 100)" fill="#F8D95E"/>
-      <ellipse cx="68" cy="56" rx="26" ry="23" fill="#F8D95E"/>
-      <ellipse cx="56" cy="40" rx="11" ry="6" transform="rotate(-22 56 40)" fill="#FFF0A8" opacity=".8"/>
-      <ellipse cx="58" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
-      <ellipse cx="78" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
-      <circle cx="59.7" cy="52.4" r="1.9" fill="#fff"/>
-      <circle cx="79.7" cy="52.4" r="1.9" fill="#fff"/>
-      <circle cx="47" cy="67" r="6.4" fill="#F47C6E"/>
-      <circle cx="89" cy="67" r="6.4" fill="#F47C6E"/>
-      <ellipse cx="68" cy="63" rx="1.5" ry="1.9" fill="#8A6A28"/>
-      <path d="M62 69 Q68 75 74 69" fill="none" stroke="#A08030" stroke-width="2.3" stroke-linecap="round"/>
-    </svg>`
-  },
-  /* 16. 푸린 */
+  /* 19. 푸린 */
   {
     key:'jigglypuff', name:'푸린',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2529,7 +2442,7 @@ const CREATURES = [
       <ellipse cx="98" cy="88" rx="5.4" ry="3.4" fill="#F58FAE" opacity=".4"/>
     </svg>`
   },
-  /* 17. 잠만보 */
+  /* 20. 잠만보 */
   {
     key:'snorlax', name:'잠만보',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2552,7 +2465,7 @@ const CREATURES = [
       <ellipse cx="94" cy="76" rx="5" ry="3" fill="#EE9E8E" opacity=".35"/>
     </svg>`
   },
-  /* 18. 고라파덕 */
+  /* 21. 고라파덕 */
   {
     key:'psyduck', name:'고라파덕',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2579,7 +2492,7 @@ const CREATURES = [
       <ellipse cx="98" cy="80" rx="5" ry="3" fill="#EE9E8E" opacity=".3"/>
     </svg>`
   },
-  /* 19. 메타몽 */
+  /* 22. 메타몽 */
   {
     key:'ditto', name:'메타몽',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2595,7 +2508,7 @@ const CREATURES = [
       <ellipse cx="96" cy="90" rx="6" ry="3.6" fill="#B48FCB" opacity=".45"/>
     </svg>`
   },
-  /* 20. 캐터피 */
+  /* 23. 캐터피 */
   {
     key:'caterpie', name:'캐터피',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2619,7 +2532,7 @@ const CREATURES = [
       <path d="M64 75 Q68 79 72 75" fill="none" stroke="#6E9A56" stroke-width="2" stroke-linecap="round"/>
     </svg>`
   },
-  /* 21. 뮤 */
+  /* 24. 뮤 */
   {
     key:'mew', name:'뮤',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2656,7 +2569,9 @@ const DEX_ID = {
 CREATURES.forEach(c => { if (DEX_ID[c.key]) c.dex = DEX_ID[c.key]; });
 
 /* 처음부터 쓸 수 있는 친구 — 포켓몬 2 + 예쁜 친구 3 */
-const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody', 'princess'];
+const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody', 'elsa'];
+/* 예전에 저장된 '직접 그린 친구' 키는 디즈니 공주로 이어받아요 */
+const LEGACY_CREATURE_KEYS = { princess: 'elsa', ballerina: 'cinderella', unicorn: 'rapunzel' };
 const POKE_ART = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
 /* 포켓몬·산리오는 공식 아트워크 <img>, 불러오지 못하면 인라인 SVG로 자동 대체 */
@@ -2679,7 +2594,8 @@ function artBox(c, opts) {
   }
   const fb = document.createElement('span');
   fb.className = 'art-svg';
-  fb.innerHTML = (c && c.svg) || '';
+  /* 그림이 없거나 불러오지 못하면 SVG → 이모지 순으로 대신 보여줘요 */
+  fb.innerHTML = (c && c.svg) || ((c && c.emoji) ? `<span class="art-emo">${c.emoji}</span>` : '');
   wrap.appendChild(fb);
   return wrap;
 }
@@ -2877,7 +2793,8 @@ function normalize(raw) {
     k.level = Math.max(1, Math.min(99, Number(k.level) || 1));
     k.xp = Math.max(0, Math.min(XP_PER_LEVEL - 1, Number(k.xp) || 0));
     if (Array.isArray(k.dexOpen)) {
-      k.dexOpen = k.dexOpen.filter(x => CREATURE_MAP[x]);
+      /* 예전 '직접 그린 친구'(티아라·발레리나·유니콘)는 디즈니 공주로 이어받아요 */
+      k.dexOpen = [...new Set(k.dexOpen.map(x => LEGACY_CREATURE_KEYS[x] || x))].filter(x => CREATURE_MAP[x]);
     } else {
       /* 예전 기록(앞에서부터 dexMax마리)은 그대로 이어받고, 새 친구는 레벨만큼 열어요 */
       const legacy = Math.max(1, Math.min(MAX_DEX, Number(k.dexMax) || 2));
@@ -2891,7 +2808,8 @@ function normalize(raw) {
     ensureDex(k);
     k.quests = Array.isArray(k.quests) ? k.quests.filter(q => q && typeof q.text === 'string')
       .map(q => ({ id: q.id || uid(), text: q.text, xp: Number(q.xp) || 20, done: !!q.done })) : base.kids[id].quests;
-    if (!CREATURE_MAP[k.partner]) k.partner = base.kids[id].partner;
+    const partnerKey = LEGACY_CREATURE_KEYS[k.partner] || k.partner;
+    k.partner = CREATURE_MAP[partnerKey] ? partnerKey : base.kids[id].partner;
     k.name = typeof k.name === 'string' && k.name.trim() ? k.name : base.kids[id].name;
     k.tag = typeof k.tag === 'string' ? k.tag : '';
   });
