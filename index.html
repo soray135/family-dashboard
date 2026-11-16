@@ -155,9 +155,10 @@ h1,h2,h3,p { margin:0; }
 }
 .col-left{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
 .col-right{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
-/* 칼럼이 남는 높이를 마지막 카드가 채워 네 칼럼 바닥선이 정확히 맞도록 */
+/* 칼럼이 남는 높이를 채워 네 칼럼 바닥선이 정확히 맞도록 — 우측은 가족 톡이 남는 세로 공간을 흡수 */
 .col-left > .dday-card{ flex:1 1 auto; }
-.col-right > .wish-card{ flex:1 1 auto; }
+.col-right > .chat-card{ flex:1 1 auto; min-height:0; }
+.col-right > .wish-card{ flex:0 0 auto; }
 
 /* ============ cards ============ */
 .card{
@@ -239,11 +240,13 @@ h1,h2,h3,p { margin:0; }
 /* ============ dday ============ */
 .dday-card{ padding:12px 13px 11px; display:flex; flex-direction:column; }
 .dday-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; padding:0 2px; }
-.dday-list{ display:flex; flex-direction:column; gap:4px; margin-bottom:7px; flex:1 1 auto; min-height:0; justify-content:space-between; }
+.dday-list{ display:flex; flex-direction:column; gap:5px; margin-bottom:7px; flex:1 1 auto; min-height:0; }
 .dday-item{
   display:flex; align-items:center; gap:7px;
   padding:5px 7px 5px 6px;
   min-height:36px;
+  max-height:58px;
+  flex:1 1 auto;
   border-radius:10px;
   background:linear-gradient(180deg,#FCFAFF,#F8F5FE);
   border:1px solid #F1ECFA;
@@ -570,7 +573,7 @@ select.q-xp, #wishWho{
   cursor:pointer;
 }
 /* ============ wishlist ============ */
-.wish-card{ padding:12px 13px 11px; display:flex; flex-direction:column; }
+.wish-card{ padding:10px 13px 9px; display:flex; flex-direction:column; }
 .wish-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
 .wish-count{
   font-size:11px; font-weight:800; color:#7A7290;
@@ -579,11 +582,11 @@ select.q-xp, #wishWho{
 }
 .wish-sub{
   font-size:10.5px; color:#A79FB8; font-weight:600;
-  text-align:center; margin:4px 0 6px;
+  text-align:center; margin:3px 0 5px;
   letter-spacing:-0.02em;
   word-break:keep-all;
 }
-.wish-form{ display:flex; flex-direction:column; gap:4px; }
+.wish-form{ display:flex; flex-direction:column; gap:3px; }
 .wish-form input, .wish-form select{
   border-radius:11px;
   border:1px solid #EFEAF8;
@@ -593,18 +596,18 @@ select.q-xp, #wishWho{
 }
 .wish-form input::placeholder{ color:#B7AFC6; }
 .wish-form input:focus, .wish-form select:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
-#wishName{ padding:7px 10px; }
-.wish-row{ display:flex; gap:6px; }
+#wishName{ padding:5px 9px; }
+.wish-row{ display:flex; gap:5px; }
 #wishWho{
-  flex:0 0 auto; width:66px;
-  padding:6px 4px 6px 8px;
+  flex:0 0 auto; width:64px;
+  padding:4px 3px 4px 7px;
   appearance:none; -webkit-appearance:none;
   text-align:center; font-weight:750; color:#7B7290;
 }
-#wishMemo{ flex:1; min-width:0; padding:6px 9px; }
+#wishMemo{ flex:1; min-width:0; padding:4px 8px; }
 #wishAdd{
-  flex:0 0 auto; width:38px; border-radius:11px;
-  font-size:16px; font-weight:800; color:#fff;
+  flex:0 0 auto; width:34px; border-radius:11px;
+  font-size:15px; font-weight:800; color:#fff;
   background:linear-gradient(180deg,#F5A18C,#EB8164);
   box-shadow:0 4px 10px rgba(235,129,100,.28), inset 0 1px 0 rgba(255,255,255,.35);
   display:grid; place-items:center;
@@ -612,7 +615,7 @@ select.q-xp, #wishWho{
 }
 #wishAdd:hover{ transform:translateY(-1px); }
 #wishAdd:active{ transform:translateY(1px) scale(.97); }
-.wish-list{ display:flex; flex-direction:column; gap:4px; margin-top:7px; flex:1 1 auto; min-height:0; max-height:132px; overflow-y:auto; }
+.wish-list{ display:flex; flex-direction:column; gap:3px; margin-top:6px; flex:0 1 auto; min-height:0; max-height:88px; overflow-y:auto; }
 .wish{
   display:flex; align-items:flex-start; gap:7px;
   padding:5px 7px 5px 8px;
@@ -666,7 +669,7 @@ select.q-xp, #wishWho{
 .who-chip[data-who="하성"], .msg[data-who="하성"]{ --who:#E9A15C; --who-soft:#FFF3E6; --who-line:#F7E0C6; --who-deep:#BE7A2B; }
 .who-chip[data-who="하윤"], .msg[data-who="하윤"]{ --who:#9C86F2; --who-soft:#F3EFFF; --who-line:#E1D8FC; --who-deep:#7359D8; }
 
-.chat-card{ padding:11px 13px 10px; display:flex; flex-direction:column; gap:6px; }
+.chat-card{ padding:11px 13px 10px; display:flex; flex-direction:column; gap:5px; min-height:0; }
 .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 2px; }
 .chat-count{
   font-size:11px; font-weight:800; color:#7A7290;
@@ -694,7 +697,7 @@ select.q-xp, #wishWho{
 .who-pick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .who-chip{
   display:flex; flex-direction:column; align-items:center; gap:1px;
-  padding:3px 2px 2px;
+  padding:2px 2px 1px;
   border-radius:9px;
   background:#FBFAFE; border:1.5px solid #F1ECFA;
   color:#7E7695; font-size:9.5px; font-weight:750; letter-spacing:-0.02em;
@@ -712,8 +715,9 @@ select.q-xp, #wishWho{
 
 .chat-log{
   display:flex; flex-direction:column; gap:6px;
-  min-height:96px;
-  max-height:clamp(104px,11.5vh,142px);
+  flex:1 1 auto;
+  min-height:150px;
+  max-height:none;
   overflow-y:auto; overscroll-behavior:contain;
   padding:3px 2px 1px;
   scroll-behavior:smooth;
@@ -780,7 +784,7 @@ select.q-xp, #wishWho{
 
 .reaction-row{ display:flex; gap:4px; }
 .re-btn{
-  flex:1; height:24px; border-radius:8px;
+  flex:1; height:22px; border-radius:8px;
   font-size:12px; line-height:1;
   background:#FBFAFE; border:1px solid #F1ECFA;
   transition:transform .12s, background .15s, border-color .15s;
@@ -1424,6 +1428,7 @@ select.q-xp, #wishWho{
   .grid{ grid-template-columns:minmax(250px,.9fr) minmax(0,1fr) minmax(0,1fr); }
   .col-right{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; gap:16px; }
   .col-right .wish-card{ grid-column:1 / -1; }   /* 가족 톡·타이머는 나란히, 사주세요는 아래 */
+  .chat-log{ max-height:230px; }
   .wish-form{ flex-direction:row; align-items:stretch; flex-wrap:wrap; }
   #wishName{ flex:1 1 240px; }
   .wish-row{ flex:1 1 280px; }
@@ -1467,6 +1472,15 @@ select.q-xp, #wishWho{
   .sheet{ padding:16px; border-radius:20px; }
   .sb-cards{ flex-direction:column; align-items:stretch; }
   .sb-card{ max-width:none; }
+}
+/* 데스크톱 4칼럼: 화면 높이 안에서 칼럼이 끝나도록 잡아 주고, 남는 세로 공간은 가족 톡이 흡수합니다 */
+@media (min-width:1280px){
+  .chat-log{ max-height:clamp(120px,26vh,220px); }   /* 화면이 낮을 땐 통째로 늘리지 않고 스크롤 */
+}
+@media (min-width:1280px) and (min-height:900px){
+  .app{ height:100vh; display:flex; flex-direction:column; }
+  .app > .grid{ flex:1 1 auto; min-height:0; grid-template-rows:minmax(0,1fr); }
+  .chat-log{ max-height:none; }
 }
 @media (prefers-reduced-motion:reduce){
   *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
@@ -1557,8 +1571,8 @@ select.q-xp, #wishWho{
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
-            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-xpbar></i></div>
-            <span class="xp-text" data-xptext>0/100</span>
+            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0"><i data-xpbar></i></div>
+            <span class="xp-text" data-xptext>0/200</span>
           </div>
         </div>
       </div>
@@ -1574,6 +1588,7 @@ select.q-xp, #wishWho{
       <form class="quest-form" data-qform autocomplete="off">
         <input class="q-input" placeholder="퀘스트 추가" maxlength="40" aria-label="퀘스트 추가">
         <select class="q-xp" aria-label="경험치">
+          <option value="5">+5</option>
           <option value="10">+10</option>
           <option value="15">+15</option>
           <option value="20" selected>+20</option>
@@ -1600,8 +1615,8 @@ select.q-xp, #wishWho{
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
-            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i data-xpbar></i></div>
-            <span class="xp-text" data-xptext>0/100</span>
+            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0"><i data-xpbar></i></div>
+            <span class="xp-text" data-xptext>0/200</span>
           </div>
         </div>
       </div>
@@ -1617,6 +1632,7 @@ select.q-xp, #wishWho{
       <form class="quest-form" data-qform autocomplete="off">
         <input class="q-input" placeholder="퀘스트 추가" maxlength="40" aria-label="퀘스트 추가">
         <select class="q-xp" aria-label="경험치">
+          <option value="5">+5</option>
           <option value="10">+10</option>
           <option value="15">+15</option>
           <option value="20" selected>+20</option>
@@ -2521,6 +2537,7 @@ function msgPreview(m) {
 const STORE_KEY = 'sora-home-dashboard-v1';
 const WEEK = ['일','월','화','수','목','금','토'];
 const MAX_DEX = CREATURES.length;
+const XP_PER_LEVEL = 200;   /* 이만큼 쌓일 때마다 레벨 +1 = 도감 새 친구 1마리 */
 
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -2564,21 +2581,22 @@ const guessIcon = text => {
 function seed() {
   return {
     v: 1,
+    xpTune: 1,          /* 하성이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
     title: '우리가족 대시보드',
     kids: {
       haseong: {
         name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
-          { id: uid(), text: '리딩앤', xp: 15, done: false },
-          { id: uid(), text: '연산', xp: 20, done: false },
-          { id: uid(), text: '디딤돌', xp: 20, done: false },
-          { id: uid(), text: '팩토', xp: 20, done: false },
-          { id: uid(), text: '한자', xp: 15, done: false },
-          { id: uid(), text: '영어숙제', xp: 20, done: false },
-          { id: uid(), text: '독서', xp: 15, done: false },
-          { id: uid(), text: '독서록', xp: 20, done: false },
-          { id: uid(), text: '로봇', xp: 15, done: false },
-          { id: uid(), text: '가방정리', xp: 10, done: false }
+          { id: uid(), text: '리딩앤', xp: 10, done: false },
+          { id: uid(), text: '연산', xp: 15, done: false },
+          { id: uid(), text: '디딤돌', xp: 15, done: false },
+          { id: uid(), text: '팩토', xp: 15, done: false },
+          { id: uid(), text: '한자', xp: 10, done: false },
+          { id: uid(), text: '영어숙제', xp: 15, done: false },
+          { id: uid(), text: '독서', xp: 10, done: false },
+          { id: uid(), text: '독서록', xp: 15, done: false },
+          { id: uid(), text: '로봇', xp: 10, done: false },
+          { id: uid(), text: '가방정리', xp: 5, done: false }
         ]
       },
       hayun: {
@@ -2684,7 +2702,7 @@ function normalize(raw) {
   ['haseong', 'hayun'].forEach(id => {
     const k = out.kids[id];
     k.level = Math.max(1, Math.min(99, Number(k.level) || 1));
-    k.xp = Math.max(0, Math.min(99, Number(k.xp) || 0));
+    k.xp = Math.max(0, Math.min(XP_PER_LEVEL - 1, Number(k.xp) || 0));
     if (Array.isArray(k.dexOpen)) {
       k.dexOpen = k.dexOpen.filter(x => CREATURE_MAP[x]);
     } else {
@@ -2704,6 +2722,11 @@ function normalize(raw) {
     k.name = typeof k.name === 'string' && k.name.trim() ? k.name : base.kids[id].name;
     k.tag = typeof k.tag === 'string' ? k.tag : '';
   });
+  /* 하성이 퀘스트 경험치를 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요 */
+  if (Number(raw.xpTune) !== 1) {
+    out.kids.haseong.quests.forEach(q => { q.xp = Math.max(5, (Number(q.xp) || 20) - 5); });
+  }
+  out.xpTune = 1;
   out.events = {};
   const evSrc = (raw.events && typeof raw.events === 'object' && !Array.isArray(raw.events)) ? raw.events : base.events;
   Object.keys(evSrc).forEach(k => {
@@ -2730,7 +2753,13 @@ function load() {
   try {
     const raw = localStorage.getItem(STORE_KEY);
     if (!raw) return null;
-    return normalize(JSON.parse(raw));
+    const parsed = JSON.parse(raw);
+    const st = normalize(parsed);
+    if (Number(parsed.xpTune) !== 1) {
+      /* 한 번 적용한 결과를 바로 저장해 다음에 또 깎이지 않도록 */
+      try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {}
+    }
+    return st;
   } catch (e) { return null; }
 }
 let STORAGE_OK = true;
@@ -2921,10 +2950,10 @@ function renderDDay() {
 /* ---------- 아이 카드 ---------- */
 function addXp(k, amount) {
   k.xp += amount;
-  while (k.xp >= 100 && k.level < 99) { k.xp -= 100; k.level++; }
-  while (k.xp < 0 && k.level > 1) { k.level--; k.xp += 100; }
+  while (k.xp >= XP_PER_LEVEL && k.level < 99) { k.xp -= XP_PER_LEVEL; k.level++; }
+  while (k.xp < 0 && k.level > 1) { k.level--; k.xp += XP_PER_LEVEL; }
   if (k.xp < 0) k.xp = 0;
-  if (k.xp >= 100) k.xp = 99;
+  if (k.xp >= XP_PER_LEVEL) k.xp = XP_PER_LEVEL - 1;
   return ensureDex(k);
 }
 function questNode(kidId, q) {
@@ -2962,9 +2991,10 @@ function renderKid(kidId) {
   if (document.activeElement !== tagEl) tagEl.textContent = k.tag || '';
 
   card.querySelector('[data-lv]').textContent = k.level;
-  card.querySelector('[data-xpbar]').style.width = Math.min(100, k.xp) + '%';
-  card.querySelector('[data-xptext]').textContent = `${k.xp}/100`;
+  card.querySelector('[data-xpbar]').style.width = Math.min(100, (k.xp / XP_PER_LEVEL) * 100) + '%';
+  card.querySelector('[data-xptext]').textContent = `${k.xp}/${XP_PER_LEVEL}`;
   card.querySelector('.xp-track').setAttribute('aria-valuenow', k.xp);
+  card.querySelector('.xp-track').setAttribute('aria-valuemax', XP_PER_LEVEL);
 
   const total = k.quests.length;
   const done = k.quests.filter(q => q.done).length;
@@ -3796,6 +3826,7 @@ function buildDoc() {
   });
   return {
     v: 1,
+    xpTune: 1,
     title: state.title,
     kids: state.kids,
     events: state.events,
@@ -3810,6 +3841,7 @@ function docToState(d) {
   const arr = v => Array.isArray(v) ? v : (v && typeof v === 'object' ? Object.values(v) : []);
   return normalize({
     v: 1,
+    xpTune: d.xpTune,
     title: d.title,
     kids: d.kids || {},
     events: (d.events && typeof d.events === 'object') ? d.events : {},
