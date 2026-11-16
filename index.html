@@ -2025,7 +2025,7 @@ const CREATURES = [
   },
   /* 3. 시나모롤 */
   {
-    key:'cinnamoroll', name:'시나모롤',
+    key:'cinnamoroll', name:'시나모롤', img:'assets/sanrio/cinnamoroll.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-cin" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#E8F2FF" stop-opacity=".95"/><stop offset="60%" stop-color="#E8F2FF" stop-opacity=".8"/><stop offset="100%" stop-color="#D6E7FF" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-cin)"/>
@@ -2064,7 +2064,7 @@ const CREATURES = [
   },
   /* 4. 마이멜로디 */
   {
-    key:'mymelody', name:'마이멜로디',
+    key:'mymelody', name:'마이멜로디', img:'assets/sanrio/mymelody.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-mel" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFEDF6" stop-opacity=".95"/><stop offset="60%" stop-color="#FFEDF6" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD3E5" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-mel)"/>
@@ -2146,7 +2146,7 @@ const CREATURES = [
   },
   /* 6. 헬로키티 */
   {
-    key:'hellokitty', name:'헬로키티',
+    key:'hellokitty', name:'헬로키티', img:'assets/sanrio/hellokitty.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-hkt" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF0F1" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF0F1" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD9DC" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-hkt)"/>
@@ -2220,7 +2220,7 @@ const CREATURES = [
   },
   /* 8. 폼폼푸린 */
   {
-    key:'pompompurin', name:'폼폼푸린',
+    key:'pompompurin', name:'폼폼푸린', img:'assets/sanrio/pompompurin.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-pur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF7E4" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF7E4" stop-opacity=".8"/><stop offset="100%" stop-color="#FFECC6" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-pur)"/>
@@ -2288,7 +2288,7 @@ const CREATURES = [
   },
   /* 10. 포차코 */
   {
-    key:'pochacco', name:'포차코',
+    key:'pochacco', name:'포차코', img:'assets/sanrio/pochacco.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-poc" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#EAFBF4" stop-opacity=".95"/><stop offset="60%" stop-color="#EAFBF4" stop-opacity=".8"/><stop offset="100%" stop-color="#D2F3E5" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-poc)"/>
@@ -2363,7 +2363,7 @@ const CREATURES = [
   },
   /* 12. 쿠로미 */
   {
-    key:'kuromi', name:'쿠로미',
+    key:'kuromi', name:'쿠로미', img:'assets/sanrio/kuromi.png',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-kur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F4EEFD" stop-opacity=".95"/><stop offset="60%" stop-color="#F4EEFD" stop-opacity=".8"/><stop offset="100%" stop-color="#E3D4F8" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-kur)"/>
@@ -2659,18 +2659,19 @@ CREATURES.forEach(c => { if (DEX_ID[c.key]) c.dex = DEX_ID[c.key]; });
 const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody', 'princess'];
 const POKE_ART = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
 
-/* 포켓몬은 공식 아트워크 <img>, 불러오지 못하면 인라인 SVG로 자동 대체 */
+/* 포켓몬·산리오는 공식 아트워크 <img>, 불러오지 못하면 인라인 SVG로 자동 대체 */
 function artBox(c, opts) {
   const wrap = document.createElement('span');
   wrap.className = 'art';
-  if (c && c.dex) {
+  const src = (c && c.img) ? c.img : (c && c.dex ? POKE_ART(c.dex) : '');
+  if (src) {
     const img = document.createElement('img');
     img.className = 'art-img';
     img.alt = '';
     img.draggable = false;
     img.decoding = 'async';
     if (opts && opts.lazy) img.loading = 'lazy';
-    img.src = POKE_ART(c.dex);
+    img.src = src;
     img.addEventListener('error', () => { wrap.classList.add('fallback'); img.remove(); });
     wrap.appendChild(img);
   } else {
@@ -2753,6 +2754,7 @@ function seed() {
     v: 1,
     xpTune: 1,          /* 하성이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
     xpTune2: 1,         /* 하윤이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
+    orderTune1: 1,      /* 하성이 퀘스트 '디딤돌'을 '연산' 아래로 옮긴 상태 (한 번만 적용) */
     title: '우리가족 대시보드',
     kids: {
       haseong: {
@@ -2908,6 +2910,18 @@ function normalize(raw) {
     });
   }
   out.xpTune2 = 1;
+  /* 하성이 퀘스트 순서: '디딤돌'을 '연산' 바로 아래로 이동 — 예전에 저장된 순서에도 딱 한 번만 적용해요 */
+  if (Number(raw.orderTune1) !== 1) {
+    const qs = out.kids.haseong.quests;
+    const iDi = qs.findIndex(q => q.text === '디딤돌');
+    const iCalc = qs.findIndex(q => q.text === '연산');
+    if (iDi >= 0 && iCalc >= 0 && iDi !== iCalc + 1) {
+      const moved = qs.splice(iDi, 1)[0];
+      const at = qs.findIndex(q => q.text === '연산');
+      qs.splice(at + 1, 0, moved);
+    }
+  }
+  out.orderTune1 = 1;
   out.events = {};
   const evSrc = (raw.events && typeof raw.events === 'object' && !Array.isArray(raw.events)) ? raw.events : base.events;
   Object.keys(evSrc).forEach(k => {
@@ -2936,7 +2950,7 @@ function load() {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     const st = normalize(parsed);
-    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1) {
+    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1 || Number(parsed.orderTune1) !== 1) {
       /* 한 번 적용한 결과를 바로 저장해 다음에 또 깎이지 않도록 */
       try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {}
     }
@@ -4010,6 +4024,7 @@ function buildDoc() {
     v: 1,
     xpTune: 1,
     xpTune2: 1,
+    orderTune1: 1,
     title: state.title,
     kids: state.kids,
     events: state.events,
@@ -4026,6 +4041,7 @@ function docToState(d) {
     v: 1,
     xpTune: d.xpTune,
     xpTune2: d.xpTune2,
+    orderTune1: d.orderTune1,
     title: d.title,
     kids: d.kids || {},
     events: (d.events && typeof d.events === 'object') ? d.events : {},
@@ -4242,7 +4258,7 @@ function applyRemoteDoc(d, opts) {
   renderAll();
   /* 예전 방 문서에는 하윤이 조정 표시가 없어요 — 이 기기에서 한 번만 반영하고,
      방에도 표시를 남겨 다른 기기·다음 불러오기에서 또 깎이지 않게 해요 */
-  if (Number(d.xpTune2) !== 1) schedulePush(600);
+  if (Number(d.xpTune2) !== 1 || Number(d.orderTune1) !== 1) schedulePush(600);
   /* 실시간으로 보고 있는 중이면 '지금 온 메시지', 연결 직후·화면 복귀라면 '자리를 비운 사이 온 메시지' */
   noteIncoming(state.chat.msgs, { away: !(opts && opts.live) || document.hidden });
 }
