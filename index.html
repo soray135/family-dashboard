@@ -1415,6 +1415,96 @@ select.q-xp, #wishWho{
   color:#A99BB4; background:rgba(255,255,255,.8); border:1px solid #F0E6F4;
 }
 
+/* ============ 🎉 타이머 완료 — 캐릭터 칭찬 ============ */
+.tmdone{
+  position:fixed; inset:0; z-index:114;
+  display:none; align-items:center; justify-content:center;
+  padding:16px;
+  background:radial-gradient(circle at 50% 42%, rgba(255,252,244,.7), rgba(246,240,255,.5) 58%, rgba(238,231,252,.34));
+  backdrop-filter:blur(4px);
+  -webkit-backdrop-filter:blur(4px);
+}
+.tmdone.on{ display:flex; animation:fadeIn .22s ease both; }
+.tm-card{
+  position:relative;
+  width:min(92vw,432px);
+  padding:19px 18px 17px;
+  border-radius:30px; border:2px solid #fff;
+  text-align:center;
+  background:linear-gradient(168deg,#FFFDF8 0%,#FFF3FA 52%,#F1EDFF 100%);
+  box-shadow:0 34px 80px rgba(120,70,140,.28), 0 8px 22px rgba(120,70,140,.14);
+  animation:tmCardIn .58s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes tmCardIn{ 0%{ opacity:0; transform:scale(.82) translateY(26px);} 100%{ opacity:1; transform:none;} }
+.tm-close{
+  position:absolute; top:9px; right:11px; z-index:2;
+  width:25px; height:25px; border-radius:50%;
+  display:grid; place-items:center; font-size:12px;
+  color:#A99BB4; background:rgba(255,255,255,.86); border:1px solid #F0E6F4;
+}
+.tm-close:hover{ background:#F8F1FC; color:#7B6AD8; }
+.tm-spark{ position:absolute; pointer-events:none; font-size:15px; line-height:1; animation:tmTwinkle 1.5s ease-in-out infinite; }
+.tm-spark.s1{ top:13px; left:17px; animation-delay:.05s; }
+.tm-spark.s2{ top:52px; right:11px; font-size:12px; animation-delay:.45s; }
+.tm-spark.s3{ bottom:64px; left:6px; font-size:12px; animation-delay:.8s; }
+.tm-spark.s4{ bottom:78px; right:9px; font-size:14px; animation-delay:.25s; }
+@keyframes tmTwinkle{
+  0%,100%{ opacity:.22; transform:scale(.7) rotate(-8deg); }
+  50%{ opacity:1; transform:scale(1.16) rotate(9deg); }
+}
+.tm-title{ font-size:18.5px; font-weight:900; letter-spacing:-0.045em; color:#43305C; line-height:1.28; }
+.tm-sub{ margin-top:4px; font-size:12px; font-weight:800; letter-spacing:-0.02em; color:#8A7396; line-height:1.45; word-break:keep-all; }
+.tm-sub b{ color:#7A66EE; }
+.tm-time{
+  display:inline-flex; align-items:center; gap:5px; margin-top:8px;
+  padding:4px 12px; border-radius:999px;
+  font-size:12px; font-weight:850; letter-spacing:-0.02em; color:#fff;
+  background:linear-gradient(180deg,#9B8CF7,#7A66EE);
+  box-shadow:0 5px 14px rgba(122,102,238,.3);
+}
+.tm-kids{ display:flex; justify-content:center; align-items:flex-end; gap:clamp(3px,3vw,16px); margin:10px 0 3px; }
+.tm-kid{ display:flex; flex-direction:column; align-items:center; gap:6px; min-width:0; }
+.tm-say{
+  position:relative; max-width:146px;
+  padding:6px 9px 7px; border-radius:12px;
+  font-size:11.5px; font-weight:850; letter-spacing:-0.02em; line-height:1.32;
+  color:#5B4A78; background:#fff; border:1.5px solid #EFE4F6;
+  box-shadow:0 4px 10px rgba(120,70,140,.09);
+  word-break:keep-all;
+  animation:tmSayIn .45s cubic-bezier(.34,1.56,.64,1) both .22s;
+}
+.tm-say::after{
+  content:''; position:absolute; left:50%; bottom:-5px;
+  width:8px; height:8px; margin-left:-4px;
+  background:#fff; border-right:1.5px solid #EFE4F6; border-bottom:1.5px solid #EFE4F6;
+  transform:rotate(45deg);
+}
+@keyframes tmSayIn{ from{ opacity:0; transform:translateY(7px) scale(.9);} to{ opacity:1; transform:none;} }
+.tm-art{
+  width:clamp(120px,15vw,138px); aspect-ratio:1 / 1;
+  display:grid; place-items:center;
+  animation:tmArtIn .62s cubic-bezier(.34,1.56,.64,1) both .1s;
+}
+.tm-art .art{ animation:tmBob 1.5s ease-in-out infinite; }
+.tm-kid:nth-child(2) .tm-art{ animation-delay:.24s; }
+.tm-kid:nth-child(2) .tm-art .art{ animation-delay:.4s; }
+@keyframes tmArtIn{
+  0%{ opacity:0; transform:scale(.5) rotate(-7deg); }
+  70%{ opacity:1; transform:scale(1.07) rotate(1.5deg); }
+  100%{ opacity:1; transform:none; }
+}
+@keyframes tmBob{ 0%,100%{ transform:translateY(0) scale(1);} 45%{ transform:translateY(-8px) scale(1.035);} }
+.tm-name{ font-size:11.5px; font-weight:850; letter-spacing:-0.02em; color:#6E5E8C; }
+.tm-name b{ color:#7A66EE; }
+.tm-ok{
+  width:100%; margin-top:12px; padding:11px 14px;
+  border-radius:15px; font-size:14px; font-weight:900; letter-spacing:-0.02em;
+  color:#fff; background:linear-gradient(180deg,#8B7BF5,#7361EE);
+  box-shadow:0 8px 20px rgba(115,97,238,.34);
+  transition:transform .12s;
+}
+.tm-ok:active{ transform:translateY(1px) scale(.99); }
+
 /* ============ 🎤 음성 메시지 ============ */
 .chat-mic{
   flex:0 0 auto; min-width:34px; padding:0 8px;
@@ -1950,6 +2040,32 @@ select.q-xp, #wishWho{
     <div class="hf-title" id="hfTitle">🙌 하이파이브! 👏 짝짝짝!</div>
     <div class="hf-sub" id="hfSub"></div>
     <div class="hf-emoji" aria-hidden="true">🎉 ✨ 🏆 ✨ 🎉</div>
+  </div>
+</div>
+<!-- ── 🎉 타이머 완료 — 캐릭터 칭찬 ── -->
+<div class="tmdone" id="tmDone" role="dialog" aria-modal="true" aria-labelledby="tmTitle" aria-describedby="tmSub">
+  <div class="tm-card">
+    <span class="tm-spark s1" aria-hidden="true">✨</span>
+    <span class="tm-spark s2" aria-hidden="true">⭐</span>
+    <span class="tm-spark s3" aria-hidden="true">✨</span>
+    <span class="tm-spark s4" aria-hidden="true">🎉</span>
+    <button class="tm-close" type="button" id="tmClose" aria-label="닫기">✕</button>
+    <div class="tm-title" id="tmTitle">🎉 짝짝짝! 집중 시간 완료!</div>
+    <div class="tm-sub" id="tmSub"></div>
+    <div class="tm-time" id="tmTime">⏱️ 10분 집중</div>
+    <div class="tm-kids" id="tmKids">
+      <div class="tm-kid" data-tmkid="haseong">
+        <div class="tm-say" data-tmsay>끝까지 해냈구나!</div>
+        <div class="tm-art" data-tmart></div>
+        <div class="tm-name" data-tmname></div>
+      </div>
+      <div class="tm-kid" data-tmkid="hayun">
+        <div class="tm-say" data-tmsay>정말 최고야!</div>
+        <div class="tm-art" data-tmart></div>
+        <div class="tm-name" data-tmname></div>
+      </div>
+    </div>
+    <button class="tm-ok" type="button" id="tmOk">확인! 최고야 👍</button>
   </div>
 </div>
 
@@ -4524,6 +4640,65 @@ function bindHiFive() {
 }
 
 /* =========================================================
+   🎉 타이머 완료 — 캐릭터 칭찬 카드
+   ========================================================= */
+const TM_PRAISE = ['끝까지 해냈구나!', '정말 최고야!'];
+function showTimerDone() {
+  const box = $('#tmDone');
+  if (!box) return;
+  const mins = Math.max(1, Math.round(theTimer.total / 60));
+  const timeEl = $('#tmTime');
+  if (timeEl) timeEl.textContent = `⏱️ ${mins}분 집중 · 잘했어요!`;
+  const parts = [];
+  ['haseong', 'hayun'].forEach((kidId, i) => {
+    const cell = box.querySelector(`[data-tmkid="${kidId}"]`);
+    const k = state.kids[kidId];
+    if (!cell || !k) return;
+    const cr = CREATURE_MAP[k.partner] || CREATURES[0];
+    const name = k.name || (i ? '하윤이' : '하성이');
+    const art = cell.querySelector('[data-tmart]');
+    if (art) art.replaceChildren(artBox(cr));
+    const nm = cell.querySelector('[data-tmname]');
+    if (nm) nm.innerHTML = `${escapeHtml(name)}의 <b>${escapeHtml(cr.name)}</b>`;
+    const say = cell.querySelector('[data-tmsay]');
+    if (say) {
+      say.textContent = TM_PRAISE[i % TM_PRAISE.length];
+      say.style.animation = 'none';
+      void say.offsetWidth;               /* 다시 떠도 말풍선이 한 번 더 톡 튀어 오르게 */
+      say.style.animation = '';
+    }
+    parts.push(`${escapeHtml(name)}의 <b>${escapeHtml(cr.name)}</b>`);
+  });
+  const sub = $('#tmSub');
+  if (sub) sub.innerHTML = parts.length ? parts.join('<span aria-hidden="true"> · </span>') : '';
+  box.classList.add('on');
+  confetti(52);
+  showTimerDone._back = document.activeElement;
+  const ok = $('#tmOk');
+  if (ok && ok.focus) { try { ok.focus({ preventScroll: true }); } catch (e) { ok.focus(); } }
+  clearTimeout(showTimerDone._t);
+  showTimerDone._t = setTimeout(hideTimerDone, 20000);   /* 아무도 없을 때 화면을 계속 덮지 않도록 */
+}
+function hideTimerDone() {
+  const box = $('#tmDone');
+  if (box) box.classList.remove('on');
+  clearTimeout(showTimerDone._t);
+  const back = showTimerDone._back;
+  showTimerDone._back = null;
+  if (back && back.focus && document.contains(back)) { try { back.focus({ preventScroll: true }); } catch (e) { } }
+}
+function bindTimerDone() {
+  const box = $('#tmDone');
+  if (!box) return;
+  box.addEventListener('click', e => {
+    if (e.target === box || e.target.closest('#tmOk') || e.target.closest('#tmClose')) hideTimerDone();
+  });
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape' && box.classList.contains('on')) hideTimerDone();
+  });
+}
+
+/* =========================================================
    ⏱️ 공부 타이머
    ========================================================= */
 const TIMER_DEFAULT = 600;
@@ -4592,6 +4767,7 @@ function timerDone() {
   playDingDong();
   confetti(26);
   toast('⏱️ 공부 타이머 완료! 잘했어요 👏');
+  showTimerDone();            /* 두 아이의 파트너 캐릭터가 나오는 큰 칭찬 카드 */
 }
 function bindTimer() {
   const quick = $('#timerQuick');
@@ -4617,6 +4793,7 @@ function bindTimer() {
   if (s) s.addEventListener('click', timerStart);
   if (p) p.addEventListener('click', timerPause);
   if (r) r.addEventListener('click', () => { timerStop(); theTimer.left = theTimer.total; timerPaint(); });
+  bindTimerDone();
   timerPaint();
 
   /* 타이머 ↔ 스톱워치 탭 */
