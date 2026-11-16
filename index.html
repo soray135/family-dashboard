@@ -1440,25 +1440,25 @@ select.q-xp, #wishWho{
 <div class="modal" id="syncModal" role="dialog" aria-modal="true" aria-labelledby="syncTitle">
   <div class="sheet">
     <div class="sheet-head">
-      <div class="sheet-title" id="syncTitle">☁️ 실시간 연동<small>같은 방 코드를 넎은 가족 기기끼리 채팅 · 퀘스트 · 일정이 바로 맞춰져요</small></div>
+      <div class="sheet-title" id="syncTitle">☁️ 실시간 연동<small>같은 방 코드를 넣은 가족 기기끼리 채팅 · 퀘스트 · 일정이 바로 맞춰져요</small></div>
       <button class="sheet-close" type="button" data-close aria-label="닫기">✕</button>
     </div>
     <div class="field">
       <label for="syncUrl">Firebase Database URL</label>
-      <input id="syncUrl" placeholder="https://my-family-default-rtdb.firebaseio.com" autocomplete="off" spellcheck="false" inputmode="url">
+      <input id="syncUrl" placeholder="https://my-family-default-rtdb.asia-southeast1.firebasedatabase.app" autocomplete="off" spellcheck="false" inputmode="url">
     </div>
     <div class="field">
       <label for="syncRoom">가족 방 코드</label>
       <input id="syncRoom" placeholder="hasung-hayun" autocomplete="off" spellcheck="false" maxlength="40">
     </div>
     <div class="sync-help">
-      <b>이렇게 준비해요</b>
+      <b>이미 준비돼 있어요</b>
       <ol>
-        <li>console.firebase.google.com 에서 <b>Realtime Database</b>를 하나 만들어요</li>
-        <li>규칙(Rules)에서 읽기·쓰기를 열어 둬요 — <code>"read": true, "write": true</code></li>
-        <li>데이터베이스 URL을 위에 붙여 넣고, 가족끼리 쓸 방 코드를 정해요</li>
+        <li>주소와 방 코드(<b>hasung-hayun</b>)가 미리 채워져 있고, 열면 바로 연결돼요</li>
+        <li>가족 기기에서도 같은 주소·방 코드로 열면 채팅 · 퀘스트 · 일정이 함께 맞춰져요</li>
+        <li>끄면 이 기기에만 저장되고, 인터넷이 없어도 그대로 열려요 (아래 <b>실시간 해제</b>)</li>
       </ol>
-      <p>방 코드는 남이 짐작하기 어려운 걸로 정해 주세요 (예: <b>hasung-hayun-7391</b>). 방 코드를 아는 사람은 같이 볼 수 있어요.<br>설정하지 않으면 지금처럼 이 기기에만 저장되고, 인터넷이 없어도 그대로 열려요.</p>
+      <p>방 코드를 아는 사람은 같이 볼 수 있어요. 필요하면 남이 짐작하기 어려운 코드로 바꿔 주세요 (예: <b>hasung-hayun-7391</b>).<br>연결이 안 되면 console.firebase.google.com → <b>Realtime Database</b> → 규칙(Rules)에서 읽기·쓰기를 열어 둬요 — <code>"read": true, "write": true</code></p>
     </div>
     <p class="sync-status" id="syncStatus" data-kind="off">이 기기에만 저장되는 로컬 모드예요</p>
     <div class="sheet-actions">
@@ -2878,8 +2878,9 @@ function bindEvents() {
 
   // ☁️ 실시간
   $('#syncBtn').addEventListener('click', () => {
-    $('#syncUrl').value = sync.url;
-    $('#syncRoom').value = sync.room;
+    /* 직접 끈 뒤에 다시 열으면 기본 주소·방 코드를 다시 보여 줘요 (한 번에 다시 켤 수 있게) */
+    $('#syncUrl').value = sync.url || DEFAULT_SYNC.url || '';
+    $('#syncRoom').value = sync.room || DEFAULT_SYNC.room || '';
     setSyncStatus(sync.status);
     openModal('#syncModal');
   });
@@ -2928,6 +2929,12 @@ function bindEvents() {
    ========================================================= */
 const SYNC_KEY = 'sora-home-dashboard-sync-v1';
 const DEVICE_KEY = 'sora-home-dashboard-device-v1';
+/* 처음 열어도 손대지 않고 바로 가족 방에 붙도록 기본값을 넣어 둡니다.
+   이 데이터베이스는 싱가포르 리전(asia-southeast1)에 있어서 아래 주소를 씁니다. */
+const DEFAULT_SYNC = {
+  url: 'https://family-dashboard-1bc3e-default-rtdb.asia-southeast1.firebasedatabase.app',
+  room: 'hasung-hayun'
+};
 const sync = { url: '', room: '', status: 'off' };
 let syncES = null;
 let syncDoc = null;
@@ -2942,18 +2949,24 @@ const DEVICE_ID = (() => {
   } catch (e) { return 'device'; }
 })();
 
+function defaultSyncCfg() {
+  const url = normDbUrl(DEFAULT_SYNC.url), room = normRoom(DEFAULT_SYNC.room);
+  return (url && room) ? { url, room, preset: true } : null;
+}
 function loadSyncCfg() {
   try {
     const raw = localStorage.getItem(SYNC_KEY);
-    if (!raw) return null;
+    if (!raw) return defaultSyncCfg();              /* 처음 접속 → 기본값으로 자동 연결 */
     const c = JSON.parse(raw);
+    if (c && c.off) return null;                    /* 사용자가 직접 끈 경우만 로컬 모드 */
     if (c && c.url && c.room) return { url: normDbUrl(c.url), room: normRoom(c.room) };
   } catch (e) {}
-  return null;
+  return defaultSyncCfg();
 }
 function saveSyncCfg(c) {
   try {
-    if (c) localStorage.setItem(SYNC_KEY, JSON.stringify(c));
+    if (c && c.off) localStorage.setItem(SYNC_KEY, JSON.stringify({ off: true }));
+    else if (c) localStorage.setItem(SYNC_KEY, JSON.stringify({ url: c.url, room: c.room }));
     else localStorage.removeItem(SYNC_KEY);
   } catch (e) {}
 }
@@ -2969,6 +2982,22 @@ function normRoom(raw) {
 }
 function roomUrl() {
   return `${sync.url}/rooms/${encodeURIComponent(sync.room)}.json`;
+}
+
+/* 예전 주소(...firebaseio.com)를 넣었을 때 Firebase가 "다른 리전"이라고 알려 주면,
+   알려 준 실제 리전 주소(...firebasedatabase.app)로 한 번만 바꿔 다시 시도합니다. */
+async function fetchRoomWithRegion() {
+  const path = `/rooms/${encodeURIComponent(sync.room)}.json`;
+  const base = sync.url;
+  let res = await fetch(base + path, { cache: 'no-store' });
+  if (res.ok || res.status !== 404) return { res, regionChanged: false };
+  let alt = '';
+  try { const j = await res.json(); alt = normDbUrl(j && j.correctUrl); } catch (e) {}
+  if (!alt || alt === base) return { res, regionChanged: false };
+  const res2 = await fetch(alt + path, { cache: 'no-store' });
+  if (!res2.ok) return { res: res2, regionChanged: false };
+  sync.url = alt;
+  return { res: res2, regionChanged: true };
 }
 
 /* 이 기기의 상태 → 방에 쓸 문서 */
@@ -3120,7 +3149,13 @@ async function syncConnect(opts) {
   closeStream();
   setSyncStatus('connecting');
   try {
-    const r = await fetch(roomUrl(), { cache: 'no-store' });
+    const got = await fetchRoomWithRegion();
+    if (got.regionChanged) {
+      const iu = $('#syncUrl');
+      if (iu) iu.value = sync.url;
+      saveSyncCfg({ url: sync.url, room: sync.room });
+    }
+    const r = got.res;
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const data = await r.json().catch(() => null);
     if (data && typeof data === 'object') {
@@ -3156,11 +3191,21 @@ async function syncTest() {
   const now = () => (typeof performance !== 'undefined' ? performance.now() : Date.now());
   const t0 = now();
   try {
-    const r = await fetch(`${url}/.json?shallow=true`, { cache: 'no-store' });
+    let useUrl = url;
+    let r = await fetch(`${useUrl}/.json?shallow=true`, { cache: 'no-store' });
+    let altFrom = '';
+    if (!r.ok && r.status === 404) {
+      let alt = '';
+      try { const j = await r.json(); alt = normDbUrl(j && j.correctUrl); } catch (e) {}
+      if (alt && alt !== useUrl) {
+        const r2 = await fetch(`${alt}/.json?shallow=true`, { cache: 'no-store' });
+        if (r2.ok) { useUrl = alt; r = r2; altFrom = alt; $('#syncUrl').value = alt; }
+      }
+    }
     if (!r.ok) throw new Error('HTTP ' + r.status + ((r.status === 401 || r.status === 403) ? ' · 규칙에서 읽기를 허용해 주세요' : ''));
     await r.text();
     line.dataset.kind = 'on';
-    line.textContent = `✅ 연결됐어요 (${Math.round(now() - t0)}ms)` + (room ? ` · 저장하면 '${room}' 방으로 이어집니다` : ' · 방 코드도 넣어 주세요');
+    line.textContent = `✅ 연결됐어요 (${Math.round(now() - t0)}ms)` + (altFrom ? ' · 다른 리전 주소를 실제 주소로 바꿨어요' : '') + (room ? ` · 저장하면 '${room}' 방으로 이어집니다` : ' · 방 코드도 넣어 주세요');
   } catch (e) {
     line.dataset.kind = 'off';
     line.textContent = `❌ 연결하지 못했어요 (${(e && e.message) || '오류'}) · 주소를 확인해 주세요`;
@@ -3180,7 +3225,7 @@ async function syncSaveAndConnect() {
 function syncDisconnect() {
   closeStream();
   sync.url = ''; sync.room = ''; syncDoc = null;
-  saveSyncCfg(null);
+  saveSyncCfg({ off: true });
   setSyncStatus('off', '☁️ 실시간을 껐어요 · 이 기기에만 저장됩니다');
   $('#syncUrl').value = ''; $('#syncRoom').value = '';
   toast('실시간 연동을 해제했어요 (로컬 모드)');
