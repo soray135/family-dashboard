@@ -2828,8 +2828,9 @@ function normalize(raw) {
       });
     }
     ensureDex(k);
-    /* 엘사 잠금 정리 — 처음 한 번만 (이후엔 저장된 도감을 그대로 씁니다) */
-    if (Number(raw.starterTune1) !== 1) tuneStarterDex(k);
+    /* 엘사 잠금 정리 — 처음 한 번만 (이후엔 저장된 도감을 그대로 씁니다).
+       잠그고 나면 그 레벨만큼의 친구 수로 다시 맞춰요 */
+    if (Number(raw.starterTune1) !== 1) { tuneStarterDex(k); ensureDex(k); }
     k.quests = Array.isArray(k.quests) ? k.quests.filter(q => q && typeof q.text === 'string')
       .map(q => ({ id: q.id || uid(), text: q.text, xp: Number(q.xp) || 20, done: !!q.done })) : base.kids[id].quests;
     const partnerKey = LEGACY_CREATURE_KEYS[k.partner] || k.partner;
