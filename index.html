@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#F6F1FB">
 <meta name="robots" content="noindex, nofollow">
+<!-- 홈 화면에 추가(PWA) + 휴대폰 푸시 -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="icon" type="image/png" sizes="64x64" href="icons/favicon-64.png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="우리가족">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <title>우리가족 대시보드</title>
 <style>
 /* ============ base ============ */
@@ -698,15 +707,16 @@ select.q-xp, #wishWho{
   box-shadow:0 3px 8px rgba(115,97,238,.28);
   animation:popIn .28s cubic-bezier(.22,1,.36,1) both;
 }
-.bell-btn{
+.bell-btn, .push-btn{
   display:inline-flex; align-items:center; gap:3px;
   font-size:10.5px; font-weight:800; color:#8C84A3; letter-spacing:-0.02em;
   background:#F8F6FD; border:1px solid #EFEAF8;
   padding:3px 7px; border-radius:7px;
   transition:background .15s, color .15s, border-color .15s;
 }
-.bell-btn:hover{ background:#F1ECFC; color:#6C5FD0; }
-.bell-btn.on{ color:#6C5FD0; background:#F1ECFC; border-color:#DCD2FB; }
+.bell-btn:hover, .push-btn:hover{ background:#F1ECFC; color:#6C5FD0; }
+.bell-btn.on, .push-btn.on{ color:#6C5FD0; background:#F1ECFC; border-color:#DCD2FB; }
+.push-btn.on{ color:#5B3FD6; background:#EEE8FF; border-color:#CFC2FB; box-shadow:0 2px 8px rgba(124,58,237,.18); }
 @keyframes popIn{ from{ transform:scale(.7); opacity:0; } to{ transform:none; opacity:1; } }
 .who-pick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .who-chip{
@@ -893,6 +903,16 @@ select.q-xp, #wishWho{
 }
 .sync-status[data-kind="on"]{ color:#2F7D64; background:#EAF8F1; border-color:#C9EBDC; }
 .sync-status[data-kind="connecting"]{ color:#8A6A1F; background:#FFF7E6; border-color:#F5E5BE; }
+.push-status{
+  margin:0 0 12px; padding:9px 12px;
+  border-radius:11px;
+  font-size:11.5px; font-weight:750; color:#7E7695;
+  background:#F7F4FD; border:1px solid #EFE9FB;
+  line-height:1.55; word-break:keep-all;
+}
+.push-status[data-kind="on"]{ color:#2F7D64; background:#EAF8F1; border-color:#C9EBDC; }
+.push-status[data-kind="warn"]{ color:#8A6A1F; background:#FFF7E6; border-color:#F5E5BE; }
+.push-status[data-kind="busy"]{ color:#6C5FD0; background:#F1ECFC; border-color:#DCD2FB; }
 
 /* ============ modal ============ */
 .modal{
@@ -1762,6 +1782,7 @@ select.q-xp, #wishWho{
         <div class="chat-head-right">
           <button class="chat-unread" type="button" id="chatUnread" hidden>새 메시지 0</button>
           <span class="chat-count" id="chatCount">0</span>
+          <button class="push-btn" type="button" id="pushBtn" aria-pressed="false" aria-haspopup="dialog" title="휴대폰 푸시 알림 켜기"><span aria-hidden="true">📲</span> 푸시</button>
           <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
         </div>
       </div>
@@ -1981,6 +2002,34 @@ select.q-xp, #wishWho{
     </div>
     <div class="sheet-actions" style="margin-top:8px">
       <button class="btn btn-danger" type="button" id="syncOff">실시간 해제 (로컬 모드로)</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── 📲 휴대폰 푸시 알림 설정 ── -->
+<div class="modal" id="pushModal" role="dialog" aria-modal="true" aria-labelledby="pushTitle">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="sheet-title" id="pushTitle">📲 휴대폰 푸시 알림<small>앱을 닫아 두어도 가족 메시지가 알림으로 와요 · 홈 화면에 추가하면 가장 잘 돼요</small></div>
+      <button class="sheet-close" type="button" data-close aria-label="닫기">✕</button>
+    </div>
+    <p class="push-status" id="pushStatus" data-kind="off">이 기기에서는 아직 푸시 알림을 켜지 않았어요</p>
+    <div class="field">
+      <label for="pushApiUrl">푸시 서버 주소 (Vercel)</label>
+      <input id="pushApiUrl" placeholder="https://family-dashboard-push.vercel.app/api/push" autocomplete="off" spellcheck="false" inputmode="url">
+    </div>
+    <div class="sync-help">
+      <b>이렇게 하면 돼요</b>
+      <ol>
+        <li>휴대폰에서 이 화면을 열고 <b>홈 화면에 추가</b>해 주세요 (안드로이드 Chrome · 아이폰 Safari 공유 → 홈 화면에 추가)</li>
+        <li>홈 화면 아이콘으로 열어 <b>알림 켜기</b>를 누르고, 알림을 <b>허용</b>해 주세요</li>
+        <li>가족 기기마다 한 번씩 켜 두면 서로의 메시지가 알림으로 와요</li>
+      </ol>
+      <p>푸시 서버 주소는 이 방을 쓰는 가족 기기끼리 함께 저장돼요. 비워 두면 휴대폰 알림 없이 화면 안 알림만 써요.<br>아이폰은 iOS 16.4부터 <b>홈 화면에 추가한 앱</b>에서만 푸시가 와요.</p>
+    </div>
+    <div class="sheet-actions">
+      <button class="btn btn-ghost" type="button" id="pushOff">알림 끄기</button>
+      <button class="btn btn-primary" type="button" id="pushOn">알림 켜기</button>
     </div>
   </div>
 </div>
@@ -3461,6 +3510,7 @@ function sendChat(text) {
   state.chat.msgs.push(msg);
   save();
   renderChat();
+  pushNotify(msg);             /* 나를 뺀 나머지 기기들에 휴대폰 알림을 부탁해요 (실패해도 채팅은 그대로) */
   return true;
 }
 function reactChat(id, emoji) {
@@ -3917,6 +3967,22 @@ function bindEvents() {
 
   // 💬 새 메시지 알림
   $('#bellBtn').addEventListener('click', toggleBell);
+  // 📲 휴대폰 푸시
+  $('#pushBtn').addEventListener('click', async () => {
+    if (pushCfg.on) { openPushModal(); return; }                 /* 켜져 있으면 관리 화면 */
+    if (!pushCfg.apiUrl || !sync.url || !sync.room || !pushSupported()) { openPushModal(); return; }
+    const ok = await pushEnable();                              /* 설정돼 있으면 바로 켜기 */
+    if (!ok) openPushModal();
+  });
+  $('#pushOn').addEventListener('click', async () => { await pushEnable(); });
+  $('#pushOff').addEventListener('click', pushDisable);
+  $('#pushApiUrl').addEventListener('change', () => {
+    /* 주소만 바꿔도 방에 함께 저장해요 */
+    savePushApi($('#pushApiUrl').value).then(() => {
+      if (pushCfg.on) toast('푸시 서버 주소를 바꿨어요');
+      else renderPushModal();
+    });
+  });
   $('#chatUnread').addEventListener('click', scrollChatIntoView);
   $('#notifBar').addEventListener('click', e => {
     if (e.target.closest('#notifClose')) { hideChatBanner(); return; }
@@ -3929,6 +3995,7 @@ function bindEvents() {
   });
   window.addEventListener('focus', () => { restoreTitle(); catchUpChat(); });
   updateBell();
+  pushInit();          /* 서비스 워커 등록 + 이 기기 푸시 상태 확인 */
 
   // ☁️ 실시간
   $('#syncBtn').addEventListener('click', () => {
@@ -4080,7 +4147,7 @@ function buildDoc() {
     if (m.audio) { one.audio = m.audio; one.dur = m.dur || 0; }
     msgs[m.id] = one;
   });
-  return {
+  const doc = {
     v: 1,
     xpTune: 1,
     xpTune2: 1,
@@ -4094,6 +4161,11 @@ function buildDoc() {
     chat: { me: state.chat.me, msgs },
     meta: { updatedAt: Date.now(), by: DEVICE_ID }
   };
+  /* 방 전체를 덮어써도 푸시 구독이 지워지지 않도록 같이 담아 둡니다
+     (방에서 받아 둔 것과 합쳐서, 다른 기기가 방금 등록한 구독도 살려 둬요) */
+  if (roomSubsKnown) doc.pushSubs = mergeSubs();
+  if (pushCfg.apiUrl) doc.pushApi = { url: pushCfg.apiUrl, updatedAt: Date.now(), by: DEVICE_ID };
+  return doc;
 }
 /* 방의 문서 → 이 기기의 상태 */
 function docToState(d) {
@@ -4310,9 +4382,287 @@ async function catchUpChat(force) {
   } catch (e) { /* 오프라인이면 다음에 다시 */ }
 }
 
+/* =========================================================
+   📲 휴대폰 푸시 — 표준 Web Push(VAPID)
+   · 이 기기 구독 → Firebase /rooms/{코드}/pushSubs/{해시}
+   · 메시지를 보내면 Vercel 서버(api/push.js)가 나머지 기기들에 알림을 보내요
+   ========================================================= */
+const PUSH_KEY = 'sora-home-dashboard-push-v1';
+/* VAPID 공개키는 공개돼도 괜찮아요 — 비밀키는 Vercel 환경변수에만 있어요 */
+const VAPID_PUBLIC_KEY = 'BL5p_98asNkagVDnRvKAJl0WF2pOU0NSriVqDKKFXi2Cnfhb_dy6F1QqPDpOymq71xwIGztfxY_-XX1c0qmRBJY';
+const pushCfg = { apiUrl: '', subHash: '', on: false };
+let roomSubs = {};                       /* 방에 담긴 가족 기기 구독 목록 */
+let roomSubsKnown = false;               /* 방에서 구독 목록을 한 번이라도 받아 왔는지 */
+
+function mergeSubs() {
+  const out = {};
+  const remote = (syncDoc && syncDoc.pushSubs && typeof syncDoc.pushSubs === 'object') ? syncDoc.pushSubs : {};
+  Object.keys(remote).forEach(k => { if (remote[k]) out[k] = remote[k]; });
+  Object.keys(roomSubs).forEach(k => { if (roomSubs[k]) out[k] = roomSubs[k]; });
+  return out;
+}
+
+function pushSupported() {
+  return (location.protocol === 'https:' || location.protocol === 'http:')
+    && ('serviceWorker' in navigator) && ('PushManager' in window) && (typeof Notification !== 'undefined');
+}
+function normPushApi(raw) {
+  let u = String(raw == null ? '' : raw).trim();
+  if (!u) return '';
+  if (!/^https?:\/\//i.test(u)) u = 'https://' + u;
+  u = u.replace(/\/+$/, '');
+  /* 배포 주소만 넣었으면 함수 경로를 붙여 줘요 */
+  if (/^https?:\/\/[^/]+$/i.test(u)) u += '/api/push';
+  return u;
+}
+function loadPushCfg() {
+  try {
+    const c = JSON.parse(localStorage.getItem(PUSH_KEY) || '{}');
+    if (c && typeof c === 'object') {
+      pushCfg.apiUrl = normPushApi(c.apiUrl);
+      pushCfg.subHash = String(c.subHash || '');
+      pushCfg.on = !!c.on;
+    }
+  } catch (e) {}
+}
+function savePushCfg() {
+  try { localStorage.setItem(PUSH_KEY, JSON.stringify({ apiUrl: pushCfg.apiUrl, subHash: pushCfg.subHash, on: !!pushCfg.on })); } catch (e) {}
+}
+/* VAPID 공개키(base64url) → 바이너리 */
+function b64ToBytes(s) {
+  const pad = '='.repeat((4 - (String(s).length % 4)) % 4);
+  const b64 = (String(s) + pad).replace(/-/g, '+').replace(/_/g, '/');
+  const raw = atob(b64);
+  const out = new Uint8Array(raw.length);
+  for (let i = 0; i < raw.length; i++) out[i] = raw.charCodeAt(i);
+  return out;
+}
+/* 구독을 방 안에서 구분할 짧은 이름 (endpoint 해시) */
+function subKey(endpoint) {
+  let h = 0x811c9dc5;
+  const s = String(endpoint || '');
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619) >>> 0;
+  }
+  let h2 = 0x9e3779b9;
+  for (let i = s.length - 1; i >= 0; i--) {
+    h2 ^= s.charCodeAt(i);
+    h2 = Math.imul(h2, 2654435761) >>> 0;
+  }
+  return ('0000000' + h.toString(16)).slice(-8) + ('0000000' + h2.toString(16)).slice(-8);
+}
+function subsRootUrl() { return `${sync.url}/rooms/${encodeURIComponent(sync.room)}/pushSubs.json`; }
+function subsOneUrl(hash) { return `${sync.url}/rooms/${encodeURIComponent(sync.room)}/pushSubs/${hash}.json`; }
+
+async function ensureSW() {
+  if (!pushSupported()) throw new Error('unsupported');
+  return navigator.serviceWorker.register('sw.js', { scope: './' });
+}
+async function currentSub() {
+  if (!pushSupported()) return null;
+  try {
+    const reg = await navigator.serviceWorker.getRegistration();
+    if (!reg || !reg.pushManager) return null;
+    return await reg.pushManager.getSubscription();
+  } catch (e) { return null; }
+}
+async function refreshSubs() {
+  if (!sync.url || !sync.room) { roomSubs = {}; roomSubsKnown = false; return; }
+  try {
+    const r = await fetch(subsRootUrl(), { cache: 'no-store' });
+    const d = r.ok ? await r.json() : null;
+    roomSubs = (d && typeof d === 'object') ? d : {};
+    roomSubsKnown = true;
+  } catch (e) { /* 오프라인이면 다음에 다시 */ }
+}
+async function putSub(hash, rec) {
+  const r = await fetch(subsOneUrl(hash), {
+    method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(rec)
+  });
+  if (!r.ok) throw new Error('HTTP ' + r.status);
+  roomSubs[hash] = rec;
+  roomSubsKnown = true;
+}
+async function delSub(hash) {
+  delete roomSubs[hash];
+  if (hash && syncDoc && syncDoc.pushSubs) delete syncDoc.pushSubs[hash];
+  if (!hash || !sync.url || !sync.room) return;
+  try { await fetch(subsOneUrl(hash), { method: 'DELETE' }); } catch (e) {}
+}
+
+function updatePushBtn() {
+  const b = $('#pushBtn');
+  if (!b) return;
+  const on = !!pushCfg.on;
+  b.classList.toggle('on', on);
+  b.setAttribute('aria-pressed', on ? 'true' : 'false');
+  b.title = on ? '휴대폰 푸시 알림 켜짐 · 눌러서 관리' : '휴대폰 푸시 알림 켜기';
+}
+function pushSay(text, kind) {
+  const el = $('#pushStatus');
+  if (!el) return;
+  el.textContent = text;
+  el.dataset.kind = kind || 'off';
+}
+function renderPushModal() {
+  const apiEl = $('#pushApiUrl');
+  if (apiEl) apiEl.value = pushCfg.apiUrl || '';
+  const ok = pushSupported();
+  const onBtn = $('#pushOn'), offBtn = $('#pushOff');
+  if (onBtn) onBtn.disabled = !ok || !(sync.url && sync.room);
+  if (offBtn) offBtn.disabled = !pushCfg.on && !pushCfg.subHash;
+  if (!sync.url || !sync.room) pushSay('☁️ 먼저 가족 방에 연결해 주세요 · 휴대폰 푸시는 가족 방에서만 쓸 수 있어요', 'warn');
+  else if (!ok) pushSay('이 브라우저에서는 푸시를 쓸 수 없어요 · 홈 화면에 추가한 앱(https 주소)에서 열어 주세요', 'warn');
+  else if (pushCfg.on) pushSay('✅ 이 기기 푸시 알림이 켜져 있어요 · 앱을 닫아 두어도 가족 메시지가 와요', 'on');
+  else if (!pushCfg.apiUrl) pushSay('푸시 서버 주소가 아직 없어요 · 아래 입력란에 Vercel 배포 주소를 넣어 주세요', 'warn');
+  else pushSay('이 기기에서는 아직 푸시를 켜지 않았어요 · 알림 켜기를 눌러 주세요');
+}
+function openPushModal() { renderPushModal(); openModal('#pushModal'); }
+function pushFailMsg(e) {
+  const s = String((e && (e.name + ' ' + e.message)) || e || '');
+  if (/denied|NotAllowed/i.test(s)) return '브라우저에서 알림이 막혀 있어요';
+  if (/push service|Registration failed|AbortError/i.test(s)) return '폰의 푸시 서비스에 연결하지 못했어요 · 잠시 뒤 다시 시도해 주세요';
+  if (/unsupported|no-subscription/i.test(s)) return '이 브라우저가 푸시를 지원하지 않아요';
+  return '잠시 뒤 다시 시도해 주세요';
+}
+/* 푸시 서버 주소를 방에 함께 저장해요 (가족 기기끼리 공유) */
+async function savePushApi(api) {
+  pushCfg.apiUrl = normPushApi(api);
+  savePushCfg();
+  updatePushBtn();
+  const el = $('#pushApiUrl');
+  if (el) el.value = pushCfg.apiUrl;
+  if (!pushCfg.apiUrl || !sync.url || !sync.room) return;
+  try {
+    await fetch(`${sync.url}/rooms/${encodeURIComponent(sync.room)}/pushApi.json`, {
+      method: 'PUT', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url: pushCfg.apiUrl, updatedAt: Date.now(), by: DEVICE_ID })
+    });
+  } catch (e) {}
+}
+async function pushEnable() {
+  if (!pushSupported()) { renderPushModal(); return false; }
+  if (!sync.url || !sync.room) { renderPushModal(); return false; }
+  const api = normPushApi($('#pushApiUrl').value);
+  if (!api) {
+    renderPushModal();
+    pushSay('⚠️ 푸시 서버 주소를 먼저 넣어 주세요 (Vercel 배포 주소)', 'warn');
+    const el = $('#pushApiUrl'); if (el) el.focus();
+    return false;
+  }
+  await savePushApi(api);
+  let perm = Notification.permission;
+  if (perm !== 'granted') {
+    try { perm = await Notification.requestPermission(); } catch (e) {}
+  }
+  if (perm !== 'granted') {
+    pushSay('⚠️ 알림을 허용하지 않아 켤 수 없어요 · 브라우저 설정에서 이 사이트 알림을 허용해 주세요', 'warn');
+    return false;
+  }
+  pushSay('🔄 이 기기를 푸시에 등록하는 중이에요…', 'busy');
+  try {
+    const reg = await ensureSW();
+    try { await navigator.serviceWorker.ready; } catch (e) {}
+    let sub = await reg.pushManager.getSubscription();
+    if (!sub) sub = await reg.pushManager.subscribe({ userVisibleOnly: true, applicationServerKey: b64ToBytes(VAPID_PUBLIC_KEY) });
+    const raw = (sub && typeof sub.toJSON === 'function') ? sub.toJSON() : sub;
+    if (!raw || !raw.endpoint) throw new Error('no-subscription');
+    const hash = subKey(raw.endpoint);
+    await putSub(hash, {
+      sub: { endpoint: raw.endpoint, keys: raw.keys || {} },
+      deviceId: DEVICE_ID,
+      updatedAt: Date.now()
+    });
+    pushCfg.on = true;
+    pushCfg.subHash = hash;
+    savePushCfg();
+    updatePushBtn();
+    renderPushModal();
+    toast('📲 이 기기 푸시 알림을 켰어요');
+    return true;
+  } catch (e) {
+    pushCfg.on = false;
+    savePushCfg();
+    updatePushBtn();
+    pushSay('⚠️ 푸시를 켜지 못했어요 — ' + pushFailMsg(e), 'warn');
+    return false;
+  }
+}
+async function pushDisable() {
+  pushSay('🔄 이 기기 등록을 해제하는 중이에요…', 'busy');
+  let hash = pushCfg.subHash;
+  try {
+    const sub = await currentSub();
+    if (sub) {
+      hash = subKey(sub.endpoint);
+      try { await sub.unsubscribe(); } catch (e) {}
+    }
+  } catch (e) {}
+  if (hash) await delSub(hash);
+  pushCfg.on = false;
+  pushCfg.subHash = '';
+  savePushCfg();
+  updatePushBtn();
+  renderPushModal();
+  toast('🔕 이 기기 푸시 알림을 껐어요');
+}
+/* 메시지를 보낸 직후 — 내 기기를 뺀 나머지 기기들에 알림을 부탁해요 */
+function pushNotify(msg) {
+  if (!msg || !pushCfg.apiUrl || !sync.url || !sync.room) return;
+  const list = Object.keys(roomSubs)
+    .map(k => [k, roomSubs[k]])
+    .filter(([, v]) => v && v.sub && v.sub.endpoint && v.deviceId !== DEVICE_ID);
+  if (!list.length) return;
+  const text = msg.audio ? `🎤 음성 메시지${msg.dur ? ' · ' + fmtVoiceDur(msg.dur) : ''}` : String(msg.text || '');
+  const payload = {
+    title: '💬 우리가족 대화방',
+    body: `${msg.who}: ${text.slice(0, 120)}`,
+    url: '/family-dashboard/',
+    subscriptions: list.map(([k, v]) => ({ id: k, endpoint: v.sub.endpoint, keys: v.sub.keys }))
+  };
+  try {
+    fetch(pushCfg.apiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      keepalive: true
+    }).then(r => (r && r.ok) ? r.json().catch(() => null) : null)
+      .then(j => {
+        /* 더 이상 없는 기기는 방에서 정리해요 */
+        if (j && Array.isArray(j.expired)) j.expired.forEach(id => delSub(String(id)));
+      })
+      .catch(() => {});
+  } catch (e) { /* 푸시가 실패해도 채팅은 그대로 보내요 */ }
+}
+async function pushInit() {
+  loadPushCfg();
+  updatePushBtn();
+  if (!pushSupported()) return;
+  try { await ensureSW(); } catch (e) { return; }
+  const sub = await currentSub();
+  if (sub) {
+    const raw = (typeof sub.toJSON === 'function') ? sub.toJSON() : sub;
+    pushCfg.subHash = subKey(raw && raw.endpoint);
+    pushCfg.on = !!pushCfg.apiUrl;
+  } else {
+    pushCfg.on = false;
+  }
+  savePushCfg();
+  updatePushBtn();
+  if (sync.url && sync.room) refreshSubs();
+}
+
 function applyRemoteDoc(d, opts) {
   if (!d || typeof d !== 'object') return;
   const prevMe = state.chat && state.chat.me;
+  /* 푸시 구독 목록·서버 주소는 방 문서와 함께 와요 (다른 기기가 켜 둔 것도 여기서 받아요) */
+  if (d.pushSubs && typeof d.pushSubs === 'object') { roomSubs = d.pushSubs; roomSubsKnown = true; }
+  if (d.pushApi && typeof d.pushApi.url === 'string' && normPushApi(d.pushApi.url) && normPushApi(d.pushApi.url) !== pushCfg.apiUrl) {
+    pushCfg.apiUrl = normPushApi(d.pushApi.url);
+    savePushCfg();
+    updatePushBtn();
+  }
   state = docToState(d);
   /* 보낸 사람 선택은 기기마다 달라요 — 다른 기기 설정에 덮어쓰지 않습니다 */
   if (MEMBER_MAP[prevMe]) state.chat.me = prevMe;
@@ -4430,6 +4780,14 @@ async function syncConnect(opts) {
       syncDoc = data;
       sync.created = false;
       if (!(data.meta && data.meta.by === DEVICE_ID)) applyRemoteDoc(data);
+      /* 방에 저장된 푸시 구독·서버 주소도 같이 받아 둡니다 */
+      if (data.pushSubs && typeof data.pushSubs === 'object') { roomSubs = data.pushSubs; roomSubsKnown = true; }
+      if (data.pushApi && typeof data.pushApi.url === 'string' && normPushApi(data.pushApi.url)) {
+        pushCfg.apiUrl = normPushApi(data.pushApi.url);
+        savePushCfg();
+        updatePushBtn();
+      }
+      if (!roomSubsKnown) refreshSubs();
       openStream();
       setSyncStatus('on');
       /* 방에 채팅 기록이 아직 없으면 이 기기의 채팅을 먼저 올려 둡니다 */
@@ -5119,6 +5477,7 @@ function sendVoice(dataUrl, sec) {
   state.chat.msgs.push(msg);
   save();
   renderChat();
+  pushNotify(msg);                  /* 음성 메시지도 나머지 기기에 푸시로 알려요 */
   toast('🎤 음성 메시지를 보냈어요');
 }
 function bindVoice() {
