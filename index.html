@@ -1111,7 +1111,7 @@ select.q-xp, #wishWho{
 .sb-hint{ text-align:center; font-size:11.5px; color:#B0A8C2; font-weight:650; letter-spacing:-0.01em; }
 
 @media (hover:none){
-  .qdel, .dday-del, .wish-del, .ev-del, .wish-del{ opacity:.5; }
+  .qdel, .dday-del, .wish-del, .ev-del, .wish-del, .msg-del{ opacity:.5; }
 }
 /* ============ responsive ============ */
 @media (max-width:1279px){
@@ -1178,7 +1178,7 @@ select.q-xp, #wishWho{
       <span id="clockDate">–</span><span class="sep">·</span><b id="clockTime">–</b>
     </div>
     <div class="top-actions">
-      <button class="btn btn-ghost sync-btn" id="syncBtn" type="button" aria-haspopup="dialog" title="실시간 연동 설정"><i class="dot" aria-hidden="true"></i><span id="syncLabel">로컬 모드</span></button>
+      <button class="btn btn-ghost sync-btn" id="syncBtn" type="button" aria-haspopup="dialog" title="실시간 연동 설정"><span aria-hidden="true">☁️</span><i class="dot" aria-hidden="true"></i><span id="syncLabel">로컬 모드</span></button>
       <button class="btn btn-primary" id="standbyBtn" type="button"><span aria-hidden="true">🖥️</span> 대기화면</button>
       <button class="btn btn-ghost" id="backupBtn" type="button"><span aria-hidden="true">💾</span> 백업</button>
     </div>
@@ -1458,7 +1458,7 @@ select.q-xp, #wishWho{
         <li>규칙(Rules)에서 읽기·쓰기를 열어 둬요 — <code>"read": true, "write": true</code></li>
         <li>데이터베이스 URL을 위에 붙여 넣고, 가족끼리 쓸 방 코드를 정해요</li>
       </ol>
-      <p>설정하지 않으면 지금처럼 이 기기에만 저장되고, 인터넷이 없어도 그대로 열려요.</p>
+      <p>방 코드는 남이 짐작하기 어려운 걸로 정해 주세요 (예: <b>hasung-hayun-7391</b>). 방 코드를 아는 사람은 같이 볼 수 있어요.<br>설정하지 않으면 지금처럼 이 기기에만 저장되고, 인터넷이 없어도 그대로 열려요.</p>
     </div>
     <p class="sync-status" id="syncStatus" data-kind="off">이 기기에만 저장되는 로컬 모드예요</p>
     <div class="sheet-actions">
@@ -3020,7 +3020,10 @@ function setAt(root, parts, value) {
 
 function applyRemoteDoc(d) {
   if (!d || typeof d !== 'object') return;
+  const prevMe = state.chat && state.chat.me;
   state = docToState(d);
+  /* 보낸 사람 선택은 기기마다 달라요 — 다른 기기 설정에 덮어쓰지 않습니다 */
+  if (MEMBER_MAP[prevMe]) state.chat.me = prevMe;
   save({ push: false });
   renderAll();
 }
