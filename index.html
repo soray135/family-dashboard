@@ -149,7 +149,7 @@ h1,h2,h3,p { margin:0; }
 
 .grid{
   display:grid;
-  grid-template-columns:minmax(252px,.86fr) minmax(0,1.32fr) minmax(0,1.32fr) minmax(232px,.76fr);
+  grid-template-columns:minmax(300px,1.2fr) minmax(248px,.96fr) minmax(248px,.96fr) minmax(300px,1.22fr);
   gap:16px;
   align-items:start;
 }
@@ -1187,10 +1187,193 @@ select.q-xp, #wishWho{
 @media (hover:none){
   .qdel, .dday-del, .wish-del, .ev-del, .wish-del, .msg-del{ opacity:.5; }
 }
+/* ============ ☁️ 캐릭터 아트 (공식 아트워크 + SVG fallback) ============ */
+.art{ display:grid; place-items:center; width:100%; height:100%; }
+.art .art-img{ width:100%; height:100%; object-fit:contain; display:block; -webkit-user-drag:none; }
+.art .art-svg{ display:none; width:100%; height:100%; }
+.art.fallback .art-svg{ display:grid; place-items:center; }
+.art .art-svg svg{ width:100%; height:100%; display:block; }
+.pet img{ width:100%; height:100%; object-fit:contain; }
+.dex-item.locked .art{ filter:grayscale(1) brightness(1.03) opacity(.28); }
+.celeb-emoji{ font-size:52px; line-height:1; }
+
+/* ============ 🌤️ 날씨 ============ */
+.weather-card{
+  padding:14px 15px 13px;
+  background:linear-gradient(160deg,#FBFDFF 0%,#F6F9FE 52%,#FCF7FF 100%);
+  border-color:#E9EEFA;
+}
+.wx-top{ display:flex; align-items:center; gap:10px; }
+.wx-now{ display:flex; align-items:center; gap:5px; flex:0 0 auto; }
+.wx-icon{ font-size:27px; line-height:1; filter:drop-shadow(0 3px 6px rgba(120,110,180,.18)); }
+.wx-temp{ display:flex; align-items:baseline; color:#3E3757; font-variant-numeric:tabular-nums; }
+.wx-temp b{ font-size:25px; font-weight:850; letter-spacing:-0.045em; line-height:1; }
+.wx-temp span{ font-size:12.5px; font-weight:750; color:#8E86A4; margin-left:1px; }
+.wx-place{ flex:1; min-width:0; }
+.wx-where{ font-size:10.5px; font-weight:800; color:#8B82A4; letter-spacing:-0.01em; }
+.wx-desc{ font-size:12.5px; font-weight:750; color:#4E4668; margin-top:1px; word-break:keep-all; line-height:1.35; }
+.wx-refresh{
+  flex:0 0 auto; width:27px; height:27px; border-radius:9px;
+  display:grid; place-items:center;
+  font-size:13px; color:#8A80A4;
+  background:rgba(255,255,255,.9); border:1px solid #E9E4F6;
+  transition:background .15s, color .15s, transform .2s;
+}
+.wx-refresh:hover{ background:#fff; color:#6C5FD0; }
+.wx-refresh.spin{ animation:wxSpin .9s linear infinite; }
+@keyframes wxSpin{ to{ transform:rotate(360deg); } }
+.wx-meta{ display:flex; gap:5px; margin-top:9px; flex-wrap:wrap; }
+.wx-chip{
+  font-size:10.5px; font-weight:750; color:#7A7292;
+  background:rgba(255,255,255,.92); border:1px solid #EDE8F8;
+  padding:3px 8px; border-radius:999px; letter-spacing:-0.01em;
+}
+.wx-chip b{ font-weight:850; color:#4B4266; font-variant-numeric:tabular-nums; }
+.wx-outfit{
+  margin-top:8px; padding:8px 10px;
+  font-size:11.5px; font-weight:750; color:#5F5580;
+  line-height:1.45; word-break:keep-all;
+  border-radius:12px; border:1px solid #EAE2FA;
+  background:linear-gradient(180deg,#F7F2FF,#F2F8FF);
+}
+.wx-note{ margin-top:6px; font-size:10px; font-weight:650; color:#B0A8C2; letter-spacing:-0.01em; }
+
+/* ============ ⏱️ 공부 타이머 ============ */
+.timer-card{ padding:15px 15px 14px; }
+.timer-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; }
+.timer-state{
+  font-size:10px; font-weight:800; color:#8B7BF5; letter-spacing:-0.01em;
+  background:#F2EEFF; border:1px solid #E4DCFB;
+  padding:2.5px 8px; border-radius:999px;
+}
+.timer-state.run{ color:#fff; background:linear-gradient(180deg,#8B7BF5,#7361EE); border-color:transparent; }
+.timer-state.done{ color:#2F7D64; background:#E8F7F0; border-color:#CFEEDF; }
+.timer-display{
+  margin:8px 0 9px; text-align:center;
+  font-size:clamp(34px,3vw,42px); font-weight:850; letter-spacing:-0.05em;
+  color:#3B3448; font-variant-numeric:tabular-nums;
+  text-shadow:0 6px 18px rgba(120,100,200,.14);
+  transition:color .2s;
+}
+.timer-display.warn{ color:#E9785F; }
+.timer-quick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
+.timer-quick button{
+  padding:7px 0; border-radius:10px;
+  font-size:11.5px; font-weight:800; color:#6E6685; letter-spacing:-0.02em;
+  background:#FAF8FE; border:1px solid #EEE8F9;
+  transition:background .15s, color .15s, border-color .15s, transform .12s;
+}
+.timer-quick button:hover{ background:#fff; border-color:#E1D9F8; }
+.timer-quick button:active{ transform:scale(.97); }
+.timer-quick button.sel{
+  color:#fff; border-color:transparent;
+  background:linear-gradient(180deg,#8B7BF5,#7361EE);
+  box-shadow:0 4px 10px rgba(115,97,238,.26);
+}
+.timer-custom{ display:flex; align-items:center; gap:5px; margin-top:7px; }
+.timer-custom input{
+  flex:1; min-width:0; padding:7px 9px;
+  border-radius:10px; border:1px solid #EAE4F6; background:#FBFAFE;
+  font-size:12px; font-weight:700; text-align:center;
+  font-variant-numeric:tabular-nums;
+}
+.timer-custom input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
+.timer-custom input::-webkit-outer-spin-button,
+.timer-custom input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+.timer-custom input[type=number]{ -moz-appearance:textfield; appearance:textfield; }
+.timer-unit{ font-size:11px; font-weight:750; color:#8E86A4; }
+.timer-custom button{
+  padding:7px 12px; border-radius:10px;
+  font-size:11.5px; font-weight:800; color:#6B5AE0;
+  background:#F2EEFF; border:1px solid #E4DCFB;
+}
+.timer-custom button:hover{ background:#EAE3FE; }
+.timer-actions{ display:flex; gap:6px; margin-top:8px; }
+.timer-actions .t-btn{
+  flex:1; padding:9px 0; border-radius:11px;
+  font-size:12.5px; font-weight:800; letter-spacing:-0.02em;
+  transition:transform .12s, box-shadow .15s, background .15s;
+}
+.timer-actions .t-btn:active{ transform:translateY(1px) scale(.99); }
+.t-start{
+  color:#fff;
+  background:linear-gradient(180deg,#8B7BF5,#7361EE);
+  box-shadow:0 6px 14px rgba(115,97,238,.28), inset 0 1px 0 rgba(255,255,255,.3);
+}
+.t-start.paused{ background:linear-gradient(180deg,#FFB37E,#F0975C); box-shadow:0 6px 14px rgba(240,151,92,.3); }
+.t-btn.t-mid{ color:#5A5178; background:#FAF8FE; border:1px solid #EEE8F9; }
+.t-reset{ color:#C2604B; background:#FDEDE9; border:1px solid #F8D6CD; }
+.timer-progress{ height:6px; margin-top:9px; border-radius:999px; background:#F1ECFA; overflow:hidden; }
+.timer-progress i{ display:block; height:100%; width:0; border-radius:999px; background:linear-gradient(90deg,#A795F7,#7ED3B2); transition:width .28s linear; }
+
+/* ============ 🙌 하이파이브 축하 ============ */
+.hifive{
+  position:fixed; inset:0; z-index:112;
+  display:none; align-items:center; justify-content:center;
+  pointer-events:none;
+}
+.hifive.on{
+  display:flex;
+  background:radial-gradient(circle at 50% 46%, rgba(255,252,245,.55), rgba(250,242,255,.3) 62%, rgba(250,242,255,.16));
+  backdrop-filter:blur(2px);
+  -webkit-backdrop-filter:blur(2px);
+  animation:fadeIn .2s ease both;
+}
+.hf-card{
+  position:relative; pointer-events:auto;
+  max-width:min(88vw,360px);
+  padding:22px 26px 20px; text-align:center;
+  border-radius:28px; border:2px solid #fff;
+  background:linear-gradient(170deg,#FFFDF8,#FFF4FA 55%,#F4F0FF);
+  box-shadow:0 30px 70px rgba(120,70,140,.26), 0 6px 18px rgba(120,70,140,.12);
+  animation:hfIn .55s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes hfIn{ 0%{ opacity:0; transform:scale(.78) translateY(24px);} 100%{ opacity:1; transform:none;} }
+.hf-hands{ font-size:52px; line-height:1; animation:hfWave .7s ease-in-out infinite alternate; }
+@keyframes hfWave{ from{ transform:rotate(-9deg) scale(1);} to{ transform:rotate(9deg) scale(1.08);} }
+.hf-title{ margin-top:6px; font-size:18px; font-weight:850; letter-spacing:-0.04em; color:#43305C; }
+.hf-sub{ margin-top:6px; font-size:12.5px; font-weight:700; color:#8A7396; line-height:1.5; word-break:keep-all; }
+.hf-emoji{ margin-top:8px; font-size:17px; letter-spacing:4px; }
+.hf-close{
+  position:absolute; top:9px; right:11px;
+  width:24px; height:24px; border-radius:50%;
+  display:grid; place-items:center; font-size:12px;
+  color:#A99BB4; background:rgba(255,255,255,.8); border:1px solid #F0E6F4;
+}
+
+/* ============ 🎤 음성 메시지 ============ */
+.chat-mic{
+  flex:0 0 auto; min-width:38px; padding:0 9px;
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center; gap:4px;
+  color:#7B6AD8; font-size:14px; font-weight:800;
+  background:#F6F2FF; border:1px solid #E5DCFB;
+  transition:background .15s, border-color .15s, color .15s, transform .12s;
+}
+.chat-mic:hover{ background:#EFE8FE; border-color:#D8CCFA; }
+.chat-mic:active{ transform:scale(.97); }
+.chat-mic .mic-ico{ line-height:1; }
+.chat-mic .mic-time{ font-size:10.5px; font-weight:850; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+.chat-mic.rec{
+  color:#fff; border-color:transparent;
+  background:linear-gradient(180deg,#F2788C,#E4546C);
+  animation:recPulse 1.1s ease-in-out infinite;
+}
+@keyframes recPulse{
+  0%,100%{ box-shadow:0 4px 12px rgba(226,90,110,.3); }
+  50%{ box-shadow:0 4px 18px rgba(226,90,110,.6); }
+}
+.msg-bubble.voice{ padding:10px 9px 8px; min-width:186px; }
+.msg.mine .msg-bubble.voice .msg-voice-tag{ padding-left:9px; }
+.msg-voice-tag{ display:block; font-size:9.5px; font-weight:800; opacity:.72; margin-bottom:3px; letter-spacing:-0.01em; }
+.msg-audio{ display:block; width:212px; max-width:100%; height:33px; border-radius:9px; background:#F5F1FE; }
+.msg.mine .msg-audio{ background:rgba(255,255,255,.9); }
+
 /* ============ responsive ============ */
 @media (max-width:1279px){
   .grid{ grid-template-columns:minmax(250px,.9fr) minmax(0,1fr) minmax(0,1fr); }
   .col-right{ grid-column:1 / -1; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:start; gap:16px; }
+  .col-right .wish-card{ grid-column:1 / -1; }   /* 가족 톡·타이머는 나란히, 사주세요는 아래 */
   .wish-form{ flex-direction:row; align-items:stretch; flex-wrap:wrap; }
   #wishName{ flex:1 1 240px; }
   .wish-row{ flex:1 1 280px; }
@@ -1261,6 +1444,25 @@ select.q-xp, #wishWho{
   <main class="grid">
     <!-- ── 좌: 달력 + D-Day ── -->
     <div class="col-left">
+      <section class="card weather-card" id="weatherCard" aria-label="대구 동구 날씨">
+        <div class="wx-top">
+          <span class="wx-icon" id="wxIcon" aria-hidden="true">🌤️</span>
+          <div class="wx-place">
+            <div class="wx-where">📍 대구 동구</div>
+            <div class="wx-desc" id="wxDesc">날씨를 불러오는 중…</div>
+          </div>
+          <div class="wx-temp"><b id="wxTemp">–</b><span>℃</span></div>
+          <button class="wx-refresh" id="wxRefresh" type="button" aria-label="날씨 새로고침" title="날씨 새로고침">↻</button>
+        </div>
+        <div class="wx-meta" id="wxMeta" hidden>
+          <span class="wx-chip">최고 <b id="wxMax">–</b>°</span>
+          <span class="wx-chip">최저 <b id="wxMin">–</b>°</span>
+          <span class="wx-chip">강수 <b id="wxPop">–</b>%</span>
+        </div>
+        <p class="wx-outfit" id="wxOutfit" hidden>–</p>
+        <p class="wx-note" id="wxNote">대구 동구 · 인터넷이 되면 ↻ 를 눌러 주세요</p>
+      </section>
+
       <section class="card cal-card" aria-label="월간 달력">
         <div class="cal-head">
           <h2 id="calTitle">2026년 11월</h2>
@@ -1298,7 +1500,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>파이리</span>
-            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>2</b>/12</button>
+            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>5</b>/18</button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -1341,7 +1543,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>피츄</span>
-            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>2</b>/12</button>
+            <button class="dex-btn" type="button" data-dex>📖 도감 <b data-dexcount>5</b>/18</button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -1372,29 +1574,9 @@ select.q-xp, #wishWho{
       </form>
     </section>
 
-    <!-- ── 우: 위시리스트 + 가족 톡 ── -->
+    <!-- ── 우: 가족 톡 · 공부 타이머 · 사주세요 ── -->
     <div class="col-right">
-    <section class="card wish-card" aria-label="위시리스트">
-      <div class="wish-head">
-        <h2 class="card-title">🛒 엄마 이거 사주세요</h2>
-        <span class="wish-count" id="wishCount">0개</span>
-      </div>
-      <p class="wish-sub">갖고 싶은 것, 필요한 것을<br>여기에 올려주세요 🙏</p>
-      <form class="wish-form" id="wishForm" autocomplete="off">
-        <input id="wishName" placeholder="갖고 싶은 것 · 필요한 것" maxlength="60" aria-label="물건 이름">
-        <div class="wish-row">
-          <select id="wishWho" aria-label="누구">
-            <option>하성</option><option>하윤</option><option>엄마</option><option>아빠</option>
-          </select>
-          <input id="wishMemo" placeholder="메모 · 가격" maxlength="40" aria-label="메모와 가격">
-          <button id="wishAdd" type="submit" aria-label="추가">＋</button>
-        </div>
-      </form>
-      <ul class="wish-list" id="wishList"></ul>
-      <p class="wish-empty" id="wishEmpty">아직 올린 게 없어요 🌱<br>필요한 걸 적어 두면 엄마가 봐요!</p>
-    </section>
-
-    <!-- ── 가족 톡 ── -->
+<!-- ── 가족 톡 ── -->
     <section class="card chat-card" aria-label="가족 톡">
       <div class="chat-head">
         <h2 class="card-title">💬 가족 톡</h2>
@@ -1419,10 +1601,59 @@ select.q-xp, #wishWho{
         <button type="button" class="re-btn" data-emoji="🎉" title="최근 메시지에 🎉">🎉</button>
       </div>
       <form class="chat-form" id="chatForm" autocomplete="off">
+        <button class="chat-mic" id="chatMic" type="button" aria-label="음성 메시지 녹음" title="눌러서 녹음 (최대 30초)"><span class="mic-ico" aria-hidden="true">🎤</span><b class="mic-time" id="chatMicTime" hidden>0:00</b></button>
         <input class="chat-input" id="chatInput" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지">
         <button class="chat-send" id="chatSend" type="submit" aria-label="보내기">↑</button>
       </form>
     </section>
+
+    <!-- ── ⏱️ 공부 타이머 ── -->
+    <section class="card timer-card" aria-label="공부 타이머">
+      <div class="timer-head">
+        <h2 class="card-title">⏱️ 공부 타이머</h2>
+        <span class="timer-state" id="timerState">준비</span>
+      </div>
+      <div class="timer-display" id="timerDisplay" role="timer" aria-live="off" aria-label="남은 시간">10:00</div>
+      <div class="timer-quick" id="timerQuick" role="group" aria-label="간편 시간 선택">
+        <button type="button" data-min="5">5분</button>
+        <button type="button" data-min="10" class="sel">10분</button>
+        <button type="button" data-min="20">20분</button>
+        <button type="button" data-min="30">30분</button>
+      </div>
+      <form class="timer-custom" id="timerForm" autocomplete="off">
+        <input id="timerMin" type="number" inputmode="numeric" min="1" max="180" step="1" placeholder="직접 입력" aria-label="분 직접 입력">
+        <span class="timer-unit">분</span>
+        <button type="submit" aria-label="입력한 시간으로 설정">설정</button>
+      </form>
+      <div class="timer-actions">
+        <button class="t-btn t-start" id="timerStart" type="button">시작</button>
+        <button class="t-btn t-mid" id="timerPause" type="button">일시정지</button>
+        <button class="t-btn t-reset" id="timerReset" type="button">초기화</button>
+      </div>
+      <div class="timer-progress" aria-hidden="true"><i id="timerBar"></i></div>
+    </section>
+
+    <!-- ── 🛒 엄마 이거 사주세요 ── -->
+<section class="card wish-card" aria-label="위시리스트">
+      <div class="wish-head">
+        <h2 class="card-title">🛒 엄마 이거 사주세요</h2>
+        <span class="wish-count" id="wishCount">0개</span>
+      </div>
+      <p class="wish-sub">갖고 싶은 것, 필요한 것을<br>여기에 올려주세요 🙏</p>
+      <form class="wish-form" id="wishForm" autocomplete="off">
+        <input id="wishName" placeholder="갖고 싶은 것 · 필요한 것" maxlength="60" aria-label="물건 이름">
+        <div class="wish-row">
+          <select id="wishWho" aria-label="누구">
+            <option>하성</option><option>하윤</option><option>엄마</option><option>아빠</option>
+          </select>
+          <input id="wishMemo" placeholder="메모 · 가격" maxlength="40" aria-label="메모와 가격">
+          <button id="wishAdd" type="submit" aria-label="추가">＋</button>
+        </div>
+      </form>
+      <ul class="wish-list" id="wishList"></ul>
+      <p class="wish-empty" id="wishEmpty">아직 올린 게 없어요 🌱<br>필요한 걸 적어 두면 엄마가 봐요!</p>
+    </section>
+
     </div>
   </main>
 
@@ -1596,6 +1827,17 @@ select.q-xp, #wishWho{
   </div>
 </div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
+<!-- ── 🙌 하이파이브 축하 (오늘의 퀘스트 100%) ── -->
+<div class="hifive" id="hiFive" role="dialog" aria-modal="false" aria-labelledby="hfTitle">
+  <div class="hf-card">
+    <button class="hf-close" type="button" id="hfClose" aria-label="닫기">✕</button>
+    <div class="hf-hands" aria-hidden="true">🙌</div>
+    <div class="hf-title" id="hfTitle">🙌 하이파이브! 👏 짝짝짝!</div>
+    <div class="hf-sub" id="hfSub"></div>
+    <div class="hf-emoji" aria-hidden="true">🎉 ✨ 🏆 ✨ 🎉</div>
+  </div>
+</div>
+
 <div class="notif-bar" id="notifBar" role="status" aria-live="polite">
   <span class="nb-av" id="notifAv" aria-hidden="true">💬</span>
   <span class="nb-txt"><b id="notifWho"></b><span id="notifText"></span></span>
@@ -1922,9 +2164,278 @@ const CREATURES = [
       <ellipse cx="50" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
       <ellipse cx="90" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
     </svg>`
+  },
+  /* ───── 예쁜 친구들 (공주 · 산리오풍) ───── */
+  /* 13. 시나모롤풍 구름강아지 */
+  {
+    key:'cinnamoroll', name:'구름강아지',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-cin" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#E8F2FF" stop-opacity=".95"/><stop offset="60%" stop-color="#E8F2FF" stop-opacity=".8"/><stop offset="100%" stop-color="#D6E7FF" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-cin)"/>
+      <ellipse cx="70" cy="128" rx="29" ry="4.6" fill="#7E9BD6" opacity=".12"/>
+      <ellipse cx="33" cy="78" rx="9.5" ry="26" transform="rotate(12 33 78)" fill="#F1F6FE" stroke="#E4ECF9" stroke-width="1"/>
+      <ellipse cx="107" cy="78" rx="9.5" ry="26" transform="rotate(-12 107 78)" fill="#F1F6FE" stroke="#E4ECF9" stroke-width="1"/>
+      <ellipse cx="34" cy="80" rx="4.6" ry="17" transform="rotate(12 34 80)" fill="#DCE7F7"/>
+      <ellipse cx="106" cy="80" rx="4.6" ry="17" transform="rotate(-12 106 80)" fill="#DCE7F7"/>
+      <path d="M92 100 C104 98 110 88 105 80" fill="none" stroke="#EEF3FB" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="70" cy="104" rx="23" ry="19" fill="#FFFFFF" stroke="#EEF3FB" stroke-width="1"/>
+      <ellipse cx="56" cy="117" rx="8" ry="5.4" fill="#F4F8FE"/>
+      <ellipse cx="84" cy="117" rx="8" ry="5.4" fill="#F4F8FE"/>
+      <circle cx="63" cy="104" r="2.4" fill="#E8EFF9"/>
+      <circle cx="77" cy="104" r="2.4" fill="#E8EFF9"/>
+      <circle cx="49" cy="42" r="15" fill="#FFFFFF"/>
+      <circle cx="70" cy="33" r="16" fill="#FFFFFF"/>
+      <circle cx="91" cy="42" r="15" fill="#FFFFFF"/>
+      <ellipse cx="70" cy="60" rx="34" ry="29" fill="#FFFFFF"/>
+      <ellipse cx="48" cy="70" rx="6.6" ry="4.2" fill="#BBD6F6" opacity=".7"/>
+      <ellipse cx="92" cy="70" rx="6.6" ry="4.2" fill="#BBD6F6" opacity=".7"/>
+      <ellipse cx="58" cy="59" rx="3.7" ry="4.8" fill="#3B4257"/>
+      <ellipse cx="82" cy="59" rx="3.7" ry="4.8" fill="#3B4257"/>
+      <circle cx="59.4" cy="57" r="1.5" fill="#fff"/>
+      <circle cx="83.4" cy="57" r="1.5" fill="#fff"/>
+      <circle cx="56.8" cy="61.6" r=".9" fill="#fff" opacity=".8"/>
+      <circle cx="80.8" cy="61.6" r=".9" fill="#fff" opacity=".8"/>
+      <ellipse cx="70" cy="68" rx="9.4" ry="7.2" fill="#FAFCFF"/>
+      <ellipse cx="70" cy="65.4" rx="2.6" ry="1.9" fill="#7C8AA0"/>
+      <path d="M70 66.6 v2.2 M66.6 71.4 q3.4 3 6.8 0" fill="none" stroke="#9AAAC0" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M106 30 l1.7 4.2 4.2 1.7 -4.2 1.7 -1.7 4.2 -1.7 -4.2 -4.2 -1.7 4.2 -1.7 z" fill="#BFD8F5"/>
+      <path d="M24 52 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3 z" fill="#D6E6FA"/>
+    </svg>`
+  },
+  /* 14. 마이멜로디풍 리본토끼 */
+  {
+    key:'mymelody', name:'리본토끼',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-mel" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFEDF6" stop-opacity=".95"/><stop offset="60%" stop-color="#FFEDF6" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD3E5" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-mel)"/>
+      <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#D77FA8" opacity=".13"/>
+      <ellipse cx="51" cy="40" rx="9" ry="27" transform="rotate(-11 51 40)" fill="#FFFFFF" stroke="#F7DEE9" stroke-width="1"/>
+      <ellipse cx="51" cy="40" rx="4.6" ry="19" transform="rotate(-11 51 40)" fill="#FFD3E4"/>
+      <ellipse cx="89" cy="38" rx="9" ry="27" transform="rotate(11 89 38)" fill="#FFFFFF" stroke="#F7DEE9" stroke-width="1"/>
+      <ellipse cx="89" cy="38" rx="4.6" ry="19" transform="rotate(11 89 38)" fill="#FFD3E4"/>
+      <ellipse cx="70" cy="105" rx="22" ry="18" fill="#FFFFFF" stroke="#F9E5EF" stroke-width="1"/>
+      <ellipse cx="58" cy="118" rx="8" ry="5" fill="#FFF1F7"/>
+      <ellipse cx="82" cy="118" rx="8" ry="5" fill="#FFF1F7"/>
+      <ellipse cx="70" cy="62" rx="33" ry="29" fill="#FFB9D6"/>
+      <path d="M40 54 C44 34 56 30 70 30 C84 30 96 34 100 54 C92 44 82 48 72 44 C62 48 50 44 40 54 Z" fill="#FFC9E0"/>
+      <ellipse cx="70" cy="69" rx="25" ry="23" fill="#FFFFFF"/>
+      <ellipse cx="53" cy="73" rx="5.6" ry="3.6" fill="#FFC7DB"/>
+      <ellipse cx="87" cy="73" rx="5.6" ry="3.6" fill="#FFC7DB"/>
+      <ellipse cx="61" cy="65" rx="3.4" ry="4.4" fill="#3D3450"/>
+      <ellipse cx="79" cy="65" rx="3.4" ry="4.4" fill="#3D3450"/>
+      <circle cx="62.2" cy="63.4" r="1.3" fill="#fff"/>
+      <circle cx="80.2" cy="63.4" r="1.3" fill="#fff"/>
+      <ellipse cx="70" cy="72.4" rx="2.6" ry="1.9" fill="#F2789F"/>
+      <path d="M70 74.4 v2.2 M66.6 78.4 q3.4 3 6.8 0" fill="none" stroke="#E48AAB" stroke-width="1.5" stroke-linecap="round"/>
+      <g transform="translate(47,23) rotate(-12)">
+        <path d="M-1 4 C-11 -4 -18 2 -12 9 C-7 14 -1 10 -1 4 Z" fill="#FF92BC"/>
+        <path d="M1 4 C11 -4 18 2 12 9 C7 14 1 10 1 4 Z" fill="#FF92BC"/>
+        <circle cx="0" cy="5" r="3.6" fill="#F56A9E"/>
+      </g>
+      <path d="M108 62 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#FFD1E4"/>
+    </svg>`
+  },
+  /* 15. 쿠로미풍 꼬마악마 */
+  {
+    key:'kuromi', name:'꼬마악마',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-kur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F3EBFD" stop-opacity=".95"/><stop offset="60%" stop-color="#F3EBFD" stop-opacity=".8"/><stop offset="100%" stop-color="#E3D4F8" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-kur)"/>
+      <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#5B4B7A" opacity=".15"/>
+      <ellipse cx="50" cy="36" rx="8.5" ry="25" transform="rotate(-14 50 36)" fill="#33304A"/>
+      <ellipse cx="50" cy="37" rx="4.2" ry="17" transform="rotate(-14 50 37)" fill="#F090BC"/>
+      <ellipse cx="90" cy="36" rx="8.5" ry="25" transform="rotate(14 90 36)" fill="#33304A"/>
+      <ellipse cx="90" cy="37" rx="4.2" ry="17" transform="rotate(14 90 37)" fill="#F090BC"/>
+      <path d="M94 102 C106 100 112 90 107 82" fill="none" stroke="#3A3554" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="70" cy="105" rx="22" ry="18" fill="#3A3554"/>
+      <ellipse cx="56" cy="118" rx="8" ry="5" fill="#F6EFF8"/>
+      <ellipse cx="84" cy="118" rx="8" ry="5" fill="#F6EFF8"/>
+      <ellipse cx="70" cy="62" rx="33" ry="29" fill="#33304A"/>
+      <path d="M40 54 C44 34 56 30 70 30 C84 30 96 34 100 54 C92 44 82 48 72 44 C62 48 50 44 40 54 Z" fill="#413C5C"/>
+      <ellipse cx="70" cy="69" rx="25" ry="23" fill="#FFFFFF"/>
+      <ellipse cx="54" cy="73" rx="5.4" ry="3.4" fill="#FFC9DD"/>
+      <ellipse cx="86" cy="73" rx="5.4" ry="3.4" fill="#FFC9DD"/>
+      <ellipse cx="61.5" cy="65" rx="3.3" ry="4.3" fill="#3D3450"/>
+      <ellipse cx="78.5" cy="65" rx="3.3" ry="4.3" fill="#3D3450"/>
+      <circle cx="62.6" cy="63.4" r="1.3" fill="#fff"/>
+      <circle cx="79.6" cy="63.4" r="1.3" fill="#fff"/>
+      <path d="M70 71 v2.2 M66.8 76.6 q3.2 3 6.4 0" fill="none" stroke="#C08FA8" stroke-width="1.5" stroke-linecap="round"/>
+      <g transform="translate(92,22) rotate(12)">
+        <path d="M-1 4 C-11 -4 -18 2 -12 9 C-7 14 -1 10 -1 4 Z" fill="#F7A0C6"/>
+        <path d="M1 4 C11 -4 18 2 12 9 C7 14 1 10 1 4 Z" fill="#F7A0C6"/>
+        <circle cx="0" cy="5" r="3.4" fill="#EA6B9C"/>
+      </g>
+      <path d="M24 44 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3 z" fill="#F7C9DE"/>
+      <path d="M112 62 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#F7C9DE"/>
+    </svg>`
+  },
+  /* 16. 티아라 공주님 */
+  {
+    key:'princess', name:'티아라 공주님',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-pri" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF3E1" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF3E1" stop-opacity=".8"/><stop offset="100%" stop-color="#FFE2BC" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-pri)"/>
+      <ellipse cx="70" cy="128" rx="26" ry="4.4" fill="#C18B4E" opacity=".15"/>
+      <path d="M70 78 C54 80 46 96 42 122 L98 122 C94 96 86 80 70 78 Z" fill="#FFB3CD"/>
+      <path d="M70 84 C58 86 52 100 49 122 L91 122 C88 100 82 86 70 84 Z" fill="#FFC8DC"/>
+      <path d="M70 96 C64 96 60 100 58 106 C62 104 78 104 82 106 C80 100 76 96 70 96 Z" fill="#FFE3EE" opacity=".85"/>
+      <path d="M54 88 C44 92 40 100 41 108" fill="none" stroke="#FFE3CF" stroke-width="7" stroke-linecap="round"/>
+      <path d="M86 88 C96 92 100 100 99 108" fill="none" stroke="#FFE3CF" stroke-width="7" stroke-linecap="round"/>
+      <rect x="65" y="72" width="10" height="12" rx="5" fill="#FFE3CF"/>
+      <ellipse cx="70" cy="52" rx="28" ry="27" fill="#6B4A38"/>
+      <path d="M42 52 C38 66 38 80 42 92 C46 78 46 64 48 56 Z" fill="#6B4A38"/>
+      <path d="M98 52 C102 66 102 80 98 92 C94 78 94 64 92 56 Z" fill="#6B4A38"/>
+      <ellipse cx="70" cy="58" rx="24" ry="23" fill="#FFE3CF"/>
+      <path d="M46 46 C50 32 60 27 70 27 C80 27 90 32 94 46 C88 39 82 43 76 40 C70 44 62 39 57 43 C52 41 49 43 46 46 Z" fill="#6B4A38"/>
+      <ellipse cx="53" cy="64" rx="5.4" ry="3.4" fill="#FFB4A8" opacity=".8"/>
+      <ellipse cx="87" cy="64" rx="5.4" ry="3.4" fill="#FFB4A8" opacity=".8"/>
+      <ellipse cx="60" cy="59" rx="3.6" ry="4.6" fill="#4A3550"/>
+      <ellipse cx="80" cy="59" rx="3.6" ry="4.6" fill="#4A3550"/>
+      <circle cx="61.2" cy="57.2" r="1.4" fill="#fff"/>
+      <circle cx="81.2" cy="57.2" r="1.4" fill="#fff"/>
+      <path d="M56.2 55.2 l-2.4 -2 M83.8 55.2 l2.4 -2" stroke="#4A3550" stroke-width="1.6" stroke-linecap="round"/>
+      <path d="M66.8 67.6 q3.2 3 6.4 0" fill="none" stroke="#D9797E" stroke-width="1.8" stroke-linecap="round"/>
+      <path d="M52 33 L58 20 L64 28 L70 16 L76 28 L82 20 L88 33 Z" fill="#FFD166" stroke="#E8B33F" stroke-width="1.2" stroke-linejoin="round"/>
+      <circle cx="70" cy="20" r="2.8" fill="#FF8FB0"/>
+      <circle cx="57.6" cy="24" r="1.9" fill="#FFF3C4"/>
+      <circle cx="82.4" cy="24" r="1.9" fill="#FFF3C4"/>
+      <circle cx="70" cy="81" r="2.2" fill="#FFD166"/>
+      <path d="M110 44 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#FFE0A8"/>
+      <path d="M33 72 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFD9E6"/>
+    </svg>`
+  },
+  /* 17. 발레리나 공주님 */
+  {
+    key:'ballerina', name:'발레리나 공주님',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-bal" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFEFF6" stop-opacity=".95"/><stop offset="60%" stop-color="#FFEFF6" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD4E7" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-bal)"/>
+      <ellipse cx="70" cy="129" rx="26" ry="4.2" fill="#B98BC4" opacity=".15"/>
+      <path d="M70 74 C60 76 56 88 55 100 L85 100 C84 88 80 76 70 74 Z" fill="#FFC0D8"/>
+      <ellipse cx="70" cy="101" rx="34" ry="15" fill="#FFB6D2"/>
+      <ellipse cx="70" cy="97" rx="28" ry="12" fill="#FFD0E2"/>
+      <ellipse cx="70" cy="94" rx="22" ry="9" fill="#FFE3EE"/>
+      <path d="M64 108 L60 122 M76 108 L80 122" stroke="#FFE3CF" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="58" cy="125" rx="6" ry="3.4" fill="#FFAECB"/>
+      <ellipse cx="82" cy="125" rx="6" ry="3.4" fill="#FFAECB"/>
+      <path d="M57 82 C45 77 37 67 35 55" fill="none" stroke="#FFE3CF" stroke-width="6.4" stroke-linecap="round"/>
+      <path d="M83 82 C95 77 103 67 105 55" fill="none" stroke="#FFE3CF" stroke-width="6.4" stroke-linecap="round"/>
+      <circle cx="34" cy="52" r="4" fill="#FFE3CF"/>
+      <circle cx="106" cy="52" r="4" fill="#FFE3CF"/>
+      <rect x="65" y="68" width="10" height="12" rx="5" fill="#FFE3CF"/>
+      <ellipse cx="70" cy="44" rx="25" ry="24" fill="#5B4030"/>
+      <ellipse cx="70" cy="50" rx="21.5" ry="20.5" fill="#FFE3CF"/>
+      <path d="M48 40 C52 26 60 20 70 20 C80 20 88 26 92 40 C86 33 80 37 74 34 C68 38 60 33 55 37 C52 35 50 37 48 40 Z" fill="#5B4030"/>
+      <circle cx="70" cy="18" r="8.5" fill="#5B4030"/>
+      <path d="M62 17 a8 8 0 0 1 16 0" fill="none" stroke="#7A5744" stroke-width="1.5"/>
+      <path d="M62 15 C56 10 51 14 54 18 C57 21 60 19 62 17 Z" fill="#FF9DC2"/>
+      <path d="M78 15 C84 10 89 14 86 18 C83 21 80 19 78 17 Z" fill="#FF9DC2"/>
+      <circle cx="70" cy="16" r="2.6" fill="#F5779F"/>
+      <ellipse cx="54" cy="56" rx="5" ry="3.2" fill="#FFB4A8" opacity=".8"/>
+      <ellipse cx="86" cy="56" rx="5" ry="3.2" fill="#FFB4A8" opacity=".8"/>
+      <ellipse cx="61" cy="51" rx="3.4" ry="4.4" fill="#4A3550"/>
+      <ellipse cx="79" cy="51" rx="3.4" ry="4.4" fill="#4A3550"/>
+      <circle cx="62.2" cy="49.2" r="1.3" fill="#fff"/>
+      <circle cx="80.2" cy="49.2" r="1.3" fill="#fff"/>
+      <path d="M57.4 47.4 l-2.2 -1.8 M82.6 47.4 l2.2 -1.8" stroke="#4A3550" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M67 59 q3 2.8 6 0" fill="none" stroke="#D9797E" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M110 36 l1.5 3.6 3.6 1.5 -3.6 1.5 -1.5 3.6 -1.5 -3.6 -3.6 -1.5 3.6 -1.5 z" fill="#FFD9E6"/>
+      <path d="M28 58 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE9F2"/>
+    </svg>`
+  },
+  /* 18. 별빛 유니콘 */
+  {
+    key:'unicorn', name:'별빛 유니콘',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-uni" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F1EBFF" stop-opacity=".95"/><stop offset="60%" stop-color="#F1EBFF" stop-opacity=".8"/><stop offset="100%" stop-color="#DFD4FF" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-uni)"/>
+      <ellipse cx="70" cy="129" rx="28" ry="4.4" fill="#8B7BF5" opacity=".15"/>
+      <path d="M96 100 C110 96 114 84 106 76" fill="none" stroke="#F5A8CB" stroke-width="6" stroke-linecap="round"/>
+      <path d="M100 104 C116 102 122 88 114 78" fill="none" stroke="#A695F3" stroke-width="4" stroke-linecap="round" opacity=".85"/>
+      <ellipse cx="70" cy="104" rx="26" ry="20" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1"/>
+      <rect x="56" y="112" width="8" height="14" rx="4" fill="#F4F0FE"/>
+      <rect x="76" y="112" width="8" height="14" rx="4" fill="#F4F0FE"/>
+      <path d="M88 92 l2.2 5.2 5.2 2.2 -5.2 2.2 -2.2 5.2 -2.2 -5.2 -5.2 -2.2 5.2 -2.2 z" fill="#FFD166"/>
+      <rect x="63" y="70" width="14" height="20" rx="7" fill="#FFFFFF"/>
+      <ellipse cx="70" cy="52" rx="27" ry="24" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1"/>
+      <path d="M52 34 C44 40 42 52 46 62 C48 50 52 42 58 38 Z" fill="#F5A8CB"/>
+      <path d="M56 31 C48 36 46 46 48 56" fill="none" stroke="#A695F3" stroke-width="4" stroke-linecap="round"/>
+      <path d="M62 29 C54 34 52 42 53 50" fill="none" stroke="#8FD9C4" stroke-width="3.4" stroke-linecap="round" opacity=".9"/>
+      <path d="M83 34 L92 17 L97 38 Z" fill="#FFFFFF" stroke="#EDE6FA" stroke-width="1.2"/>
+      <path d="M87 33 L92 23 L93 35 Z" fill="#FFD3E4"/>
+      <path d="M64 32 L70 6 L77 32 Z" fill="#FFD166" stroke="#E8B33F" stroke-width="1.2" stroke-linejoin="round"/>
+      <path d="M66.4 24 L73 26 M65.2 17 L71.6 19" stroke="#E8B33F" stroke-width="1.3" stroke-linecap="round"/>
+      <ellipse cx="50" cy="66" rx="5" ry="3.2" fill="#FFC7DB"/>
+      <ellipse cx="59" cy="55" rx="4" ry="5" fill="#4A3B6B"/>
+      <ellipse cx="59" cy="56" rx="2.4" ry="3.2" fill="#6C5AB8"/>
+      <circle cx="60.2" cy="53.4" r="1.4" fill="#fff"/>
+      <path d="M55 49.4 l-2.4 -2" stroke="#4A3B6B" stroke-width="1.6" stroke-linecap="round"/>
+      <ellipse cx="81" cy="55" rx="4" ry="5" fill="#4A3B6B"/>
+      <ellipse cx="81" cy="56" rx="2.4" ry="3.2" fill="#6C5AB8"/>
+      <circle cx="82.2" cy="53.4" r="1.4" fill="#fff"/>
+      <path d="M85 49.4 l2.4 -2" stroke="#4A3B6B" stroke-width="1.6" stroke-linecap="round"/>
+      <ellipse cx="70" cy="66" rx="8" ry="6" fill="#FBF7FF"/>
+      <ellipse cx="70" cy="64" rx="2.2" ry="1.7" fill="#C9A8D8"/>
+      <path d="M70 65.4 v2 M67.4 69.8 q2.6 2.6 5.2 0" fill="none" stroke="#C0A6CE" stroke-width="1.5" stroke-linecap="round"/>
+      <path d="M26 40 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#C9BCFA"/>
+      <path d="M112 56 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE0A8"/>
+    </svg>`
   }
 ];
 const CREATURE_MAP = Object.fromEntries(CREATURES.map(c => [c.key, c]));
+/* ---------- 공식 아트워크 · 도감 해금 ---------- */
+const DEX_ID = {
+  charmander: 4, pichu: 172, squirtle: 7, bulbasaur: 1, eevee: 133, jigglypuff: 39,
+  pikachu: 25, snorlax: 143, psyduck: 54, ditto: 132, caterpie: 10, mew: 151
+};
+CREATURES.forEach(c => { if (DEX_ID[c.key]) c.dex = DEX_ID[c.key]; });
+
+/* 처음부터 쓸 수 있는 친구 — 포켓몬 2 + 예쁜 친구 3 */
+const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody', 'princess'];
+const POKE_ART = id => `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`;
+
+/* 포켓몬은 공식 아트워크 <img>, 불러오지 못하면 인라인 SVG로 자동 대체 */
+function artBox(c, opts) {
+  const wrap = document.createElement('span');
+  wrap.className = 'art';
+  if (c && c.dex) {
+    const img = document.createElement('img');
+    img.className = 'art-img';
+    img.alt = '';
+    img.draggable = false;
+    img.decoding = 'async';
+    if (opts && opts.lazy) img.loading = 'lazy';
+    img.src = POKE_ART(c.dex);
+    img.addEventListener('error', () => { wrap.classList.add('fallback'); img.remove(); });
+    wrap.appendChild(img);
+  } else {
+    wrap.classList.add('fallback');
+  }
+  const fb = document.createElement('span');
+  fb.className = 'art-svg';
+  fb.innerHTML = (c && c.svg) || '';
+  wrap.appendChild(fb);
+  return wrap;
+}
+function dexGoal(level) { return Math.min(MAX_DEX, STARTER_KEYS.length + Math.max(0, (Number(level) || 1) - 1)); }
+function ensureDex(k) {
+  const start = new Set(Array.isArray(k.dexOpen) ? k.dexOpen.filter(x => CREATURE_MAP[x]) : []);
+  const open = new Set(start);
+  STARTER_KEYS.forEach(key => { if (CREATURE_MAP[key]) open.add(key); });
+  const goal = dexGoal(k.level);
+  for (const c of CREATURES) { if (open.size >= goal) break; open.add(c.key); }
+  k.dexOpen = CREATURES.filter(c => open.has(c.key)).map(c => c.key);
+  return k.dexOpen.filter(x => !start.has(x));
+}
+function fmtVoiceDur(sec) {
+  const s = Math.max(0, Math.round(Number(sec) || 0));
+  return `${Math.floor(s / 60)}:${pad2(s % 60)}`;
+}
+function msgPreview(m) {
+  if (m && m.audio) return `🎤 음성 메시지${m.dur ? ' · ' + fmtVoiceDur(m.dur) : ''}`;
+  return String((m && m.text) || '');
+}
+
 /* =========================================================
    우리가족 대시보드 — 앱 로직
    ========================================================= */
@@ -1977,7 +2488,7 @@ function seed() {
     title: '우리가족 대시보드',
     kids: {
       haseong: {
-        name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 0, dexMax: 2,
+        name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
           { id: uid(), text: '리딩앤', xp: 15, done: false },
           { id: uid(), text: '연산', xp: 20, done: false },
@@ -1992,7 +2503,7 @@ function seed() {
         ]
       },
       hayun: {
-        name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexMax: 2,
+        name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
           { id: uid(), text: '한글 2장', xp: 20, done: false },
           { id: uid(), text: '수학 2장', xp: 20, done: false },
@@ -2038,14 +2549,21 @@ function normalizeChat(raw, fb) {
     if (hasMsgs) {
       const list = Array.isArray(raw.msgs) ? raw.msgs : Object.values(raw.msgs);
       out.msgs = list
-        .filter(m => m && typeof m.text === 'string' && m.text.trim())
-        .map(m => ({
-          id: m.id || uid(),
-          who: MEMBER_MAP[m.who] ? m.who : '엄마',
-          text: String(m.text).slice(0, 300),
-          at: Number(m.at) || Date.now(),
-          reactions: cleanReactions(m.reactions)
-        }))
+        .filter(m => m && ((typeof m.text === 'string' && m.text.trim()) || (typeof m.audio === 'string' && m.audio.startsWith('data:audio'))))
+        .map(m => {
+          const one = {
+            id: m.id || uid(),
+            who: MEMBER_MAP[m.who] ? m.who : '엄마',
+            text: typeof m.text === 'string' ? m.text.slice(0, 300) : '',
+            at: Number(m.at) || Date.now(),
+            reactions: cleanReactions(m.reactions)
+          };
+          if (typeof m.audio === 'string' && m.audio.startsWith('data:audio') && m.audio.length <= 1200000) {
+            one.audio = m.audio;
+            one.dur = Math.max(0, Math.min(30, Math.round(Number(m.dur) || 0)));
+          }
+          return one;
+        })
         .sort((a, b) => a.at - b.at);
     } else if (fb && Array.isArray(fb.msgs)) {
       out.msgs = fb.msgs.map(m => ({ ...m, reactions: { ...(m.reactions || {}) } }));
@@ -2088,7 +2606,19 @@ function normalize(raw) {
     const k = out.kids[id];
     k.level = Math.max(1, Math.min(99, Number(k.level) || 1));
     k.xp = Math.max(0, Math.min(99, Number(k.xp) || 0));
-    k.dexMax = Math.max(1, Math.min(MAX_DEX, Number(k.dexMax) || 1));
+    if (Array.isArray(k.dexOpen)) {
+      k.dexOpen = k.dexOpen.filter(x => CREATURE_MAP[x]);
+    } else {
+      /* 예전 기록(앞에서부터 dexMax마리)은 그대로 이어받고, 새 친구는 레벨만큼 열어요 */
+      const legacy = Math.max(1, Math.min(MAX_DEX, Number(k.dexMax) || 2));
+      k.dexOpen = STARTER_KEYS.filter(x => CREATURE_MAP[x]);
+      let extra = Math.max(0, legacy - 2);
+      CREATURES.forEach(c => {
+        if (extra <= 0 || k.dexOpen.includes(c.key)) return;
+        k.dexOpen.push(c.key); extra--;
+      });
+    }
+    ensureDex(k);
     k.quests = Array.isArray(k.quests) ? k.quests.filter(q => q && typeof q.text === 'string')
       .map(q => ({ id: q.id || uid(), text: q.text, xp: Number(q.xp) || 20, done: !!q.done })) : base.kids[id].quests;
     if (!CREATURE_MAP[k.partner]) k.partner = base.kids[id].partner;
@@ -2306,7 +2836,7 @@ function addXp(k, amount) {
   while (k.xp < 0 && k.level > 1) { k.level--; k.xp += 100; }
   if (k.xp < 0) k.xp = 0;
   if (k.xp >= 100) k.xp = 99;
-  k.dexMax = Math.max(k.dexMax, Math.min(MAX_DEX, k.level + 1));
+  return ensureDex(k);
 }
 function questNode(kidId, q) {
   const li = document.createElement('li');
@@ -2333,9 +2863,9 @@ function renderKid(kidId) {
   if (!card) return;
   const cr = CREATURE_MAP[k.partner] || CREATURES[0];
   const pet = card.querySelector('[data-pet]');
-  pet.innerHTML = cr.svg;
+  pet.replaceChildren(artBox(cr));
   card.querySelector('[data-petname]').textContent = cr.name;
-  card.querySelector('[data-dexcount]').textContent = k.dexMax;
+  card.querySelector('[data-dexcount]').textContent = k.dexOpen.length;
 
   const nameEl = card.querySelector('[data-field="name"]');
   if (document.activeElement !== nameEl) nameEl.textContent = k.name;
@@ -2367,16 +2897,16 @@ function renderKid(kidId) {
     k.quests.forEach(q => ul.appendChild(questNode(kidId, q)));
   }
 }
-function celebrate(kidId, prevLevel) {
+function celebrate(kidId, prevLevel, newKeys) {
   const k = state.kids[kidId];
-  const before = Math.min(MAX_DEX, prevLevel + 1);
-  const after = Math.min(MAX_DEX, k.level + 1);
-  const c = CREATURES[Math.min(MAX_DEX, k.dexMax) - 1];
-  $('#celebArt').innerHTML = c.svg;
+  const c = (newKeys && newKeys.length) ? CREATURE_MAP[newKeys[newKeys.length - 1]] : null;
+  const art = $('#celebArt');
+  if (c) art.replaceChildren(artBox(c));
+  else art.innerHTML = '<div class="celeb-emoji">✨</div>';
   $('#celebTitle').textContent = `Lv.${k.level} 달성! 🎉`;
-  $('#celebSub').innerHTML = after > before
-    ? `<b>${c.name}</b> 해금! 도감 ${after}/${MAX_DEX}`
-    : `${k.name}가 계속 자라고 있어요!`;
+  $('#celebSub').innerHTML = c
+    ? `<b>${escapeHtml(c.name)}</b> 해금! 도감 ${k.dexOpen.length}/${MAX_DEX}`
+    : `${escapeHtml(k.name)}가 계속 자라고 있어요!`;
   const box = $('#celebrate');
   box.classList.add('on');
   confetti(46);
@@ -2392,13 +2922,15 @@ function toggleQuest(kidId, qid) {
   const wasAll = k.quests.length > 0 && k.quests.every(x => x.done);
   q.done = !q.done;
   const prevLevel = k.level;
-  addXp(k, q.done ? q.xp : -q.xp);
+  const newKeys = addXp(k, q.done ? q.xp : -q.xp) || [];
   save();
   renderKid(kidId);
-  if (k.level > prevLevel) celebrate(kidId, prevLevel);
+  const leveled = k.level > prevLevel;
+  if (leveled) celebrate(kidId, prevLevel, newKeys);
   const nowAll = k.quests.length > 0 && k.quests.every(x => x.done);
   if (q.done && nowAll && !wasAll) {
-    setTimeout(() => { toast(`🏆 ${k.name} 오늘 퀘스트 올클리어!`); confetti(24); }, 260);
+    /* 레벨업 축하가 떠 있으면 하이파이브는 잠시 뒤에 이어서 보여 줘요 */
+    setTimeout(() => showHiFive(k), leveled ? 2750 : 240);
   }
 }
 
@@ -2466,12 +2998,31 @@ function chatNode(m) {
   }
   const bub = document.createElement('div');
   bub.className = 'msg-bubble';
-  const txt = document.createElement('span');
-  txt.className = 'msg-text'; txt.textContent = m.text;
+  if (m.audio) {
+    bub.classList.add('voice');
+    const tag = document.createElement('span');
+    tag.className = 'msg-voice-tag';
+    tag.textContent = `🎤 음성 메시지${m.dur ? ' · ' + fmtVoiceDur(m.dur) : ''}`;
+    const au = document.createElement('audio');
+    au.className = 'msg-audio';
+    au.controls = true;
+    au.preload = 'metadata';
+    au.src = m.audio;
+    bub.append(tag, au);
+    if (m.text) {
+      const cap = document.createElement('span');
+      cap.className = 'msg-text'; cap.textContent = m.text;
+      bub.appendChild(cap);
+    }
+  } else {
+    const txt = document.createElement('span');
+    txt.className = 'msg-text'; txt.textContent = m.text;
+    bub.appendChild(txt);
+  }
   const del = document.createElement('button');
   del.type = 'button'; del.className = 'msg-del'; del.dataset.del = m.id;
   del.setAttribute('aria-label', `${m.who} 메시지 삭제`); del.textContent = '×';
-  bub.append(txt, del);
+  bub.appendChild(del);
   col.appendChild(bub);
 
   const foot = document.createElement('div');
@@ -2602,27 +3153,41 @@ function renderEvents() {
 function openDex(kidId) {
   dexKid = kidId;
   const k = state.kids[kidId];
-  $('#dexTitle').innerHTML = `${escapeHtml(k.name)}의 도감<small>레벨이 오를 때마다 새 친구가 한 마리씩 열려요 · 지금 Lv.${k.level} · ${k.dexMax}/${MAX_DEX}</small>`;
+  const open = new Set(k.dexOpen);
+  $('#dexTitle').innerHTML = `${escapeHtml(k.name)}의 도감<small>레벨이 오를 때마다 새 친구가 한 마리씩 열려요 · 지금 Lv.${k.level} · ${open.size}/${MAX_DEX}</small>`;
   const grid = $('#dexGrid');
   grid.replaceChildren();
-  CREATURES.forEach((c, i) => {
-    const unlocked = i < k.dexMax;
+  CREATURES.forEach(c => {
+    const unlocked = open.has(c.key);
     const el = document.createElement('button');
     el.type = 'button';
     el.className = 'dex-item' + (unlocked ? ' on' : ' locked') + (k.partner === c.key ? ' equipped' : '');
     el.dataset.key = c.key;
     if (!unlocked) el.disabled = true;
-    el.innerHTML = `<div class="dex-art">${c.svg}</div>`
-      + `<span class="dex-name">${unlocked ? escapeHtml(c.name) : '???'}</span>`
-      + (k.partner === c.key ? '<span class="dex-eq">사용중</span>' : '')
-      + (unlocked ? '' : '<span class="dex-lock">🔒</span>');
+    const art = document.createElement('div');
+    art.className = 'dex-art';
+    art.appendChild(artBox(c, { lazy: true }));
+    const nm = document.createElement('span');
+    nm.className = 'dex-name';
+    nm.textContent = unlocked ? c.name : '???';
+    el.append(art, nm);
+    if (k.partner === c.key) {
+      const eq = document.createElement('span');
+      eq.className = 'dex-eq'; eq.textContent = '사용중';
+      el.appendChild(eq);
+    }
+    if (!unlocked) {
+      const lk = document.createElement('span');
+      lk.className = 'dex-lock'; lk.textContent = '🔒';
+      el.appendChild(lk);
+    }
     if (unlocked) el.addEventListener('click', () => equipCreature(kidId, c.key));
     grid.appendChild(el);
   });
-  const nextLv = Math.min(99, k.level);
-  $('#dexFoot').textContent = k.dexMax >= MAX_DEX
+  const nextLv = Math.max(k.level + 1, k.dexOpen.length - STARTER_KEYS.length + 2);
+  $('#dexFoot').textContent = k.dexOpen.length >= MAX_DEX
     ? `도감을 모두 모았어요! 🎉 다음엔 더 높은 레벨에 도전해 봐요 (Lv.${k.level})`
-    : `다음 친구는 Lv.${nextLv + 1}에서 열려요. 캐릭터를 누르면 그 친구로 바뀝니다.`;
+    : `다음 친구는 Lv.${nextLv}에서 열려요. 캐릭터를 누르면 그 친구로 바뀝니다.`;
   openModal('#dexModal');
 }
 function equipCreature(kidId, key) {
@@ -3131,7 +3696,9 @@ async function fetchRoomWithRegion() {
 function buildDoc() {
   const msgs = {};
   (state.chat.msgs || []).forEach(m => {
-    msgs[m.id] = { id: m.id, who: m.who, text: m.text, at: m.at, reactions: m.reactions || {} };
+    const one = { id: m.id, who: m.who, text: m.text || '', at: m.at, reactions: m.reactions || {} };
+    if (m.audio) { one.audio = m.audio; one.dur = m.dur || 0; }
+    msgs[m.id] = one;
   });
   return {
     v: 1,
@@ -3268,7 +3835,8 @@ function showChatBanner(m, n) {
   const mem = MEMBER_MAP[m.who] || { av: '💬' };
   $('#notifAv').textContent = mem.av || '💬';
   $('#notifWho').textContent = m.who + ':';
-  $('#notifText').textContent = m.text.length > 70 ? m.text.slice(0, 70) + '…' : m.text;
+  const preview = msgPreview(m);
+  $('#notifText').textContent = preview.length > 70 ? preview.slice(0, 70) + '…' : preview;
   const more = $('#notifMore');
   if (more) { more.hidden = n <= 1; more.textContent = '+' + (n - 1); }
   bar.classList.add('on');
@@ -3333,7 +3901,7 @@ function showNativeNotification(m, n) {
   if (!notifPref) return;
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
   try {
-    const body = n > 1 ? `${m.text} (외 ${n - 1}건)` : m.text;
+    const body = msgPreview(m) + (n > 1 ? ` (외 ${n - 1}건)` : '');
     const note = new Notification(`${m.who} · 우리가족 대시보드`, { body, tag: 'family-chat', renotify: false });
     note.onclick = () => { try { window.focus(); } catch (e) {} try { note.close(); } catch (e) {} };
   } catch (e) { /* 휴대폰 브라우저처럼 알림 생성이 막힌 곳에서는 화면 안 알림만 보여 드려요 */ }
@@ -3582,10 +4150,436 @@ async function enterRoomFromGate(raw) {
     : `🔑 '${room}' 방에 연결됐어요 · 가족 기기와 함께 맞춰져요`);
 }
 
+/* =========================================================
+   🔊 소리 (Web Audio) — 타이머 딩동 · 박수/팡파르
+   ========================================================= */
+let AUDIO_CTX = null;
+function audioCtx() {
+  try {
+    if (!AUDIO_CTX) {
+      const C = window.AudioContext || window.webkitAudioContext;
+      if (!C) return null;
+      AUDIO_CTX = new C();
+    }
+    if (AUDIO_CTX.state === 'suspended') AUDIO_CTX.resume().catch(() => {});
+    return AUDIO_CTX;
+  } catch (e) { return null; }
+}
+function tone(freq, when, dur, type, vol, endFreq) {
+  const ac = audioCtx();
+  if (!ac) return;
+  try {
+    const t0 = ac.currentTime + Math.max(0, when);
+    const o = ac.createOscillator();
+    const g = ac.createGain();
+    o.type = type || 'sine';
+    o.frequency.setValueAtTime(freq, t0);
+    if (endFreq) o.frequency.exponentialRampToValueAtTime(endFreq, t0 + dur);
+    g.gain.setValueAtTime(0.0001, t0);
+    g.gain.exponentialRampToValueAtTime(vol || 0.16, t0 + 0.02);
+    g.gain.exponentialRampToValueAtTime(0.0001, t0 + dur);
+    o.connect(g).connect(ac.destination);
+    o.start(t0);
+    o.stop(t0 + dur + 0.03);
+  } catch (e) { /* 소리는 못 내도 화면 알림은 그대로 보여요 */ }
+}
+function playDingDong() {
+  tone(1318.5, 0, 0.9, 'sine', 0.16);
+  tone(2637, 0, 0.45, 'sine', 0.045);
+  tone(1046.5, 0.4, 1.25, 'sine', 0.15);
+  tone(2093, 0.4, 0.7, 'sine', 0.04);
+}
+function playClapFanfare() {
+  const ac = audioCtx();
+  if (ac) {
+    const burst = (when, vol) => {
+      try {
+        const len = Math.max(1, Math.floor(ac.sampleRate * 0.13));
+        const buf = ac.createBuffer(1, len, ac.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 3);
+        const src = ac.createBufferSource();
+        src.buffer = buf;
+        const bp = ac.createBiquadFilter();
+        bp.type = 'bandpass'; bp.frequency.value = 1600; bp.Q.value = 0.85;
+        const g = ac.createGain(); g.gain.value = vol;
+        src.connect(bp).connect(g).connect(ac.destination);
+        src.start(ac.currentTime + when);
+      } catch (e) {}
+    };
+    for (let i = 0; i < 5; i++) burst(0.02 + i * 0.14, 0.42);
+  }
+  [523.25, 659.25, 783.99, 1046.5].forEach((f, i) => tone(f, 0.34 + i * 0.12, 0.3, 'triangle', 0.12));
+  tone(1046.5, 0.92, 0.75, 'triangle', 0.11);
+  tone(1567.98, 0.92, 0.75, 'sine', 0.05);
+}
+
+/* =========================================================
+   🙌 오늘의 퀘스트 100% — 하이파이브 · 박수 축하
+   ========================================================= */
+function wordHasBatchim(word) {
+  const s = String(word == null ? '' : word).trim();
+  if (!s) return false;
+  const c = s.charCodeAt(s.length - 1);
+  if (c < 0xAC00 || c > 0xD7A3) return false;
+  return (c - 0xAC00) % 28 !== 0;
+}
+function withJosa(word, withB, withoutB) {
+  return String(word) + (wordHasBatchim(word) ? withB : withoutB);
+}
+function showHiFive(k) {
+  const box = $('#hiFive');
+  if (!box) return;
+  const sub = $('#hfSub');
+  if (sub) sub.textContent = withJosa(k.name, '이가', '가') + ' 오늘의 퀘스트를 모두 끝냈어요!';
+  box.classList.add('on');
+  confetti(72);
+  playClapFanfare();
+  clearTimeout(showHiFive._t);
+  showHiFive._t = setTimeout(() => box.classList.remove('on'), 4600);
+}
+function hideHiFive() {
+  const box = $('#hiFive');
+  if (box) box.classList.remove('on');
+  clearTimeout(showHiFive._t);
+}
+function bindHiFive() {
+  const box = $('#hiFive');
+  if (box) box.addEventListener('click', e => { if (e.target.closest('.hf-close') || e.target === box) hideHiFive(); });
+}
+
+/* =========================================================
+   ⏱️ 공부 타이머
+   ========================================================= */
+const TIMER_DEFAULT = 600;
+const theTimer = { total: TIMER_DEFAULT, left: TIMER_DEFAULT, running: false, endAt: 0, id: null };
+function fmtClock(sec) {
+  const s = Math.max(0, Math.ceil(sec));
+  return `${pad2(Math.floor(s / 60))}:${pad2(s % 60)}`;
+}
+function timerPaint() {
+  const disp = $('#timerDisplay');
+  if (!disp) return;
+  disp.textContent = fmtClock(theTimer.left);
+  disp.classList.toggle('warn', theTimer.left > 0 && theTimer.left <= 10);
+  const bar = $('#timerBar');
+  if (bar) bar.style.width = Math.max(0, Math.min(100, theTimer.total > 0 ? (1 - theTimer.left / theTimer.total) * 100 : 0)) + '%';
+  const st = $('#timerState');
+  if (st) {
+    const paused = !theTimer.running && theTimer.left > 0 && theTimer.left < theTimer.total;
+    st.textContent = theTimer.running ? '공부 중' : (theTimer.left <= 0 ? '완료' : (paused ? '일시정지' : '준비'));
+    st.classList.toggle('run', theTimer.running);
+    st.classList.toggle('done', !theTimer.running && theTimer.left <= 0);
+  }
+  const startBtn = $('#timerStart');
+  if (startBtn) {
+    startBtn.textContent = theTimer.running ? '시작됨' : ((theTimer.left > 0 && theTimer.left < theTimer.total) ? '계속' : '시작');
+    startBtn.classList.toggle('paused', false);
+  }
+  $$('#timerQuick [data-min]').forEach(b => b.classList.toggle('sel', theTimer.total === Number(b.dataset.min) * 60));
+}
+function timerStop() {
+  if (theTimer.id) { clearInterval(theTimer.id); theTimer.id = null; }
+  theTimer.running = false;
+}
+function timerSet(min) {
+  timerStop();
+  const m = Math.max(1, Math.min(180, Math.round(Number(min) || 10)));
+  theTimer.total = m * 60;
+  theTimer.left = m * 60;
+  timerPaint();
+}
+function timerStart() {
+  if (theTimer.running) return;
+  audioCtx();                                  /* 누른 순간 오디오를 깨워 둬요 */
+  if (theTimer.left <= 0) theTimer.left = theTimer.total;
+  theTimer.endAt = Date.now() + theTimer.left * 1000;
+  theTimer.running = true;
+  theTimer.id = setInterval(timerTick, 250);
+  timerPaint();
+}
+function timerTick() {
+  const left = (theTimer.endAt - Date.now()) / 1000;
+  theTimer.left = Math.max(0, left);
+  if (left <= 0) { timerDone(); return; }
+  timerPaint();
+}
+function timerPause() {
+  if (!theTimer.running) return;
+  theTimer.left = Math.max(0, (theTimer.endAt - Date.now()) / 1000);
+  timerStop();
+  timerPaint();
+}
+function timerDone() {
+  timerStop();
+  theTimer.left = 0;
+  timerPaint();
+  playDingDong();
+  confetti(26);
+  toast('⏱️ 공부 타이머 완료! 잘했어요 👏');
+}
+function bindTimer() {
+  const quick = $('#timerQuick');
+  if (quick) quick.addEventListener('click', e => {
+    const b = e.target.closest('button[data-min]');
+    if (!b) return;
+    timerSet(b.dataset.min);
+    const inp = $('#timerMin');
+    if (inp) inp.value = '';
+    toast(`${Number(b.dataset.min)}분 타이머를 맞췄어요 · 시작을 눌러 주세요`);
+  });
+  const form = $('#timerForm');
+  if (form) form.addEventListener('submit', e => {
+    e.preventDefault();
+    const inp = $('#timerMin');
+    const v = Math.round(Number(inp && inp.value));
+    if (!v || v < 1) { toast('1분 이상으로 적어 주세요'); return; }
+    timerSet(v);
+    if (inp) inp.value = '';
+    toast(`${Math.round(theTimer.total / 60)}분으로 맞췄어요`);
+  });
+  const s = $('#timerStart'), p = $('#timerPause'), r = $('#timerReset');
+  if (s) s.addEventListener('click', timerStart);
+  if (p) p.addEventListener('click', timerPause);
+  if (r) r.addEventListener('click', () => { timerStop(); theTimer.left = theTimer.total; timerPaint(); });
+  timerPaint();
+}
+
+/* =========================================================
+   🌤️ 대구 동구 실시간 날씨 + 옷차림 추천
+   ========================================================= */
+const WX_URL = 'https://api.open-meteo.com/v1/forecast?latitude=35.8865&longitude=128.6355&current=temperature_2m,weather_code&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=Asia%2FSeoul&forecast_days=1';
+const WX_INFO = {
+  0: ['맑음', '☀️'], 1: ['대체로 맑음', '🌤️'], 2: ['구름 조금', '⛅'], 3: ['흐림', '☁️'],
+  45: ['안개', '🌫️'], 48: ['안개', '🌫️'],
+  51: ['약한 이슬비', '🌦️'], 53: ['이슬비', '🌦️'], 55: ['강한 이슬비', '🌧️'],
+  56: ['어는 이슬비', '🌧️'], 57: ['어는 이슬비', '🌧️'],
+  61: ['약한 비', '🌦️'], 63: ['비', '🌧️'], 65: ['강한 비', '🌧️'],
+  66: ['어는 비', '🌧️'], 67: ['어는 비', '🌧️'],
+  71: ['약한 눈', '🌨️'], 73: ['눈', '🌨️'], 75: ['많은 눈', '❄️'], 77: ['눈날림', '🌨️'],
+  80: ['소나기', '🌦️'], 81: ['소나기', '🌧️'], 82: ['강한 소나기', '⛈️'],
+  85: ['소낙눈', '🌨️'], 86: ['소낙눈', '❄️'],
+  95: ['천둥번개', '⛈️'], 96: ['천둥번개·우박', '⛈️'], 99: ['천둥번개·우박', '⛈️']
+};
+const WX_WET = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]);
+let wxBusy = false;
+
+function outfitFor(t, code, pop) {
+  let line;
+  if (t < 5) line = '두꺼운 패딩·목도리 챙기세요 🧣';
+  else if (t < 12) line = '코트나 경량패딩이 좋아요 🧥';
+  else if (t < 17) line = '니트·가디건·자켓 추천 🧶';
+  else if (t < 23) line = '긴팔·얇은 겉옷이 딱 좋아요 👕';
+  else line = '시원한 반팔 차림 좋아요 ☀️';
+  if (WX_WET.has(code) || (pop != null && pop >= 50)) line += ' · 우산 꼭 챙기세요 ☂️';
+  return line;
+}
+function wxError(msg, note) {
+  const icon = $('#wxIcon'); if (icon) icon.textContent = '🌥️';
+  const temp = $('#wxTemp'); if (temp) temp.textContent = '–';
+  const desc = $('#wxDesc'); if (desc) desc.textContent = msg;
+  const meta = $('#wxMeta'); if (meta) meta.hidden = true;
+  const outfit = $('#wxOutfit'); if (outfit) outfit.hidden = true;
+  const noteEl = $('#wxNote');
+  if (noteEl) { noteEl.hidden = false; noteEl.textContent = note; }
+}
+async function loadWeather(silent) {
+  if (wxBusy) return;
+  wxBusy = true;
+  const btn = $('#wxRefresh');
+  if (btn) btn.classList.add('spin');
+  try {
+    if (typeof navigator !== 'undefined' && navigator.onLine === false) throw new Error('offline');
+    const ctl = (typeof AbortController !== 'undefined') ? new AbortController() : null;
+    const to = ctl ? setTimeout(() => { try { ctl.abort(); } catch (e) {} }, 9000) : null;
+    const res = await fetch(WX_URL, { cache: 'no-store', signal: ctl ? ctl.signal : undefined });
+    if (to) clearTimeout(to);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const d = await res.json();
+    const cur = d.current || {}, daily = d.daily || {};
+    const t = Math.round(Number(cur.temperature_2m));
+    const code = Number(cur.weather_code);
+    if (!isFinite(t)) throw new Error('no-temp');
+    const first = arr => (Array.isArray(arr) && arr.length && arr[0] != null && isFinite(Number(arr[0]))) ? Math.round(Number(arr[0])) : null;
+    const max = first(daily.temperature_2m_max);
+    const min = first(daily.temperature_2m_min);
+    const pop = first(daily.precipitation_probability_max);
+    const info = WX_INFO[code] || ['날씨', '🌡️'];
+    $('#wxIcon').textContent = info[1];
+    $('#wxTemp').textContent = String(t);
+    $('#wxDesc').textContent = info[0];
+    $('#wxMax').textContent = max == null ? '–' : String(max);
+    $('#wxMin').textContent = min == null ? '–' : String(min);
+    $('#wxPop').textContent = pop == null ? '–' : String(pop);
+    $('#wxMeta').hidden = false;
+    const outfit = $('#wxOutfit');
+    outfit.hidden = false;
+    outfit.textContent = outfitFor(t, code, pop);
+    const note = $('#wxNote');
+    note.hidden = false;
+    note.textContent = `${fmtTime(Date.now())} 기준 · 대구 동구`;
+  } catch (e) {
+    const msg = String((e && e.message) || '');
+    wxError(msg === 'offline' ? '오프라인이라 날씨를 볼 수 없어요' : '날씨를 불러오지 못했어요',
+      msg === 'offline' ? '인터넷이 연결되면 ↻ 를 눌러 주세요' : '인터넷이 되면 ↻ 를 눌러 다시 시도해 주세요');
+    if (!silent) { /* 조용히 안내만 남겨요 */ }
+  } finally {
+    wxBusy = false;
+    if (btn) btn.classList.remove('spin');
+  }
+}
+function bindWeather() {
+  const btn = $('#wxRefresh');
+  if (btn) btn.addEventListener('click', () => loadWeather());
+  window.addEventListener('online', () => loadWeather(true));
+}
+
+/* =========================================================
+   🎤 가족 톡 음성 메시지 (최대 30초 · base64로 방에 동기화)
+   ========================================================= */
+const VOICE_MAX_MS = 30000;
+const VOICE_MAX_CHARS = 1200000;        /* 방에 너무 큰 파일이 올라가지 않도록 안전선 */
+const voice = { state: 'idle', mr: null, chunks: [], startedAt: 0, timer: null, stream: null };
+
+function setMicUI() {
+  const b = $('#chatMic');
+  if (!b) return;
+  const recording = voice.state === 'rec';
+  b.classList.toggle('rec', recording);
+  const ico = b.querySelector('.mic-ico');
+  if (ico) ico.textContent = recording ? '⏹️' : '🎤';
+  b.setAttribute('aria-label', recording ? '녹음을 끝내고 보내기' : '음성 메시지 녹음');
+  b.title = recording ? '눌러서 녹음 끝내기' : '눌러서 녹음 (최대 30초)';
+  const time = $('#chatMicTime');
+  if (time) {
+    if (recording) {
+      const s = Math.min(30, Math.floor((Date.now() - voice.startedAt) / 1000));
+      time.hidden = false;
+      time.textContent = `${Math.floor(s / 60)}:${pad2(s % 60)}`;
+    } else {
+      time.hidden = true;
+      time.textContent = '';
+    }
+  }
+}
+function voiceUnavailable() {
+  if (typeof navigator === 'undefined' || !navigator.mediaDevices || !navigator.mediaDevices.getUserMedia || typeof MediaRecorder === 'undefined') {
+    toast('이 브라우저에서는 음성 녹음을 쓸 수 없어요 · 문자로 남겨 주세요');
+    return true;
+  }
+  if (!window.isSecureContext) {
+    toast('음성 녹음은 https 주소에서만 돼요 · 인터넷 주소로 열어 주세요');
+    return true;
+  }
+  return false;
+}
+async function startVoice() {
+  if (voice.state === 'rec') { stopVoice(false); return; }
+  if (voice.state !== 'idle') return;
+  if (voiceUnavailable()) return;
+  let stream = null;
+  try {
+    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  } catch (e) {
+    const name = String((e && e.name) || '');
+    if (name === 'NotAllowedError' || name === 'SecurityError') toast('마이크 권한이 꺼져 있어요 · 주소창 옆 자물쇠에서 마이크를 허용해 주세요');
+    else if (name === 'NotFoundError' || name === 'DevicesNotFoundError') toast('마이크를 찾지 못했어요 · 마이크가 있는 기기로 해보세요');
+    else toast('마이크를 켜지 못했어요 · 잠시 뒤 다시 시도해 주세요');
+    return;
+  }
+  let mr = null;
+  try {
+    const opts = { audioBitsPerSecond: 16000 };
+    const types = ['audio/webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus'];
+    const hit = types.find(t => { try { return MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(t); } catch (e) { return false; } });
+    if (hit) opts.mimeType = hit;
+    mr = new MediaRecorder(stream, opts);
+  } catch (e) {
+    try { stream.getTracks().forEach(t => t.stop()); } catch (err) {}
+    toast('녹음을 시작하지 못했어요 · 잠시 뒤 다시 시도해 주세요');
+    return;
+  }
+  voice.state = 'rec';
+  voice.mr = mr;
+  voice.chunks = [];
+  voice.stream = stream;
+  voice.startedAt = Date.now();
+  mr.addEventListener('dataavailable', ev => { if (ev.data && ev.data.size) voice.chunks.push(ev.data); });
+  mr.addEventListener('stop', finishVoice);
+  try { mr.start(); } catch (e) {
+    try { stream.getTracks().forEach(t => t.stop()); } catch (err) {}
+    voice.state = 'idle'; voice.mr = null; voice.stream = null;
+    toast('녹음을 시작하지 못했어요 · 잠시 뒤 다시 시도해 주세요');
+    return;
+  }
+  setMicUI();
+  clearInterval(voice.timer);
+  voice.timer = setInterval(() => {
+    setMicUI();
+    if (Date.now() - voice.startedAt >= VOICE_MAX_MS) {
+      stopVoice(true);
+    }
+  }, 200);
+}
+function stopVoice(auto) {
+  if (voice.state !== 'rec' || !voice.mr) return;
+  voice.state = 'stopping';
+  clearInterval(voice.timer);
+  voice.timer = null;
+  try { voice.mr.stop(); } catch (e) {}
+  if (auto) toast('30초까지 녹음해서 바로 보냈어요');
+}
+function finishVoice() {
+  const sec = Math.min(30, Math.max(1, Math.round((Date.now() - voice.startedAt) / 1000)));
+  const chunks = voice.chunks || [];
+  const mime = (voice.mr && voice.mr.mimeType) || 'audio/webm';
+  try { if (voice.stream) voice.stream.getTracks().forEach(t => t.stop()); } catch (e) {}
+  voice.mr = null; voice.stream = null; voice.chunks = []; voice.state = 'idle';
+  setMicUI();
+  const blob = new Blob(chunks, { type: mime });
+  if (!blob.size) { toast('녹음된 소리가 없어요 · 다시 한 번 말해 주세요'); return; }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const url = String(reader.result || '');
+    if (!url.startsWith('data:audio')) { toast('음성 파일을 만들지 못했어요 · 다시 시도해 주세요'); return; }
+    if (url.length > VOICE_MAX_CHARS) { toast('녹음이 너무 커서 보내지 못했어요 · 조금 짧게 말해 주세요'); return; }
+    sendVoice(url, sec);
+  };
+  reader.onerror = () => toast('음성 파일을 만들지 못했어요 · 다시 시도해 주세요');
+  reader.readAsDataURL(blob);
+}
+function sendVoice(dataUrl, sec) {
+  const msg = {
+    id: uid(),
+    who: state.chat.me,
+    text: '',
+    audio: dataUrl,
+    dur: Math.max(1, Math.min(30, Math.round(sec) || 1)),
+    at: Date.now(),
+    reactions: {}
+  };
+  markSent(msg.id);                 /* 이 기기에서 보낸 메시지는 알림에서 빼요 */
+  state.chat.msgs.push(msg);
+  save();
+  renderChat();
+  toast('🎤 음성 메시지를 보냈어요');
+}
+function bindVoice() {
+  const mic = $('#chatMic');
+  if (mic) mic.addEventListener('click', () => { startVoice(); });
+  setMicUI();
+}
+
 /* ---------- 시작 ---------- */
 function init() {
   renderAll();
   bindEvents();
+  bindTimer();
+  bindVoice();
+  bindHiFive();
+  bindWeather();
+  loadWeather();
+  setInterval(() => loadWeather(true), 30 * 60 * 1000);
   tickClock();
   setInterval(tickClock, 1000);
   STORAGE_OK = probeStorage();
