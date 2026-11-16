@@ -1306,6 +1306,11 @@ select.q-xp, #wishWho{
   transition:color .2s;
 }
 .timer-display.warn{ color:#E9785F; }
+/* 스톱워치: 1/100초까지 — 숫자 폭 고정 + 한 줄 고정(카드 높이 유지) */
+.timer-display.sw-display{
+  font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+  white-space:nowrap; letter-spacing:-0.06em;
+}
 .timer-quick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
 .timer-quick button{
   padding:5px 0; border-radius:9px;
@@ -1728,7 +1733,7 @@ select.q-xp, #wishWho{
       <!-- 스톱워치 -->
       <div class="timer-pane" id="swPane" role="tabpanel" aria-label="스톱워치" hidden>
         <div class="timer-row">
-          <div class="timer-display" id="swDisplay" role="timer" aria-live="off" aria-label="경과 시간">00:00</div>
+          <div class="timer-display sw-display" id="swDisplay" role="timer" aria-live="off" aria-label="경과 시간">00:00.00</div>
           <span class="timer-state" id="swState">준비</span>
         </div>
         <div class="sw-laps" id="swLaps" role="log" aria-live="off" aria-label="기록">
@@ -4521,9 +4526,11 @@ function swElapsed() {
   return theWatch.base + (theWatch.running ? (Date.now() - theWatch.startAt) : 0);
 }
 function fmtWatch(ms) {
-  const t = Math.max(0, Math.floor(ms / 1000));
+  const total = Math.max(0, Math.floor(ms));            /* 1/100초 단위까지 */
+  const t = Math.floor(total / 1000);
   const h = Math.floor(t / 3600), m = Math.floor((t % 3600) / 60), s = t % 60;
-  return h ? `${h}:${pad2(m)}:${pad2(s)}` : `${pad2(m)}:${pad2(s)}`;
+  const cs = Math.floor((total % 1000) / 10);
+  return h ? `${h}:${pad2(m)}:${pad2(s)}.${pad2(cs)}` : `${pad2(m)}:${pad2(s)}.${pad2(cs)}`;
 }
 function swPaint() {
   const disp = $('#swDisplay');
@@ -4549,7 +4556,7 @@ function swToggle() {
   audioCtx();
   theWatch.startAt = Date.now();
   theWatch.running = true;
-  theWatch.id = setInterval(swPaint, 200);
+  theWatch.id = setInterval(swPaint, 33);   /* 1/100초가 부드럽게 올라가도록 */
   swPaint();
 }
 function swRenderLaps() {
