@@ -1586,7 +1586,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>파이리</span>
-            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/18</button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/<span data-dextotal>18</span></button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -1630,7 +1630,7 @@ select.q-xp, #wishWho{
           </div>
           <div class="pet-row">
             <span class="pet-name" data-petname>피츄</span>
-            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/18</button>
+            <button class="dex-btn" type="button" data-dex><span aria-hidden="true">📖</span><span class="dex-word">도감</span><b data-dexcount>5</b>/<span data-dextotal>18</span></button>
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
@@ -2023,367 +2023,93 @@ const CREATURES = [
       <path d="M65 71 Q70 76 75 71" fill="none" stroke="#B99A3E" stroke-width="2.2" stroke-linecap="round"/>
     </svg>`
   },
-  /* 3. 꼬부기 */
+  /* 3. 시나모롤 */
   {
-    key:'squirtle', name:'꼬부기',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#5F86A8" opacity=".09"/>
-      <path d="M94 106 c13 3 18 -6 12 -14" fill="none" stroke="#8ECBE6" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="95" cy="94" rx="19" ry="18" fill="#E7C9A3"/>
-      <ellipse cx="95" cy="94" rx="15" ry="14" fill="#C88D5A"/>
-      <path d="M83 84 C90 88 96 90 104 88" fill="none" stroke="#B57C4C" stroke-width="1.4" opacity=".7"/>
-      <ellipse cx="52" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
-      <ellipse cx="78" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
-      <ellipse cx="66" cy="96" rx="24" ry="21" fill="#A6D8EE"/>
-      <ellipse cx="66" cy="100" rx="15" ry="14" fill="#FFEAC0"/>
-      <ellipse cx="45" cy="92" rx="6.5" ry="10" transform="rotate(-20 45 92)" fill="#A6D8EE"/>
-      <ellipse cx="87" cy="92" rx="6.5" ry="10" transform="rotate(20 87 92)" fill="#A6D8EE"/>
-      <ellipse cx="64" cy="58" rx="26" ry="23" fill="#A6D8EE"/>
-      <ellipse cx="53" cy="42" rx="11" ry="6" transform="rotate(-22 53 42)" fill="#D9F0FB" opacity=".8"/>
-      <ellipse cx="54" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
-      <ellipse cx="74" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
-      <circle cx="55.6" cy="55.5" r="1.8" fill="#fff"/>
-      <circle cx="75.6" cy="55.5" r="1.8" fill="#fff"/>
-      <path d="M60 71 Q64 76 68 71" fill="none" stroke="#5C86A0" stroke-width="2.3" stroke-linecap="round"/>
-      <ellipse cx="45" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
-      <ellipse cx="83" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
-    </svg>`
-  },
-  /* 4. 이상해씨 */
-  {
-    key:'bulbasaur', name:'이상해씨',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="32" ry="5" fill="#4F7F6A" opacity=".09"/>
-      <g>
-        <circle cx="94" cy="66" r="19" fill="#8CC96B"/>
-        <path d="M94 48 C92 58 92 74 94 84" fill="none" stroke="#78B556" stroke-width="1.5" opacity=".75"/>
-        <path d="M79 57 C86 62 93 63 102 61" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
-        <path d="M79 77 C86 73 92 73 101 75" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
-      </g>
-      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
-      <ellipse cx="76" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
-      <ellipse cx="63" cy="97" rx="25" ry="20" fill="#9BD3B7"/>
-      <ellipse cx="63" cy="101" rx="15" ry="11" fill="#C8EBDB" opacity=".55"/>
-      <path d="M48 42 C45 33 45 28 48 25 C52 28 54 35 54 42 Z" fill="#8DCDB0"/>
-      <path d="M78 42 C81 33 81 28 78 25 C74 28 72 35 72 42 Z" fill="#8DCDB0"/>
-      <ellipse cx="62" cy="58" rx="25" ry="22" fill="#9BD3B7"/>
-      <ellipse cx="51" cy="43" rx="10" ry="5.5" transform="rotate(-22 51 43)" fill="#DAF2E6" opacity=".75"/>
-      <ellipse cx="45" cy="70" rx="5.5" ry="4" fill="#7FBF9F" opacity=".5"/>
-      <ellipse cx="84" cy="64" rx="4.5" ry="3.4" fill="#7FBF9F" opacity=".45"/>
-      <ellipse cx="54" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
-      <ellipse cx="72" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
-      <circle cx="55.5" cy="55.8" r="1.7" fill="#fff"/>
-      <circle cx="73.5" cy="55.8" r="1.7" fill="#fff"/>
-      <path d="M54 70 Q63 78 73 70" fill="none" stroke="#5E937A" stroke-width="2.3" stroke-linecap="round"/>
-    </svg>`
-  },
-  /* 5. 이브이 */
-  {
-    key:'eevee', name:'이브이',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#8A6B4A" opacity=".09"/>
-      <path d="M90 100 C112 98 120 80 111 66 C103 76 95 88 88 94 Z" fill="#C89868"/>
-      <path d="M90 100 C106 98 113 87 108 77 C102 86 96 93 88 97 Z" fill="#F4E3C8"/>
-      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
-      <ellipse cx="78" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
-      <ellipse cx="66" cy="99" rx="24" ry="19" fill="#C89868"/>
-      <ellipse cx="64" cy="78" rx="23" ry="12" fill="#F4E3C8"/>
-      <ellipse cx="43" cy="94" rx="7" ry="9.5" transform="rotate(-16 43 94)" fill="#C89868"/>
-      <ellipse cx="89" cy="94" rx="7" ry="9.5" transform="rotate(16 89 94)" fill="#C89868"/>
-      <path d="M46 46 C39 32 33 20 27 12 C37 13 48 25 54 40 Z" fill="#C89868"/>
-      <path d="M48 43 C43 33 38 24 34 18 C41 21 47 30 51 39 Z" fill="#8E6440"/>
-      <path d="M84 46 C91 32 97 20 103 12 C93 13 82 25 76 40 Z" fill="#C89868"/>
-      <path d="M82 43 C87 33 92 24 96 18 C89 21 83 30 79 39 Z" fill="#8E6440"/>
-      <ellipse cx="64" cy="57" rx="24" ry="21" fill="#C89868"/>
-      <ellipse cx="53" cy="42" rx="10" ry="5.5" transform="rotate(-22 53 42)" fill="#E7C79E" opacity=".75"/>
-      <ellipse cx="64" cy="67" rx="12" ry="8" fill="#F4E3C8"/>
-      <ellipse cx="55" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
-      <ellipse cx="73" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
-      <circle cx="56.6" cy="54.4" r="1.9" fill="#fff"/>
-      <circle cx="74.6" cy="54.4" r="1.9" fill="#fff"/>
-      <ellipse cx="64" cy="64" rx="2.9" ry="2.3" fill="#6B4A32"/>
-      <path d="M60 70 Q64 73 68 70" fill="none" stroke="#8E6440" stroke-width="1.9" stroke-linecap="round"/>
-      <ellipse cx="46" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
-      <ellipse cx="82" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
-    </svg>`
-  },
-  /* 6. 푸린 */
-  {
-    key:'jigglypuff', name:'푸린',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="28" ry="5" fill="#A05F80" opacity=".09"/>
-      <path d="M44 46 C38 34 34 26 36 22 C44 24 52 34 55 46 Z" fill="#F7C1D3"/>
-      <path d="M96 46 C102 34 106 26 104 22 C96 24 88 34 85 46 Z" fill="#F7C1D3"/>
-      <ellipse cx="34" cy="84" rx="7" ry="10" transform="rotate(-24 34 84)" fill="#F7C1D3"/>
-      <ellipse cx="106" cy="84" rx="7" ry="10" transform="rotate(24 106 84)" fill="#F7C1D3"/>
-      <ellipse cx="56" cy="116" rx="10" ry="6" fill="#EFB0C6"/>
-      <ellipse cx="84" cy="116" rx="10" ry="6" fill="#EFB0C6"/>
-      <circle cx="70" cy="76" r="38" fill="#F9C4D6"/>
-      <ellipse cx="56" cy="52" rx="14" ry="8" transform="rotate(-24 56 52)" fill="#FFE0EA" opacity=".8"/>
-      <path d="M70 42 C78 42 82 50 76 54 C72 56 68 53 70 49 C71 47 74 48 74 50" fill="none" stroke="#E79DB6" stroke-width="2.6" stroke-linecap="round"/>
-      <ellipse cx="56" cy="76" rx="6.5" ry="8.4" fill="#4E9DA1"/>
-      <ellipse cx="84" cy="76" rx="6.5" ry="8.4" fill="#4E9DA1"/>
-      <ellipse cx="56" cy="77" rx="3.2" ry="4.4" fill="#2F3338"/>
-      <ellipse cx="84" cy="77" rx="3.2" ry="4.4" fill="#2F3338"/>
-      <circle cx="58" cy="73" r="2" fill="#fff"/>
-      <circle cx="86" cy="73" r="2" fill="#fff"/>
-      <path d="M64 92 Q70 98 76 92" fill="none" stroke="#D77E9A" stroke-width="2.4" stroke-linecap="round"/>
-      <ellipse cx="42" cy="88" rx="5.4" ry="3.4" fill="#F58FAE" opacity=".4"/>
-      <ellipse cx="98" cy="88" rx="5.4" ry="3.4" fill="#F58FAE" opacity=".4"/>
-    </svg>`
-  },
-  /* 7. 피카츄 */
-  {
-    key:'pikachu', name:'피카츄',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="29" ry="5" fill="#9A7C2E" opacity=".1"/>
-      <path d="M90 104 L104 90 L98 87 L112 70 L105 70 L116 54 L96 70 L102 72 L90 87 Z" fill="#F6D45C"/>
-      <path d="M90 104 L98 96 L94 94 L90 99 Z" fill="#C08B54"/>
-      <g>
-        <path d="M48 44 C42 28 36 15 27 6 C31 4 36 6 40 11 C50 24 57 36 60 42 Z" fill="#F8D95E"/>
-        <path d="M27 6 C31 4 36 6 40 11 L34 17 C31 12 28 8 27 6 Z" fill="#3D3947"/>
-        <path d="M92 44 C98 28 104 15 113 6 C109 4 104 6 100 11 C90 24 83 36 80 42 Z" fill="#F8D95E"/>
-        <path d="M113 6 C109 4 104 6 100 11 L106 17 C109 12 112 8 113 6 Z" fill="#3D3947"/>
-      </g>
-      <ellipse cx="54" cy="114" rx="10" ry="6" fill="#EAC94F"/>
-      <ellipse cx="84" cy="114" rx="10" ry="6" fill="#EAC94F"/>
-      <ellipse cx="68" cy="98" rx="21" ry="18" fill="#F8D95E"/>
-      <ellipse cx="46" cy="100" rx="6.5" ry="9" transform="rotate(-18 46 100)" fill="#F8D95E"/>
-      <ellipse cx="90" cy="100" rx="6.5" ry="9" transform="rotate(18 90 100)" fill="#F8D95E"/>
-      <ellipse cx="68" cy="56" rx="26" ry="23" fill="#F8D95E"/>
-      <ellipse cx="56" cy="40" rx="11" ry="6" transform="rotate(-22 56 40)" fill="#FFF0A8" opacity=".8"/>
-      <ellipse cx="58" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
-      <ellipse cx="78" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
-      <circle cx="59.7" cy="52.4" r="1.9" fill="#fff"/>
-      <circle cx="79.7" cy="52.4" r="1.9" fill="#fff"/>
-      <circle cx="47" cy="67" r="6.4" fill="#F47C6E"/>
-      <circle cx="89" cy="67" r="6.4" fill="#F47C6E"/>
-      <ellipse cx="68" cy="63" rx="1.5" ry="1.9" fill="#8A6A28"/>
-      <path d="M62 69 Q68 75 74 69" fill="none" stroke="#A08030" stroke-width="2.3" stroke-linecap="round"/>
-    </svg>`
-  },
-  /* 8. 잠만보 */
-  {
-    key:'snorlax', name:'잠만보',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="126" rx="40" ry="5" fill="#3C6A62" opacity=".1"/>
-      <path d="M40 46 C36 38 37 32 41 29 C46 33 49 39 49 47 Z" fill="#6DA090"/>
-      <path d="M100 46 C104 38 103 32 99 29 C94 33 91 39 91 47 Z" fill="#6DA090"/>
-      <ellipse cx="70" cy="94" rx="43" ry="32" fill="#7DB3A6"/>
-      <ellipse cx="70" cy="101" rx="27" ry="23" fill="#F6E7C8"/>
-      <ellipse cx="33" cy="99" rx="9" ry="13" transform="rotate(-14 33 99)" fill="#7DB3A6"/>
-      <ellipse cx="107" cy="99" rx="9" ry="13" transform="rotate(14 107 99)" fill="#7DB3A6"/>
-      <ellipse cx="46" cy="120" rx="13" ry="8" fill="#6DA090"/>
-      <ellipse cx="94" cy="120" rx="13" ry="8" fill="#6DA090"/>
-      <ellipse cx="70" cy="60" rx="32" ry="27" fill="#7DB3A6"/>
-      <ellipse cx="70" cy="65" rx="25" ry="20" fill="#F6E7C8"/>
-      <path d="M52 59 Q58 53 64 59" fill="none" stroke="#6C5B45" stroke-width="2.6" stroke-linecap="round"/>
-      <path d="M76 59 Q82 53 88 59" fill="none" stroke="#6C5B45" stroke-width="2.6" stroke-linecap="round"/>
-      <ellipse cx="70" cy="78" rx="9" ry="4.6" fill="#E5C9A5"/>
-      <path d="M66 76 Q70 79 74 76" fill="none" stroke="#9C7B54" stroke-width="1.7" stroke-linecap="round"/>
-      <ellipse cx="46" cy="76" rx="5" ry="3" fill="#EE9E8E" opacity=".35"/>
-      <ellipse cx="94" cy="76" rx="5" ry="3" fill="#EE9E8E" opacity=".35"/>
-    </svg>`
-  },
-  /* 9. 고라파덕 */
-  {
-    key:'psyduck', name:'고라파덕',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="126" rx="30" ry="5" fill="#9A7C2E" opacity=".1"/>
-      <ellipse cx="70" cy="102" rx="25" ry="18" fill="#F7DC7A"/>
-      <ellipse cx="70" cy="105" rx="15" ry="11" fill="#FBEBAE"/>
-      <ellipse cx="44" cy="68" rx="9.5" ry="12.5" transform="rotate(-14 44 68)" fill="#F7DC7A"/>
-      <ellipse cx="96" cy="68" rx="9.5" ry="12.5" transform="rotate(14 96 68)" fill="#F7DC7A"/>
-      <ellipse cx="70" cy="58" rx="29" ry="25" fill="#F7DC7A"/>
-      <path d="M64 35 C61 27 58 23 54 21" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M71 34 C71 26 72 22 75 18" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
-      <path d="M78 36 C80 29 83 25 87 23" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
-      <ellipse cx="58" cy="57" rx="6.4" ry="7.8" fill="#fff"/>
-      <ellipse cx="82" cy="57" rx="6.4" ry="7.8" fill="#fff"/>
-      <circle cx="58.6" cy="58" r="3" fill="#33303C"/>
-      <circle cx="82.6" cy="58" r="3" fill="#33303C"/>
-      <circle cx="59.6" cy="56.6" r="1" fill="#fff"/>
-      <circle cx="83.6" cy="56.6" r="1" fill="#fff"/>
-      <ellipse cx="70" cy="75" rx="15" ry="8" fill="#EFC96B"/>
-      <path d="M55 73 Q70 79 85 73" fill="none" stroke="#D3AE52" stroke-width="1.8"/>
-      <ellipse cx="67" cy="72" rx="1.2" ry="1.5" fill="#C9A648"/>
-      <ellipse cx="73" cy="72" rx="1.2" ry="1.5" fill="#C9A648"/>
-      <ellipse cx="42" cy="80" rx="5" ry="3" fill="#EE9E8E" opacity=".3"/>
-      <ellipse cx="98" cy="80" rx="5" ry="3" fill="#EE9E8E" opacity=".3"/>
-    </svg>`
-  },
-  /* 10. 메타몽 */
-  {
-    key:'ditto', name:'메타몽',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="122" rx="34" ry="5" fill="#6B4F86" opacity=".1"/>
-      <path d="M70 38 C98 38 116 56 116 80 C116 106 96 118 70 118 C44 118 24 106 24 80 C24 56 42 38 70 38 Z" fill="#C7A8DC"/>
-      <ellipse cx="52" cy="58" rx="14" ry="8" transform="rotate(-22 52 58)" fill="#E1CDEE" opacity=".8"/>
-      <ellipse cx="56" cy="76" rx="3.6" ry="4.4" fill="#3B3040"/>
-      <ellipse cx="84" cy="76" rx="3.6" ry="4.4" fill="#3B3040"/>
-      <circle cx="57.4" cy="74.2" r="1.4" fill="#fff"/>
-      <circle cx="85.4" cy="74.2" r="1.4" fill="#fff"/>
-      <path d="M60 90 Q70 100 80 90" fill="none" stroke="#8B6BA8" stroke-width="2.8" stroke-linecap="round"/>
-      <ellipse cx="44" cy="90" rx="6" ry="3.6" fill="#B48FCB" opacity=".45"/>
-      <ellipse cx="96" cy="90" rx="6" ry="3.6" fill="#B48FCB" opacity=".45"/>
-    </svg>`
-  },
-  /* 11. 캐터피 */
-  {
-    key:'caterpie', name:'캐터피',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="124" rx="28" ry="5" fill="#4F7F4A" opacity=".1"/>
-      <path d="M66 46 C64 36 62 30 58 26" fill="none" stroke="#D4645A" stroke-width="3.4" stroke-linecap="round"/>
-      <circle cx="57" cy="24" r="4.2" fill="#D4645A"/>
-      <ellipse cx="70" cy="104" rx="22" ry="17" fill="#96CD77"/>
-      <ellipse cx="70" cy="84" rx="23" ry="16" fill="#A2D783"/>
-      <path d="M48 94 Q70 100 92 94" fill="none" stroke="#82BA64" stroke-width="1.6" opacity=".7"/>
-      <path d="M48 78 Q70 84 92 78" fill="none" stroke="#82BA64" stroke-width="1.6" opacity=".7"/>
-      <ellipse cx="42" cy="112" rx="7" ry="4.6" fill="#88C067"/>
-      <ellipse cx="98" cy="112" rx="7" ry="4.6" fill="#88C067"/>
-      <ellipse cx="68" cy="62" rx="25" ry="21" fill="#A2D783"/>
-      <ellipse cx="58" cy="48" rx="10" ry="5.5" transform="rotate(-20 58 48)" fill="#D2F0BE" opacity=".7"/>
-      <circle cx="57" cy="64" r="8.2" fill="#F6E88C"/>
-      <circle cx="79" cy="64" r="8.2" fill="#F6E88C"/>
-      <circle cx="57" cy="64" r="4" fill="#3A4034"/>
-      <circle cx="79" cy="64" r="4" fill="#3A4034"/>
-      <circle cx="58.4" cy="62.4" r="1.4" fill="#fff"/>
-      <circle cx="80.4" cy="62.4" r="1.4" fill="#fff"/>
-      <path d="M64 75 Q68 79 72 75" fill="none" stroke="#6E9A56" stroke-width="2" stroke-linecap="round"/>
-    </svg>`
-  },
-  /* 12. 뮤 */
-  {
-    key:'mew', name:'뮤',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <ellipse cx="70" cy="126" rx="26" ry="4.5" fill="#9A5F86" opacity=".1"/>
-      <path d="M82 96 C104 100 118 90 120 72 C121 64 118 58 112 56" fill="none" stroke="#F5BBD3" stroke-width="4" stroke-linecap="round"/>
-      <ellipse cx="110" cy="54" rx="8" ry="6.5" fill="#F7C3D9" transform="rotate(-20 110 54)"/>
-      <path d="M54 40 C50 32 50 26 54 22 C58 27 60 34 59 42 Z" fill="#F7C3D9"/>
-      <path d="M80 40 C84 32 84 26 80 22 C76 27 74 34 75 42 Z" fill="#F7C3D9"/>
-      <ellipse cx="70" cy="88" rx="20" ry="23" fill="#F7C3D9"/>
-      <ellipse cx="50" cy="86" rx="6" ry="9" transform="rotate(-24 50 86)" fill="#F7C3D9"/>
-      <ellipse cx="90" cy="86" rx="6" ry="9" transform="rotate(24 90 86)" fill="#F7C3D9"/>
-      <ellipse cx="60" cy="112" rx="7" ry="4.6" fill="#F0B2CB"/>
-      <ellipse cx="80" cy="112" rx="7" ry="4.6" fill="#F0B2CB"/>
-      <ellipse cx="70" cy="54" rx="21" ry="19" fill="#F7C3D9"/>
-      <ellipse cx="61" cy="40" rx="9" ry="5" transform="rotate(-22 61 40)" fill="#FFE1ED" opacity=".85"/>
-      <ellipse cx="62" cy="54" rx="5.2" ry="6.4" fill="#5FA8D8"/>
-      <ellipse cx="78" cy="54" rx="5.2" ry="6.4" fill="#5FA8D8"/>
-      <ellipse cx="62" cy="54.6" rx="2.4" ry="3.2" fill="#2C3E58"/>
-      <ellipse cx="78" cy="54.6" rx="2.4" ry="3.2" fill="#2C3E58"/>
-      <circle cx="63.6" cy="51.8" r="1.7" fill="#fff"/>
-      <circle cx="79.6" cy="51.8" r="1.7" fill="#fff"/>
-      <path d="M66 64 Q70 68 74 64" fill="none" stroke="#D489A6" stroke-width="2" stroke-linecap="round"/>
-      <ellipse cx="50" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
-      <ellipse cx="90" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
-    </svg>`
-  },
-  /* ───── 예쁜 친구들 (공주 · 산리오풍) ───── */
-  /* 13. 시나모롤풍 구름강아지 */
-  {
-    key:'cinnamoroll', name:'구름강아지',
+    key:'cinnamoroll', name:'시나모롤',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-cin" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#E8F2FF" stop-opacity=".95"/><stop offset="60%" stop-color="#E8F2FF" stop-opacity=".8"/><stop offset="100%" stop-color="#D6E7FF" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-cin)"/>
-      <ellipse cx="70" cy="128" rx="29" ry="4.6" fill="#7E9BD6" opacity=".12"/>
-      <ellipse cx="33" cy="78" rx="9.5" ry="26" transform="rotate(12 33 78)" fill="#F1F6FE" stroke="#E4ECF9" stroke-width="1"/>
-      <ellipse cx="107" cy="78" rx="9.5" ry="26" transform="rotate(-12 107 78)" fill="#F1F6FE" stroke="#E4ECF9" stroke-width="1"/>
-      <ellipse cx="34" cy="80" rx="4.6" ry="17" transform="rotate(12 34 80)" fill="#DCE7F7"/>
-      <ellipse cx="106" cy="80" rx="4.6" ry="17" transform="rotate(-12 106 80)" fill="#DCE7F7"/>
-      <path d="M92 100 C104 98 110 88 105 80" fill="none" stroke="#EEF3FB" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="70" cy="104" rx="23" ry="19" fill="#FFFFFF" stroke="#EEF3FB" stroke-width="1"/>
-      <ellipse cx="56" cy="117" rx="8" ry="5.4" fill="#F4F8FE"/>
-      <ellipse cx="84" cy="117" rx="8" ry="5.4" fill="#F4F8FE"/>
-      <circle cx="63" cy="104" r="2.4" fill="#E8EFF9"/>
-      <circle cx="77" cy="104" r="2.4" fill="#E8EFF9"/>
-      <circle cx="49" cy="42" r="15" fill="#FFFFFF"/>
-      <circle cx="70" cy="33" r="16" fill="#FFFFFF"/>
-      <circle cx="91" cy="42" r="15" fill="#FFFFFF"/>
-      <ellipse cx="70" cy="60" rx="34" ry="29" fill="#FFFFFF"/>
-      <ellipse cx="48" cy="70" rx="6.6" ry="4.2" fill="#BBD6F6" opacity=".7"/>
-      <ellipse cx="92" cy="70" rx="6.6" ry="4.2" fill="#BBD6F6" opacity=".7"/>
-      <ellipse cx="58" cy="59" rx="3.7" ry="4.8" fill="#3B4257"/>
-      <ellipse cx="82" cy="59" rx="3.7" ry="4.8" fill="#3B4257"/>
-      <circle cx="59.4" cy="57" r="1.5" fill="#fff"/>
-      <circle cx="83.4" cy="57" r="1.5" fill="#fff"/>
-      <circle cx="56.8" cy="61.6" r=".9" fill="#fff" opacity=".8"/>
-      <circle cx="80.8" cy="61.6" r=".9" fill="#fff" opacity=".8"/>
-      <ellipse cx="70" cy="68" rx="9.4" ry="7.2" fill="#FAFCFF"/>
-      <ellipse cx="70" cy="65.4" rx="2.6" ry="1.9" fill="#7C8AA0"/>
-      <path d="M70 66.6 v2.2 M66.6 71.4 q3.4 3 6.8 0" fill="none" stroke="#9AAAC0" stroke-width="1.6" stroke-linecap="round"/>
+      <ellipse cx="70" cy="128" rx="29" ry="4.6" fill="#7E9BD6" opacity=".13"/>
+      <!-- 큰 귀(옆으로 길게 뻗어 살짝 처지는 모양) -->
+      <path d="M52 45 C36 38 18 44 10 58 C8 63 12 67 19 64 C34 58 46 54 54 51 Z" fill="#FFFFFF" stroke="#E4ECF9" stroke-width="1.1"/>
+      <path d="M46 48 C33 44 21 50 16 59 C25 55 36 52 47 52 Z" fill="#E2EDFB" opacity=".85"/>
+      <path d="M88 45 C104 38 122 44 130 58 C132 63 128 67 121 64 C106 58 94 54 86 51 Z" fill="#FFFFFF" stroke="#E4ECF9" stroke-width="1.1"/>
+      <path d="M94 48 C107 44 119 50 124 59 C115 55 104 52 93 52 Z" fill="#E2EDFB" opacity=".85"/>
+      <!-- 머리 -->
+      <ellipse cx="70" cy="62" rx="34" ry="29" fill="#FFFFFF" stroke="#E9F1FB" stroke-width="1.1"/>
+      <path d="M70 33 C62 33 56 38 54 45 C60 40 65 38 70 38 C75 38 80 40 86 45 C84 38 78 33 70 33 Z" fill="#F7FAFF"/>
+      <!-- 파란 눈 -->
+      <ellipse cx="58" cy="63" rx="4.4" ry="5.4" fill="#3F86CF"/>
+      <ellipse cx="82" cy="63" rx="4.4" ry="5.4" fill="#3F86CF"/>
+      <ellipse cx="58" cy="64.6" rx="2.4" ry="3" fill="#63A9EA" opacity=".75"/>
+      <ellipse cx="82" cy="64.6" rx="2.4" ry="3" fill="#63A9EA" opacity=".75"/>
+      <circle cx="59.6" cy="60.8" r="1.7" fill="#fff"/>
+      <circle cx="83.6" cy="60.8" r="1.7" fill="#fff"/>
+      <!-- 볼터치 -->
+      <ellipse cx="45" cy="72" rx="6.6" ry="4.2" fill="#FFB9CC" opacity=".85"/>
+      <ellipse cx="95" cy="72" rx="6.6" ry="4.2" fill="#FFB9CC" opacity=".85"/>
+      <!-- 코·입 -->
+      <ellipse cx="70" cy="72" rx="4" ry="2.9" fill="#8FA0B6"/>
+      <ellipse cx="68.8" cy="71" rx="1.2" ry=".8" fill="#C9D6E6"/>
+      <path d="M70 74.6 v2 M66.8 78.6 q3.2 2.8 6.4 0" fill="none" stroke="#A8B8CC" stroke-width="1.6" stroke-linecap="round"/>
+      <!-- 몸 -->
+      <ellipse cx="70" cy="104" rx="23" ry="19" fill="#FFFFFF" stroke="#E1EBF9" stroke-width="1.2"/>
+      <ellipse cx="56" cy="117" rx="8" ry="5.2" fill="#F4F8FE"/>
+      <ellipse cx="84" cy="117" rx="8" ry="5.2" fill="#F4F8FE"/>
+      <ellipse cx="49" cy="100" rx="6.5" ry="8" transform="rotate(-16 49 100)" fill="#FFFFFF" stroke="#EEF3FB" stroke-width="1.1"/>
+      <ellipse cx="91" cy="100" rx="6.5" ry="8" transform="rotate(16 91 100)" fill="#FFFFFF" stroke="#EEF3FB" stroke-width="1.1"/>
+      <ellipse cx="70" cy="106" rx="11" ry="8" fill="#F7FAFF" opacity=".9"/>
       <path d="M106 30 l1.7 4.2 4.2 1.7 -4.2 1.7 -1.7 4.2 -1.7 -4.2 -4.2 -1.7 4.2 -1.7 z" fill="#BFD8F5"/>
-      <path d="M24 52 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3 z" fill="#D6E6FA"/>
     </svg>`
   },
-  /* 14. 마이멜로디풍 리본토끼 */
+  /* 4. 마이멜로디 */
   {
-    key:'mymelody', name:'리본토끼',
+    key:'mymelody', name:'마이멜로디',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <defs><radialGradient id="halo-mel" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFEDF6" stop-opacity=".95"/><stop offset="60%" stop-color="#FFEDF6" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD3E5" stop-opacity="0"/></radialGradient></defs>
       <circle cx="70" cy="72" r="66" fill="url(#halo-mel)"/>
       <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#D77FA8" opacity=".13"/>
-      <ellipse cx="51" cy="40" rx="9" ry="27" transform="rotate(-11 51 40)" fill="#FFFFFF" stroke="#F7DEE9" stroke-width="1"/>
-      <ellipse cx="51" cy="40" rx="4.6" ry="19" transform="rotate(-11 51 40)" fill="#FFD3E4"/>
-      <ellipse cx="89" cy="38" rx="9" ry="27" transform="rotate(11 89 38)" fill="#FFFFFF" stroke="#F7DEE9" stroke-width="1"/>
-      <ellipse cx="89" cy="38" rx="4.6" ry="19" transform="rotate(11 89 38)" fill="#FFD3E4"/>
-      <ellipse cx="70" cy="105" rx="22" ry="18" fill="#FFFFFF" stroke="#F9E5EF" stroke-width="1"/>
-      <ellipse cx="58" cy="118" rx="8" ry="5" fill="#FFF1F7"/>
-      <ellipse cx="82" cy="118" rx="8" ry="5" fill="#FFF1F7"/>
-      <ellipse cx="70" cy="62" rx="33" ry="29" fill="#FFB9D6"/>
-      <path d="M40 54 C44 34 56 30 70 30 C84 30 96 34 100 54 C92 44 82 48 72 44 C62 48 50 44 40 54 Z" fill="#FFC9E0"/>
-      <ellipse cx="70" cy="69" rx="25" ry="23" fill="#FFFFFF"/>
-      <ellipse cx="53" cy="73" rx="5.6" ry="3.6" fill="#FFC7DB"/>
-      <ellipse cx="87" cy="73" rx="5.6" ry="3.6" fill="#FFC7DB"/>
-      <ellipse cx="61" cy="65" rx="3.4" ry="4.4" fill="#3D3450"/>
-      <ellipse cx="79" cy="65" rx="3.4" ry="4.4" fill="#3D3450"/>
-      <circle cx="62.2" cy="63.4" r="1.3" fill="#fff"/>
-      <circle cx="80.2" cy="63.4" r="1.3" fill="#fff"/>
-      <ellipse cx="70" cy="72.4" rx="2.6" ry="1.9" fill="#F2789F"/>
-      <path d="M70 74.4 v2.2 M66.6 78.4 q3.4 3 6.8 0" fill="none" stroke="#E48AAB" stroke-width="1.5" stroke-linecap="round"/>
-      <g transform="translate(47,23) rotate(-12)">
-        <path d="M-1 4 C-11 -4 -18 2 -12 9 C-7 14 -1 10 -1 4 Z" fill="#FF92BC"/>
-        <path d="M1 4 C11 -4 18 2 12 9 C7 14 1 10 1 4 Z" fill="#FF92BC"/>
-        <circle cx="0" cy="5" r="3.6" fill="#F56A9E"/>
+      <!-- 긴 귀 -->
+      <ellipse cx="52" cy="34" rx="9.5" ry="26" transform="rotate(-9 52 34)" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1.1"/>
+      <ellipse cx="52" cy="35" rx="4.8" ry="18" transform="rotate(-9 52 35)" fill="#FFC6DC"/>
+      <ellipse cx="88" cy="32" rx="9.5" ry="26" transform="rotate(9 88 32)" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1.1"/>
+      <ellipse cx="88" cy="33" rx="4.8" ry="18" transform="rotate(9 88 33)" fill="#FFC6DC"/>
+      <!-- 핑크 두건 -->
+      <path d="M70 25 C98 25 107 47 105 64 C104 78 96 88 87 91 L53 91 C44 88 36 78 35 64 C33 47 42 25 70 25 Z" fill="#F8A2C6"/>
+      <path d="M70 25 C56 25 46 32 40 46 C48 38 58 34 70 34 C82 34 92 38 100 46 C94 32 84 25 70 25 Z" fill="#FBBBD5" opacity=".85"/>
+      <path d="M35 64 C36 80 45 89 55 91" fill="none" stroke="#EC85B3" stroke-width="1.6" opacity=".55"/>
+      <path d="M105 64 C104 80 95 89 85 91" fill="none" stroke="#EC85B3" stroke-width="1.6" opacity=".55"/>
+      <!-- 얼굴 -->
+      <ellipse cx="70" cy="68" rx="25" ry="23" fill="#FFFFFF"/>
+      <ellipse cx="53" cy="74" rx="6" ry="3.8" fill="#FFC0D8" opacity=".8"/>
+      <ellipse cx="87" cy="74" rx="6" ry="3.8" fill="#FFC0D8" opacity=".8"/>
+      <ellipse cx="61" cy="67" rx="3.5" ry="4.6" fill="#3D3347"/>
+      <ellipse cx="79" cy="67" rx="3.5" ry="4.6" fill="#3D3347"/>
+      <circle cx="62.2" cy="65.2" r="1.3" fill="#fff"/>
+      <circle cx="80.2" cy="65.2" r="1.3" fill="#fff"/>
+      <ellipse cx="70" cy="74" rx="2.7" ry="2" fill="#EE6F9F"/>
+      <path d="M70 76.2 v2 M66.4 80 q3.6 3 7.2 0" fill="none" stroke="#E3799F" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- 꽃 -->
+      <g transform="translate(103,47)">
+        <g fill="#FFFFFF" stroke="#FFD3E5" stroke-width=".9">
+          <circle cx="0" cy="-7" r="4.2"/><circle cx="6.7" cy="-2.2" r="4.2"/><circle cx="4.1" cy="5.8" r="4.2"/>
+          <circle cx="-4.1" cy="5.8" r="4.2"/><circle cx="-6.7" cy="-2.2" r="4.2"/>
+        </g>
+        <circle cx="0" cy="0" r="3.6" fill="#FFD24D"/>
+        <circle cx="0" cy="0" r="1.6" fill="#F0B62F"/>
       </g>
-      <path d="M108 62 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#FFD1E4"/>
+      <!-- 몸 -->
+      <ellipse cx="70" cy="106" rx="20" ry="16" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1.1"/>
+      <path d="M50 111 C50 102 58 99 70 99 C82 99 90 102 90 111 L92 121 C80 125 60 125 48 121 Z" fill="#FFC6DC"/>
+      <path d="M50 111 C50 102 58 99 70 99 C82 99 90 102 90 111" fill="none" stroke="#F290B6" stroke-width="1.3" opacity=".55"/>
+      <path d="M57 104 C62 107 78 107 83 104" fill="none" stroke="#F7A9C9" stroke-width="1.3" opacity=".75"/>
+      <ellipse cx="47" cy="106" rx="6.5" ry="9" transform="rotate(-16 47 106)" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1.1"/>
+      <ellipse cx="93" cy="106" rx="6.5" ry="9" transform="rotate(16 93 106)" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1.1"/>
+      <ellipse cx="60" cy="122" rx="8" ry="4.6" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1"/>
+      <ellipse cx="80" cy="122" rx="8" ry="4.6" fill="#FFFFFF" stroke="#F3DCE7" stroke-width="1"/>
     </svg>`
   },
-  /* 15. 쿠로미풍 꼬마악마 */
-  {
-    key:'kuromi', name:'꼬마악마',
-    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-      <defs><radialGradient id="halo-kur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F3EBFD" stop-opacity=".95"/><stop offset="60%" stop-color="#F3EBFD" stop-opacity=".8"/><stop offset="100%" stop-color="#E3D4F8" stop-opacity="0"/></radialGradient></defs>
-      <circle cx="70" cy="72" r="66" fill="url(#halo-kur)"/>
-      <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#5B4B7A" opacity=".15"/>
-      <ellipse cx="50" cy="36" rx="8.5" ry="25" transform="rotate(-14 50 36)" fill="#33304A"/>
-      <ellipse cx="50" cy="37" rx="4.2" ry="17" transform="rotate(-14 50 37)" fill="#F090BC"/>
-      <ellipse cx="90" cy="36" rx="8.5" ry="25" transform="rotate(14 90 36)" fill="#33304A"/>
-      <ellipse cx="90" cy="37" rx="4.2" ry="17" transform="rotate(14 90 37)" fill="#F090BC"/>
-      <path d="M94 102 C106 100 112 90 107 82" fill="none" stroke="#3A3554" stroke-width="6" stroke-linecap="round"/>
-      <ellipse cx="70" cy="105" rx="22" ry="18" fill="#3A3554"/>
-      <ellipse cx="56" cy="118" rx="8" ry="5" fill="#F6EFF8"/>
-      <ellipse cx="84" cy="118" rx="8" ry="5" fill="#F6EFF8"/>
-      <ellipse cx="70" cy="62" rx="33" ry="29" fill="#33304A"/>
-      <path d="M40 54 C44 34 56 30 70 30 C84 30 96 34 100 54 C92 44 82 48 72 44 C62 48 50 44 40 54 Z" fill="#413C5C"/>
-      <ellipse cx="70" cy="69" rx="25" ry="23" fill="#FFFFFF"/>
-      <ellipse cx="54" cy="73" rx="5.4" ry="3.4" fill="#FFC9DD"/>
-      <ellipse cx="86" cy="73" rx="5.4" ry="3.4" fill="#FFC9DD"/>
-      <ellipse cx="61.5" cy="65" rx="3.3" ry="4.3" fill="#3D3450"/>
-      <ellipse cx="78.5" cy="65" rx="3.3" ry="4.3" fill="#3D3450"/>
-      <circle cx="62.6" cy="63.4" r="1.3" fill="#fff"/>
-      <circle cx="79.6" cy="63.4" r="1.3" fill="#fff"/>
-      <path d="M70 71 v2.2 M66.8 76.6 q3.2 3 6.4 0" fill="none" stroke="#C08FA8" stroke-width="1.5" stroke-linecap="round"/>
-      <g transform="translate(92,22) rotate(12)">
-        <path d="M-1 4 C-11 -4 -18 2 -12 9 C-7 14 -1 10 -1 4 Z" fill="#F7A0C6"/>
-        <path d="M1 4 C11 -4 18 2 12 9 C7 14 1 10 1 4 Z" fill="#F7A0C6"/>
-        <circle cx="0" cy="5" r="3.4" fill="#EA6B9C"/>
-      </g>
-      <path d="M24 44 l1.3 3.2 3.2 1.3 -3.2 1.3 -1.3 3.2 -1.3 -3.2 -3.2 -1.3 3.2 -1.3 z" fill="#F7C9DE"/>
-      <path d="M112 62 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#F7C9DE"/>
-    </svg>`
-  },
-  /* 16. 티아라 공주님 */
+  /* 5. 티아라 공주님 */
   {
     key:'princess', name:'티아라 공주님',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2418,7 +2144,185 @@ const CREATURES = [
       <path d="M33 72 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFD9E6"/>
     </svg>`
   },
-  /* 17. 발레리나 공주님 */
+  /* 6. 헬로키티 */
+  {
+    key:'hellokitty', name:'헬로키티',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-hkt" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF0F1" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF0F1" stop-opacity=".8"/><stop offset="100%" stop-color="#FFD9DC" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-hkt)"/>
+      <ellipse cx="70" cy="128" rx="29" ry="4.6" fill="#C4707A" opacity=".14"/>
+      <!-- 귀 -->
+      <path d="M34 54 C28 33 36 20 49 18 C58 24 62 37 59 53 Z" fill="#FFFFFF" stroke="#E9DEE7" stroke-width="1.3"/>
+      <path d="M106 54 C112 33 104 20 91 18 C82 24 78 37 81 53 Z" fill="#FFFFFF" stroke="#E9DEE7" stroke-width="1.3"/>
+      <path d="M40 44 C37 31 41 25 47 24" fill="none" stroke="#F6EEF3" stroke-width="2.2" stroke-linecap="round"/>
+      <!-- 머리 -->
+      <ellipse cx="70" cy="65" rx="37" ry="30" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1.2"/>
+      <ellipse cx="58" cy="42" rx="13" ry="7" transform="rotate(-16 58 42)" fill="#FFFFFF" opacity=".9"/>
+      <!-- 빨간 리본 -->
+      <g transform="translate(97,32) rotate(-12)">
+        <path d="M-1 4 C-11 -5 -20 0 -14 9 C-8 16 -1 11 -1 4 Z" fill="#E4353F"/>
+        <path d="M1 4 C11 -5 20 0 14 9 C8 16 1 11 1 4 Z" fill="#E4353F"/>
+        <path d="M-1 4 C-8 -1 -13 2 -11 6 C-8 9 -2 7 -1 4 Z" fill="#F2606A" opacity=".7"/>
+        <circle cx="0" cy="4.5" r="4.4" fill="#C42731"/>
+        <circle cx="-1.4" cy="3" r="1.5" fill="#F4838B" opacity=".85"/>
+      </g>
+      <!-- 눈 -->
+      <ellipse cx="58" cy="66.5" rx="5.1" ry="6.6" fill="#2C2536"/>
+      <ellipse cx="82" cy="66.5" rx="5.1" ry="6.6" fill="#2C2536"/>
+      <circle cx="59.6" cy="63.8" r="1.8" fill="#fff"/>
+      <circle cx="83.6" cy="63.8" r="1.8" fill="#fff"/>
+      <!-- 노란 코 -->
+      <ellipse cx="70" cy="75" rx="5.2" ry="3.7" fill="#F7C948" stroke="#DDAF2E" stroke-width="1"/>
+      <ellipse cx="68.6" cy="74" rx="1.6" ry="1" fill="#FFE79A" opacity=".9"/>
+      <!-- 수염 -->
+      <g stroke="#C7B9CB" stroke-width="2.1" stroke-linecap="round">
+        <path d="M38 58 L17 51"/><path d="M36 67 L14 66"/><path d="M38 77 L18 83"/>
+        <path d="M102 58 L123 51"/><path d="M104 67 L126 66"/><path d="M102 77 L122 83"/>
+      </g>
+      <!-- 몸 -->
+      <ellipse cx="70" cy="106" rx="20" ry="16" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1.1"/>
+      <path d="M61 96 L62 108" stroke="#E4353F" stroke-width="5" stroke-linecap="round"/>
+      <path d="M79 96 L78 108" stroke="#E4353F" stroke-width="5" stroke-linecap="round"/>
+      <path d="M51 112 C51 106 58 103 70 103 C82 103 89 106 89 112 L91 121 C80 125 60 125 49 121 Z" fill="#E4353F"/>
+      <path d="M51 112 C51 106 58 103 70 103 C82 103 89 106 89 112" fill="none" stroke="#C42731" stroke-width="1.3" opacity=".5"/>
+      <circle cx="70" cy="112.5" r="2.5" fill="#F7C948"/>
+      <ellipse cx="47" cy="106" rx="6.8" ry="9.2" transform="rotate(-16 47 106)" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1.1"/>
+      <ellipse cx="93" cy="106" rx="6.8" ry="9.2" transform="rotate(16 93 106)" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1.1"/>
+      <ellipse cx="59" cy="122" rx="8.5" ry="4.8" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1"/>
+      <ellipse cx="81" cy="122" rx="8.5" ry="4.8" fill="#FFFFFF" stroke="#EFE5EC" stroke-width="1"/>
+    </svg>`
+  },
+  /* 7. 꼬부기 */
+  {
+    key:'squirtle', name:'꼬부기',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#5F86A8" opacity=".09"/>
+      <path d="M94 106 c13 3 18 -6 12 -14" fill="none" stroke="#8ECBE6" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="95" cy="94" rx="19" ry="18" fill="#E7C9A3"/>
+      <ellipse cx="95" cy="94" rx="15" ry="14" fill="#C88D5A"/>
+      <path d="M83 84 C90 88 96 90 104 88" fill="none" stroke="#B57C4C" stroke-width="1.4" opacity=".7"/>
+      <ellipse cx="52" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
+      <ellipse cx="78" cy="114" rx="10" ry="6.5" fill="#8FCDE8"/>
+      <ellipse cx="66" cy="96" rx="24" ry="21" fill="#A6D8EE"/>
+      <ellipse cx="66" cy="100" rx="15" ry="14" fill="#FFEAC0"/>
+      <ellipse cx="45" cy="92" rx="6.5" ry="10" transform="rotate(-20 45 92)" fill="#A6D8EE"/>
+      <ellipse cx="87" cy="92" rx="6.5" ry="10" transform="rotate(20 87 92)" fill="#A6D8EE"/>
+      <ellipse cx="64" cy="58" rx="26" ry="23" fill="#A6D8EE"/>
+      <ellipse cx="53" cy="42" rx="11" ry="6" transform="rotate(-22 53 42)" fill="#D9F0FB" opacity=".8"/>
+      <ellipse cx="54" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
+      <ellipse cx="74" cy="58" rx="4.8" ry="6.2" fill="#3A3A4C"/>
+      <circle cx="55.6" cy="55.5" r="1.8" fill="#fff"/>
+      <circle cx="75.6" cy="55.5" r="1.8" fill="#fff"/>
+      <path d="M60 71 Q64 76 68 71" fill="none" stroke="#5C86A0" stroke-width="2.3" stroke-linecap="round"/>
+      <ellipse cx="45" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
+      <ellipse cx="83" cy="68" rx="4.6" ry="3" fill="#FF9E9E" opacity=".38"/>
+    </svg>`
+  },
+  /* 8. 폼폼푸린 */
+  {
+    key:'pompompurin', name:'폼폼푸린',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-pur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#FFF7E4" stop-opacity=".95"/><stop offset="60%" stop-color="#FFF7E4" stop-opacity=".8"/><stop offset="100%" stop-color="#FFECC6" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-pur)"/>
+      <ellipse cx="70" cy="128" rx="29" ry="4.6" fill="#B98A4E" opacity=".16"/>
+      <!-- 축 처진 귀 -->
+      <ellipse cx="38" cy="74" rx="12" ry="18" transform="rotate(-12 38 74)" fill="#FAD98A" stroke="#EFC66E" stroke-width="1.1"/>
+      <ellipse cx="102" cy="74" rx="12" ry="18" transform="rotate(12 102 74)" fill="#FAD98A" stroke="#EFC66E" stroke-width="1.1"/>
+      <!-- 머리 -->
+      <ellipse cx="70" cy="68" rx="33" ry="28" fill="#FFE199" stroke="#EFC66E" stroke-width="1.1"/>
+      <ellipse cx="58" cy="48" rx="12" ry="6.5" transform="rotate(-16 58 48)" fill="#FFF0C6" opacity=".9"/>
+      <!-- 갈색 베레모 -->
+      <g transform="rotate(-5 70 32)">
+        <ellipse cx="70" cy="32" rx="27" ry="11" fill="#8A5A38"/>
+        <ellipse cx="70" cy="28" rx="24" ry="8" fill="#A06B44"/>
+        <path d="M63 21 C64 16 70 14 70 14 C70 14 76 16 77 21" fill="#8A5A38"/>
+        <circle cx="70" cy="13.5" r="2.6" fill="#8A5A38"/>
+        <path d="M46 34 C52 40 88 40 94 34" fill="none" stroke="#5F3C24" stroke-width="1.2" opacity=".55"/>
+      </g>
+      <!-- 눈 -->
+      <ellipse cx="57" cy="70" rx="4.2" ry="5.2" fill="#3B2E2B"/>
+      <ellipse cx="83" cy="70" rx="4.2" ry="5.2" fill="#3B2E2B"/>
+      <circle cx="58.4" cy="68" r="1.6" fill="#fff"/>
+      <circle cx="84.4" cy="68" r="1.6" fill="#fff"/>
+      <ellipse cx="48" cy="79" rx="5.6" ry="3.6" fill="#F2A65A" opacity=".35"/>
+      <ellipse cx="92" cy="79" rx="5.6" ry="3.6" fill="#F2A65A" opacity=".35"/>
+      <!-- 코·입 -->
+      <path d="M63.4 76.6 C66 72.6 74 72.6 76.6 76.6 C75.6 81.4 64.4 81.4 63.4 76.6 Z" fill="#3B2E2B"/>
+      <path d="M70 80.6 v2.2 M65.8 84.6 q4.2 3.4 8.4 0" fill="none" stroke="#6B5240" stroke-width="1.7" stroke-linecap="round"/>
+      <!-- 몸 -->
+      <ellipse cx="70" cy="106" rx="23" ry="18" fill="#FFE199" stroke="#EFC66E" stroke-width="1.1"/>
+      <ellipse cx="70" cy="110" rx="12" ry="11" fill="#FFF3D4"/>
+      <ellipse cx="48" cy="102" rx="6.5" ry="8.5" transform="rotate(-16 48 102)" fill="#FFE199" stroke="#EFC66E" stroke-width="1.1"/>
+      <ellipse cx="92" cy="102" rx="6.5" ry="8.5" transform="rotate(16 92 102)" fill="#FFE199" stroke="#EFC66E" stroke-width="1.1"/>
+      <ellipse cx="58" cy="121" rx="9" ry="5" fill="#FFE199" stroke="#EFC66E" stroke-width="1"/>
+      <ellipse cx="82" cy="121" rx="9" ry="5" fill="#FFE199" stroke="#EFC66E" stroke-width="1"/>
+    </svg>`
+  },
+  /* 9. 이상해씨 */
+  {
+    key:'bulbasaur', name:'이상해씨',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="32" ry="5" fill="#4F7F6A" opacity=".09"/>
+      <g>
+        <circle cx="94" cy="66" r="19" fill="#8CC96B"/>
+        <path d="M94 48 C92 58 92 74 94 84" fill="none" stroke="#78B556" stroke-width="1.5" opacity=".75"/>
+        <path d="M79 57 C86 62 93 63 102 61" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
+        <path d="M79 77 C86 73 92 73 101 75" fill="none" stroke="#78B556" stroke-width="1.4" opacity=".55"/>
+      </g>
+      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
+      <ellipse cx="76" cy="116" rx="11" ry="6.5" fill="#8DCDB0"/>
+      <ellipse cx="63" cy="97" rx="25" ry="20" fill="#9BD3B7"/>
+      <ellipse cx="63" cy="101" rx="15" ry="11" fill="#C8EBDB" opacity=".55"/>
+      <path d="M48 42 C45 33 45 28 48 25 C52 28 54 35 54 42 Z" fill="#8DCDB0"/>
+      <path d="M78 42 C81 33 81 28 78 25 C74 28 72 35 72 42 Z" fill="#8DCDB0"/>
+      <ellipse cx="62" cy="58" rx="25" ry="22" fill="#9BD3B7"/>
+      <ellipse cx="51" cy="43" rx="10" ry="5.5" transform="rotate(-22 51 43)" fill="#DAF2E6" opacity=".75"/>
+      <ellipse cx="45" cy="70" rx="5.5" ry="4" fill="#7FBF9F" opacity=".5"/>
+      <ellipse cx="84" cy="64" rx="4.5" ry="3.4" fill="#7FBF9F" opacity=".45"/>
+      <ellipse cx="54" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
+      <ellipse cx="72" cy="58" rx="4.6" ry="5.8" fill="#A9474A"/>
+      <circle cx="55.5" cy="55.8" r="1.7" fill="#fff"/>
+      <circle cx="73.5" cy="55.8" r="1.7" fill="#fff"/>
+      <path d="M54 70 Q63 78 73 70" fill="none" stroke="#5E937A" stroke-width="2.3" stroke-linecap="round"/>
+    </svg>`
+  },
+  /* 10. 포차코 */
+  {
+    key:'pochacco', name:'포차코',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-poc" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#EAFBF4" stop-opacity=".95"/><stop offset="60%" stop-color="#EAFBF4" stop-opacity=".8"/><stop offset="100%" stop-color="#D2F3E5" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-poc)"/>
+      <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#4F7F6A" opacity=".13"/>
+      <!-- 검은 귀 -->
+      <ellipse cx="36" cy="60" rx="11" ry="27" transform="rotate(10 36 60)" fill="#2F2B38"/>
+      <ellipse cx="104" cy="60" rx="11" ry="27" transform="rotate(-10 104 60)" fill="#2F2B38"/>
+      <ellipse cx="35" cy="50" rx="4" ry="14" transform="rotate(10 35 50)" fill="#4A4458" opacity=".85"/>
+      <ellipse cx="105" cy="50" rx="4" ry="14" transform="rotate(-10 105 50)" fill="#4A4458" opacity=".85"/>
+      <!-- 머리 -->
+      <ellipse cx="70" cy="60" rx="31" ry="28" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1.1"/>
+      <path d="M70 33 C64 33 59 36 56 41 C61 37 65 36 70 36 C75 36 79 37 84 41 C81 36 76 33 70 33 Z" fill="#F7F9FC"/>
+      <!-- 눈 -->
+      <ellipse cx="60" cy="60" rx="4.2" ry="5.4" fill="#2C2536"/>
+      <ellipse cx="80" cy="60" rx="4.2" ry="5.4" fill="#2C2536"/>
+      <circle cx="61.4" cy="58" r="1.6" fill="#fff"/>
+      <circle cx="81.4" cy="58" r="1.6" fill="#fff"/>
+      <!-- 코·입 -->
+      <ellipse cx="70" cy="69" rx="4.4" ry="3.2" fill="#2C2536"/>
+      <path d="M70 71.8 v2.4 M65.8 76 q4.2 3.4 8.4 0" fill="none" stroke="#8A8FA0" stroke-width="1.6" stroke-linecap="round"/>
+      <ellipse cx="51" cy="70" rx="5" ry="3.2" fill="#F5A9B8" opacity=".45"/>
+      <ellipse cx="89" cy="70" rx="5" ry="3.2" fill="#F5A9B8" opacity=".45"/>
+      <!-- 몸 -->
+      <ellipse cx="70" cy="104" rx="22" ry="18" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1.1"/>
+      <ellipse cx="70" cy="108" rx="11" ry="10" fill="#F8FAFD"/>
+      <ellipse cx="49" cy="100" rx="6.5" ry="8.5" transform="rotate(-16 49 100)" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1.1"/>
+      <ellipse cx="91" cy="100" rx="6.5" ry="8.5" transform="rotate(16 91 100)" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1.1"/>
+      <ellipse cx="58" cy="119" rx="8.5" ry="5" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1"/>
+      <ellipse cx="82" cy="119" rx="8.5" ry="5" fill="#FFFFFF" stroke="#E8ECF3" stroke-width="1"/>
+      <path d="M84 102 C92 98 98 104 94 108" fill="none" stroke="#E8ECF3" stroke-width="4.6" stroke-linecap="round"/>
+      <path d="M84 102 C92 98 98 104 94 108" fill="none" stroke="#FFFFFF" stroke-width="2.4" stroke-linecap="round"/>
+    </svg>`
+  },
+  /* 11. 발레리나 공주님 */
   {
     key:'ballerina', name:'발레리나 공주님',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2457,7 +2361,52 @@ const CREATURES = [
       <path d="M28 58 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE9F2"/>
     </svg>`
   },
-  /* 18. 별빛 유니콘 */
+  /* 12. 쿠로미 */
+  {
+    key:'kuromi', name:'쿠로미',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="halo-kur" cx="50%" cy="45%" r="58%"><stop offset="0%" stop-color="#F4EEFD" stop-opacity=".95"/><stop offset="60%" stop-color="#F4EEFD" stop-opacity=".8"/><stop offset="100%" stop-color="#E3D4F8" stop-opacity="0"/></radialGradient></defs>
+      <circle cx="70" cy="72" r="66" fill="url(#halo-kur)"/>
+      <ellipse cx="70" cy="128" rx="28" ry="4.6" fill="#5B4B7A" opacity=".16"/>
+      <!-- 검은 긴 귀 -->
+      <ellipse cx="36" cy="34" rx="9" ry="26" transform="rotate(-24 36 34)" fill="#312C40"/>
+      <ellipse cx="104" cy="34" rx="9" ry="26" transform="rotate(24 104 34)" fill="#312C40"/>
+      <ellipse cx="35" cy="30" rx="3.6" ry="16" transform="rotate(-24 35 30)" fill="#4A4360" opacity=".9"/>
+      <ellipse cx="105" cy="30" rx="3.6" ry="16" transform="rotate(24 105 30)" fill="#4A4360" opacity=".9"/>
+      <!-- 광대 모자 -->
+      <path d="M70 22 C97 22 109 44 107 62 C106 72 101 79 95 82 C91 74 85 76 81 82 C77 75 63 75 59 82 C55 76 49 74 45 82 C39 79 34 72 33 62 C31 44 43 22 70 22 Z" fill="#312C40"/>
+      <path d="M70 22 C56 22 46 30 40 45 C49 35 58 31 70 31 C82 31 91 35 100 45 C94 30 84 22 70 22 Z" fill="#463F5C" opacity=".9"/>
+      <!-- 분홍 해골 -->
+      <g transform="translate(70,43)">
+        <path d="M0 -10 C8 -10 12 -5 12 0 C12 4.5 8.6 5.6 7.6 9 L-7.6 9 C-8.6 5.6 -12 4.5 -12 0 C-12 -5 -8 -10 0 -10 Z" fill="#F79CC4"/>
+        <ellipse cx="-4.4" cy="0.4" rx="2.6" ry="3.2" fill="#312C40"/>
+        <ellipse cx="4.4" cy="0.4" rx="2.6" ry="3.2" fill="#312C40"/>
+        <path d="M-2.6 5.2 h1.3 M-1.3 5.2 v2 M1.3 5.2 h1.3 M1.3 5.2 v2" fill="none" stroke="#312C40" stroke-width="1.2" stroke-linecap="round"/>
+        <ellipse cx="-6.4" cy="-4" rx="1.6" ry="1.1" fill="#FFC9DE" opacity=".8"/>
+      </g>
+      <!-- 얼굴 -->
+      <ellipse cx="70" cy="72" rx="25" ry="22" fill="#FFFFFF"/>
+      <ellipse cx="70" cy="75" rx="21" ry="16" fill="#FBF7FF"/>
+      <ellipse cx="60" cy="70" rx="3.8" ry="5" fill="#2C2536"/>
+      <ellipse cx="80" cy="70" rx="3.8" ry="5" fill="#2C2536"/>
+      <circle cx="61.4" cy="68.2" r="1.4" fill="#fff"/>
+      <circle cx="81.4" cy="68.2" r="1.4" fill="#fff"/>
+      <ellipse cx="70" cy="78" rx="2.6" ry="2" fill="#4A3B62"/>
+      <path d="M62 82.5 Q70 89 79 81.5" fill="none" stroke="#4A3B62" stroke-width="1.9" stroke-linecap="round"/>
+      <circle cx="79" cy="81.5" r="1.5" fill="#4A3B62"/>
+      <ellipse cx="51" cy="79" rx="4.6" ry="3" fill="#F79CC4" opacity=".55"/>
+      <ellipse cx="89" cy="79" rx="4.6" ry="3" fill="#F79CC4" opacity=".55"/>
+      <!-- 몸 -->
+      <ellipse cx="52" cy="106" rx="6.5" ry="9" transform="rotate(-14 52 106)" fill="#312C40"/>
+      <ellipse cx="88" cy="106" rx="6.5" ry="9" transform="rotate(14 88 106)" fill="#312C40"/>
+      <ellipse cx="70" cy="108" rx="19" ry="16" fill="#312C40"/>
+      <path d="M70 98 C76 98 80 101 80 105 C80 110 75 113 70 113 C65 113 60 110 60 105 C60 101 64 98 70 98 Z" fill="#FFFFFF" opacity=".95"/>
+      <path d="M56 99 C61 96 79 96 84 99" fill="none" stroke="#F79CC4" stroke-width="2.2" stroke-linecap="round"/>
+      <ellipse cx="61" cy="122" rx="7.5" ry="4.4" fill="#312C40"/>
+      <ellipse cx="79" cy="122" rx="7.5" ry="4.4" fill="#312C40"/>
+    </svg>`
+  },
+  /* 13. 별빛 유니콘 */
   {
     key:'unicorn', name:'별빛 유니콘',
     svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
@@ -2493,6 +2442,208 @@ const CREATURES = [
       <path d="M70 65.4 v2 M67.4 69.8 q2.6 2.6 5.2 0" fill="none" stroke="#C0A6CE" stroke-width="1.5" stroke-linecap="round"/>
       <path d="M26 40 l1.4 3.4 3.4 1.4 -3.4 1.4 -1.4 3.4 -1.4 -3.4 -3.4 -1.4 3.4 -1.4 z" fill="#C9BCFA"/>
       <path d="M112 56 l1.2 3 3 1.2 -3 1.2 -1.2 3 -1.2 -3 -3 -1.2 3 -1.2 z" fill="#FFE0A8"/>
+    </svg>`
+  },
+  /* 14. 이브이 */
+  {
+    key:'eevee', name:'이브이',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="30" ry="5" fill="#8A6B4A" opacity=".09"/>
+      <path d="M90 100 C112 98 120 80 111 66 C103 76 95 88 88 94 Z" fill="#C89868"/>
+      <path d="M90 100 C106 98 113 87 108 77 C102 86 96 93 88 97 Z" fill="#F4E3C8"/>
+      <ellipse cx="52" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
+      <ellipse cx="78" cy="116" rx="11" ry="6.5" fill="#BC8C5C"/>
+      <ellipse cx="66" cy="99" rx="24" ry="19" fill="#C89868"/>
+      <ellipse cx="64" cy="78" rx="23" ry="12" fill="#F4E3C8"/>
+      <ellipse cx="43" cy="94" rx="7" ry="9.5" transform="rotate(-16 43 94)" fill="#C89868"/>
+      <ellipse cx="89" cy="94" rx="7" ry="9.5" transform="rotate(16 89 94)" fill="#C89868"/>
+      <path d="M46 46 C39 32 33 20 27 12 C37 13 48 25 54 40 Z" fill="#C89868"/>
+      <path d="M48 43 C43 33 38 24 34 18 C41 21 47 30 51 39 Z" fill="#8E6440"/>
+      <path d="M84 46 C91 32 97 20 103 12 C93 13 82 25 76 40 Z" fill="#C89868"/>
+      <path d="M82 43 C87 33 92 24 96 18 C89 21 83 30 79 39 Z" fill="#8E6440"/>
+      <ellipse cx="64" cy="57" rx="24" ry="21" fill="#C89868"/>
+      <ellipse cx="53" cy="42" rx="10" ry="5.5" transform="rotate(-22 53 42)" fill="#E7C79E" opacity=".75"/>
+      <ellipse cx="64" cy="67" rx="12" ry="8" fill="#F4E3C8"/>
+      <ellipse cx="55" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
+      <ellipse cx="73" cy="57" rx="4.8" ry="6" fill="#3B2E2B"/>
+      <circle cx="56.6" cy="54.4" r="1.9" fill="#fff"/>
+      <circle cx="74.6" cy="54.4" r="1.9" fill="#fff"/>
+      <ellipse cx="64" cy="64" rx="2.9" ry="2.3" fill="#6B4A32"/>
+      <path d="M60 70 Q64 73 68 70" fill="none" stroke="#8E6440" stroke-width="1.9" stroke-linecap="round"/>
+      <ellipse cx="46" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
+      <ellipse cx="82" cy="65" rx="4.4" ry="2.8" fill="#F0928A" opacity=".4"/>
+    </svg>`
+  },
+  /* 15. 피카츄 */
+  {
+    key:'pikachu', name:'피카츄',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="29" ry="5" fill="#9A7C2E" opacity=".1"/>
+      <path d="M90 104 L104 90 L98 87 L112 70 L105 70 L116 54 L96 70 L102 72 L90 87 Z" fill="#F6D45C"/>
+      <path d="M90 104 L98 96 L94 94 L90 99 Z" fill="#C08B54"/>
+      <g>
+        <path d="M48 44 C42 28 36 15 27 6 C31 4 36 6 40 11 C50 24 57 36 60 42 Z" fill="#F8D95E"/>
+        <path d="M27 6 C31 4 36 6 40 11 L34 17 C31 12 28 8 27 6 Z" fill="#3D3947"/>
+        <path d="M92 44 C98 28 104 15 113 6 C109 4 104 6 100 11 C90 24 83 36 80 42 Z" fill="#F8D95E"/>
+        <path d="M113 6 C109 4 104 6 100 11 L106 17 C109 12 112 8 113 6 Z" fill="#3D3947"/>
+      </g>
+      <ellipse cx="54" cy="114" rx="10" ry="6" fill="#EAC94F"/>
+      <ellipse cx="84" cy="114" rx="10" ry="6" fill="#EAC94F"/>
+      <ellipse cx="68" cy="98" rx="21" ry="18" fill="#F8D95E"/>
+      <ellipse cx="46" cy="100" rx="6.5" ry="9" transform="rotate(-18 46 100)" fill="#F8D95E"/>
+      <ellipse cx="90" cy="100" rx="6.5" ry="9" transform="rotate(18 90 100)" fill="#F8D95E"/>
+      <ellipse cx="68" cy="56" rx="26" ry="23" fill="#F8D95E"/>
+      <ellipse cx="56" cy="40" rx="11" ry="6" transform="rotate(-22 56 40)" fill="#FFF0A8" opacity=".8"/>
+      <ellipse cx="58" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
+      <ellipse cx="78" cy="55" rx="5" ry="6.6" fill="#3A3340"/>
+      <circle cx="59.7" cy="52.4" r="1.9" fill="#fff"/>
+      <circle cx="79.7" cy="52.4" r="1.9" fill="#fff"/>
+      <circle cx="47" cy="67" r="6.4" fill="#F47C6E"/>
+      <circle cx="89" cy="67" r="6.4" fill="#F47C6E"/>
+      <ellipse cx="68" cy="63" rx="1.5" ry="1.9" fill="#8A6A28"/>
+      <path d="M62 69 Q68 75 74 69" fill="none" stroke="#A08030" stroke-width="2.3" stroke-linecap="round"/>
+    </svg>`
+  },
+  /* 16. 푸린 */
+  {
+    key:'jigglypuff', name:'푸린',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="28" ry="5" fill="#A05F80" opacity=".09"/>
+      <path d="M44 46 C38 34 34 26 36 22 C44 24 52 34 55 46 Z" fill="#F7C1D3"/>
+      <path d="M96 46 C102 34 106 26 104 22 C96 24 88 34 85 46 Z" fill="#F7C1D3"/>
+      <ellipse cx="34" cy="84" rx="7" ry="10" transform="rotate(-24 34 84)" fill="#F7C1D3"/>
+      <ellipse cx="106" cy="84" rx="7" ry="10" transform="rotate(24 106 84)" fill="#F7C1D3"/>
+      <ellipse cx="56" cy="116" rx="10" ry="6" fill="#EFB0C6"/>
+      <ellipse cx="84" cy="116" rx="10" ry="6" fill="#EFB0C6"/>
+      <circle cx="70" cy="76" r="38" fill="#F9C4D6"/>
+      <ellipse cx="56" cy="52" rx="14" ry="8" transform="rotate(-24 56 52)" fill="#FFE0EA" opacity=".8"/>
+      <path d="M70 42 C78 42 82 50 76 54 C72 56 68 53 70 49 C71 47 74 48 74 50" fill="none" stroke="#E79DB6" stroke-width="2.6" stroke-linecap="round"/>
+      <ellipse cx="56" cy="76" rx="6.5" ry="8.4" fill="#4E9DA1"/>
+      <ellipse cx="84" cy="76" rx="6.5" ry="8.4" fill="#4E9DA1"/>
+      <ellipse cx="56" cy="77" rx="3.2" ry="4.4" fill="#2F3338"/>
+      <ellipse cx="84" cy="77" rx="3.2" ry="4.4" fill="#2F3338"/>
+      <circle cx="58" cy="73" r="2" fill="#fff"/>
+      <circle cx="86" cy="73" r="2" fill="#fff"/>
+      <path d="M64 92 Q70 98 76 92" fill="none" stroke="#D77E9A" stroke-width="2.4" stroke-linecap="round"/>
+      <ellipse cx="42" cy="88" rx="5.4" ry="3.4" fill="#F58FAE" opacity=".4"/>
+      <ellipse cx="98" cy="88" rx="5.4" ry="3.4" fill="#F58FAE" opacity=".4"/>
+    </svg>`
+  },
+  /* 17. 잠만보 */
+  {
+    key:'snorlax', name:'잠만보',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="126" rx="40" ry="5" fill="#3C6A62" opacity=".1"/>
+      <path d="M40 46 C36 38 37 32 41 29 C46 33 49 39 49 47 Z" fill="#6DA090"/>
+      <path d="M100 46 C104 38 103 32 99 29 C94 33 91 39 91 47 Z" fill="#6DA090"/>
+      <ellipse cx="70" cy="94" rx="43" ry="32" fill="#7DB3A6"/>
+      <ellipse cx="70" cy="101" rx="27" ry="23" fill="#F6E7C8"/>
+      <ellipse cx="33" cy="99" rx="9" ry="13" transform="rotate(-14 33 99)" fill="#7DB3A6"/>
+      <ellipse cx="107" cy="99" rx="9" ry="13" transform="rotate(14 107 99)" fill="#7DB3A6"/>
+      <ellipse cx="46" cy="120" rx="13" ry="8" fill="#6DA090"/>
+      <ellipse cx="94" cy="120" rx="13" ry="8" fill="#6DA090"/>
+      <ellipse cx="70" cy="60" rx="32" ry="27" fill="#7DB3A6"/>
+      <ellipse cx="70" cy="65" rx="25" ry="20" fill="#F6E7C8"/>
+      <path d="M52 59 Q58 53 64 59" fill="none" stroke="#6C5B45" stroke-width="2.6" stroke-linecap="round"/>
+      <path d="M76 59 Q82 53 88 59" fill="none" stroke="#6C5B45" stroke-width="2.6" stroke-linecap="round"/>
+      <ellipse cx="70" cy="78" rx="9" ry="4.6" fill="#E5C9A5"/>
+      <path d="M66 76 Q70 79 74 76" fill="none" stroke="#9C7B54" stroke-width="1.7" stroke-linecap="round"/>
+      <ellipse cx="46" cy="76" rx="5" ry="3" fill="#EE9E8E" opacity=".35"/>
+      <ellipse cx="94" cy="76" rx="5" ry="3" fill="#EE9E8E" opacity=".35"/>
+    </svg>`
+  },
+  /* 18. 고라파덕 */
+  {
+    key:'psyduck', name:'고라파덕',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="126" rx="30" ry="5" fill="#9A7C2E" opacity=".1"/>
+      <ellipse cx="70" cy="102" rx="25" ry="18" fill="#F7DC7A"/>
+      <ellipse cx="70" cy="105" rx="15" ry="11" fill="#FBEBAE"/>
+      <ellipse cx="44" cy="68" rx="9.5" ry="12.5" transform="rotate(-14 44 68)" fill="#F7DC7A"/>
+      <ellipse cx="96" cy="68" rx="9.5" ry="12.5" transform="rotate(14 96 68)" fill="#F7DC7A"/>
+      <ellipse cx="70" cy="58" rx="29" ry="25" fill="#F7DC7A"/>
+      <path d="M64 35 C61 27 58 23 54 21" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M71 34 C71 26 72 22 75 18" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
+      <path d="M78 36 C80 29 83 25 87 23" fill="none" stroke="#DCC15E" stroke-width="3.2" stroke-linecap="round"/>
+      <ellipse cx="58" cy="57" rx="6.4" ry="7.8" fill="#fff"/>
+      <ellipse cx="82" cy="57" rx="6.4" ry="7.8" fill="#fff"/>
+      <circle cx="58.6" cy="58" r="3" fill="#33303C"/>
+      <circle cx="82.6" cy="58" r="3" fill="#33303C"/>
+      <circle cx="59.6" cy="56.6" r="1" fill="#fff"/>
+      <circle cx="83.6" cy="56.6" r="1" fill="#fff"/>
+      <ellipse cx="70" cy="75" rx="15" ry="8" fill="#EFC96B"/>
+      <path d="M55 73 Q70 79 85 73" fill="none" stroke="#D3AE52" stroke-width="1.8"/>
+      <ellipse cx="67" cy="72" rx="1.2" ry="1.5" fill="#C9A648"/>
+      <ellipse cx="73" cy="72" rx="1.2" ry="1.5" fill="#C9A648"/>
+      <ellipse cx="42" cy="80" rx="5" ry="3" fill="#EE9E8E" opacity=".3"/>
+      <ellipse cx="98" cy="80" rx="5" ry="3" fill="#EE9E8E" opacity=".3"/>
+    </svg>`
+  },
+  /* 19. 메타몽 */
+  {
+    key:'ditto', name:'메타몽',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="122" rx="34" ry="5" fill="#6B4F86" opacity=".1"/>
+      <path d="M70 38 C98 38 116 56 116 80 C116 106 96 118 70 118 C44 118 24 106 24 80 C24 56 42 38 70 38 Z" fill="#C7A8DC"/>
+      <ellipse cx="52" cy="58" rx="14" ry="8" transform="rotate(-22 52 58)" fill="#E1CDEE" opacity=".8"/>
+      <ellipse cx="56" cy="76" rx="3.6" ry="4.4" fill="#3B3040"/>
+      <ellipse cx="84" cy="76" rx="3.6" ry="4.4" fill="#3B3040"/>
+      <circle cx="57.4" cy="74.2" r="1.4" fill="#fff"/>
+      <circle cx="85.4" cy="74.2" r="1.4" fill="#fff"/>
+      <path d="M60 90 Q70 100 80 90" fill="none" stroke="#8B6BA8" stroke-width="2.8" stroke-linecap="round"/>
+      <ellipse cx="44" cy="90" rx="6" ry="3.6" fill="#B48FCB" opacity=".45"/>
+      <ellipse cx="96" cy="90" rx="6" ry="3.6" fill="#B48FCB" opacity=".45"/>
+    </svg>`
+  },
+  /* 20. 캐터피 */
+  {
+    key:'caterpie', name:'캐터피',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="124" rx="28" ry="5" fill="#4F7F4A" opacity=".1"/>
+      <path d="M66 46 C64 36 62 30 58 26" fill="none" stroke="#D4645A" stroke-width="3.4" stroke-linecap="round"/>
+      <circle cx="57" cy="24" r="4.2" fill="#D4645A"/>
+      <ellipse cx="70" cy="104" rx="22" ry="17" fill="#96CD77"/>
+      <ellipse cx="70" cy="84" rx="23" ry="16" fill="#A2D783"/>
+      <path d="M48 94 Q70 100 92 94" fill="none" stroke="#82BA64" stroke-width="1.6" opacity=".7"/>
+      <path d="M48 78 Q70 84 92 78" fill="none" stroke="#82BA64" stroke-width="1.6" opacity=".7"/>
+      <ellipse cx="42" cy="112" rx="7" ry="4.6" fill="#88C067"/>
+      <ellipse cx="98" cy="112" rx="7" ry="4.6" fill="#88C067"/>
+      <ellipse cx="68" cy="62" rx="25" ry="21" fill="#A2D783"/>
+      <ellipse cx="58" cy="48" rx="10" ry="5.5" transform="rotate(-20 58 48)" fill="#D2F0BE" opacity=".7"/>
+      <circle cx="57" cy="64" r="8.2" fill="#F6E88C"/>
+      <circle cx="79" cy="64" r="8.2" fill="#F6E88C"/>
+      <circle cx="57" cy="64" r="4" fill="#3A4034"/>
+      <circle cx="79" cy="64" r="4" fill="#3A4034"/>
+      <circle cx="58.4" cy="62.4" r="1.4" fill="#fff"/>
+      <circle cx="80.4" cy="62.4" r="1.4" fill="#fff"/>
+      <path d="M64 75 Q68 79 72 75" fill="none" stroke="#6E9A56" stroke-width="2" stroke-linecap="round"/>
+    </svg>`
+  },
+  /* 21. 뮤 */
+  {
+    key:'mew', name:'뮤',
+    svg:`<svg viewBox="0 0 140 140" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <ellipse cx="70" cy="126" rx="26" ry="4.5" fill="#9A5F86" opacity=".1"/>
+      <path d="M82 96 C104 100 118 90 120 72 C121 64 118 58 112 56" fill="none" stroke="#F5BBD3" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="110" cy="54" rx="8" ry="6.5" fill="#F7C3D9" transform="rotate(-20 110 54)"/>
+      <path d="M54 40 C50 32 50 26 54 22 C58 27 60 34 59 42 Z" fill="#F7C3D9"/>
+      <path d="M80 40 C84 32 84 26 80 22 C76 27 74 34 75 42 Z" fill="#F7C3D9"/>
+      <ellipse cx="70" cy="88" rx="20" ry="23" fill="#F7C3D9"/>
+      <ellipse cx="50" cy="86" rx="6" ry="9" transform="rotate(-24 50 86)" fill="#F7C3D9"/>
+      <ellipse cx="90" cy="86" rx="6" ry="9" transform="rotate(24 90 86)" fill="#F7C3D9"/>
+      <ellipse cx="60" cy="112" rx="7" ry="4.6" fill="#F0B2CB"/>
+      <ellipse cx="80" cy="112" rx="7" ry="4.6" fill="#F0B2CB"/>
+      <ellipse cx="70" cy="54" rx="21" ry="19" fill="#F7C3D9"/>
+      <ellipse cx="61" cy="40" rx="9" ry="5" transform="rotate(-22 61 40)" fill="#FFE1ED" opacity=".85"/>
+      <ellipse cx="62" cy="54" rx="5.2" ry="6.4" fill="#5FA8D8"/>
+      <ellipse cx="78" cy="54" rx="5.2" ry="6.4" fill="#5FA8D8"/>
+      <ellipse cx="62" cy="54.6" rx="2.4" ry="3.2" fill="#2C3E58"/>
+      <ellipse cx="78" cy="54.6" rx="2.4" ry="3.2" fill="#2C3E58"/>
+      <circle cx="63.6" cy="51.8" r="1.7" fill="#fff"/>
+      <circle cx="79.6" cy="51.8" r="1.7" fill="#fff"/>
+      <path d="M66 64 Q70 68 74 64" fill="none" stroke="#D489A6" stroke-width="2" stroke-linecap="round"/>
+      <ellipse cx="50" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
+      <ellipse cx="90" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
     </svg>`
   }
 ];
@@ -3014,6 +3165,7 @@ function renderKid(kidId) {
   pet.replaceChildren(artBox(cr));
   card.querySelector('[data-petname]').textContent = cr.name;
   card.querySelector('[data-dexcount]').textContent = k.dexOpen.length;
+  card.querySelector('[data-dextotal]').textContent = MAX_DEX;
 
   const nameEl = card.querySelector('[data-field="name"]');
   if (document.activeElement !== nameEl) nameEl.textContent = k.name;
