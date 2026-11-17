@@ -247,9 +247,9 @@ h1,h2,h3,p { margin:0; }
 .cal-cell.has-dday .cal-dot{ background:#EF8A76; }
 
 /* ============ dday ============ */
-.dday-card{ padding:12px 13px 11px; display:flex; flex-direction:column; }
+.dday-card{ padding:12px 13px 11px; display:flex; flex-direction:column; min-height:0; overflow:hidden; }
 .dday-head{ display:flex; align-items:center; justify-content:space-between; margin-bottom:7px; padding:0 2px; }
-.dday-list{ display:flex; flex-direction:column; gap:5px; margin-bottom:7px; flex:1 1 auto; min-height:0; }
+.dday-list{ display:flex; flex-direction:column; gap:5px; margin-bottom:7px; flex:1 1 auto; min-height:0; max-height:266px; overflow-y:auto; scrollbar-width:none; }
 .dday-item{
   display:flex; align-items:center; gap:7px;
   padding:5px 7px 5px 6px;
@@ -1251,21 +1251,17 @@ select.q-xp, #wishWho{
 .dex-item.locked .art{ filter:grayscale(1) brightness(1.03) opacity(.28); }
 .celeb-emoji{ font-size:52px; line-height:1; }
 
-/* ============ 🌤️ 날씨 ============ */
+/* ============ 🌤️ 날씨 (아이콘 | 현재·최고·최저 온도 | 옷차림 그림 3단) ============ */
 .weather-card{
-  padding:11px 14px 10px;
+  padding:12px 14px 11px;
   background:linear-gradient(160deg,#FBFDFF 0%,#F6F9FE 52%,#FCF7FF 100%);
   border-color:#E9EEFA;
 }
-.wx-top{ display:flex; align-items:center; gap:10px; }
-.wx-now{ display:flex; align-items:center; gap:5px; flex:0 0 auto; }
-.wx-icon{ font-size:24px; line-height:1; filter:drop-shadow(0 3px 6px rgba(120,110,180,.18)); }
-.wx-temp{ display:flex; align-items:baseline; color:#3E3757; font-variant-numeric:tabular-nums; }
-.wx-temp b{ font-size:22px; font-weight:850; letter-spacing:-0.045em; line-height:1; }
-.wx-temp span{ font-size:12.5px; font-weight:750; color:#8E86A4; margin-left:1px; }
-.wx-place{ flex:1; min-width:0; }
-.wx-where{ font-size:10.5px; font-weight:800; color:#8B82A4; letter-spacing:-0.01em; }
-.wx-desc{ font-size:12.5px; font-weight:750; color:#4E4668; margin-top:1px; word-break:keep-all; line-height:1.35; }
+.col-left > .weather-card{ flex:0 0 auto; }   /* 옷차림 그림이 세로로 눌리지 않게 */
+.wx-top{ display:flex; align-items:flex-start; justify-content:space-between; gap:10px; }
+.wx-place{ min-width:0; }
+.wx-where{ font-size:11px; font-weight:800; color:#8B82A4; letter-spacing:-0.01em; }
+.wx-desc{ font-size:13.5px; font-weight:750; color:#4E4668; margin-top:1px; word-break:keep-all; line-height:1.35; }
 .wx-refresh{
   flex:0 0 auto; width:27px; height:27px; border-radius:9px;
   display:grid; place-items:center;
@@ -1276,21 +1272,54 @@ select.q-xp, #wishWho{
 .wx-refresh:hover{ background:#fff; color:#6C5FD0; }
 .wx-refresh.spin{ animation:wxSpin .9s linear infinite; }
 @keyframes wxSpin{ to{ transform:rotate(360deg); } }
-.wx-meta{ display:flex; gap:5px; margin-top:6px; flex-wrap:wrap; }
-.wx-chip{
+.wx-main{
+  margin-top:8px;
+  display:grid; grid-template-columns:auto minmax(0,1fr) auto;
+  align-items:center; gap:12px;
+  padding:11px 13px;
+  border-radius:17px;
+  background:rgba(255,255,255,.75);
+  border:1px solid rgba(233,228,246,.9);
+}
+.wx-icon{
+  width:60px; height:60px;
+  filter:drop-shadow(0 5px 11px rgba(120,110,180,.22));
+}
+.wx-icon svg{ width:100%; height:100%; display:block; }
+.wx-center{ display:flex; flex-direction:column; align-items:center; text-align:center; min-width:0; }
+.wx-temp{ display:flex; align-items:baseline; color:#3E3757; font-variant-numeric:tabular-nums; line-height:1; }
+.wx-temp b{ font-size:47px; font-weight:850; letter-spacing:-0.05em; line-height:1; }
+.wx-temp span{ font-size:17px; font-weight:750; color:#8E86A4; margin-left:2px; }
+.wx-hl{
+  margin-top:6px; display:flex; align-items:baseline; justify-content:center; gap:7px;
+  font-size:12px; font-weight:750; color:#8A82A0; white-space:nowrap;
+}
+.wx-hl b{ font-weight:850; font-size:14px; font-variant-numeric:tabular-nums; }
+.wx-hl .hi b{ color:#D96A50; }
+.wx-hl .lo b{ color:#4E7FD0; }
+.wx-hl .sep{ color:#CFC7E2; }
+.wx-pop-chip{
+  margin-top:4px;
   font-size:10px; font-weight:750; color:#7A7292;
-  background:rgba(255,255,255,.92); border:1px solid #EDE8F8;
-  padding:2px 7px; border-radius:999px; letter-spacing:-0.01em;
+  background:#F6F2FE; border:1px solid #EDE7F9;
+  padding:1.5px 8px; border-radius:999px; letter-spacing:-0.01em;
 }
-.wx-chip b{ font-weight:850; color:#4B4266; font-variant-numeric:tabular-nums; }
-.wx-outfit{
-  margin-top:5px; padding:5px 8px;
-  font-size:10.5px; font-weight:750; color:#5F5580;
-  line-height:1.4; word-break:keep-all;
-  border-radius:12px; border:1px solid #EAE2FA;
-  background:linear-gradient(180deg,#F7F2FF,#F2F8FF);
+.wx-pop-chip b{ font-weight:850; color:#4B4266; font-variant-numeric:tabular-nums; }
+.wx-outfit{ display:flex; flex-direction:column; align-items:center; gap:3px; min-width:76px; }
+.wx-fig{ position:relative; width:72px; height:72px; }
+.wx-fig svg{ width:100%; height:100%; display:block; }
+.wx-fig .wx-umb{
+  position:absolute; right:-7px; bottom:-5px;
+  font-size:19px; line-height:1;
+  filter:drop-shadow(0 2px 4px rgba(90,80,140,.3));
 }
-.wx-note{ margin-top:4px; font-size:9px; font-weight:650; color:#B0A8C2; letter-spacing:-0.01em; }
+.wx-outfit-name{
+  font-size:11px; font-weight:800; color:#5F5580; letter-spacing:-0.01em;
+  white-space:nowrap;
+}
+.weather-card.is-err .wx-main{ opacity:.55; }
+.weather-card.is-err .wx-fig{ display:none; }
+.wx-note{ margin-top:5px; font-size:9.5px; font-weight:650; color:#B0A8C2; letter-spacing:-0.01em; }
 
 /* ============ ⏱️ 공부 타이머 ============ */
 .timer-card{ padding:11px 13px 10px; }
@@ -1579,6 +1608,14 @@ select.q-xp, #wishWho{
 @media (max-width:796px){
   .app{ padding:14px 12px 26px; }
   .grid{ grid-template-columns:minmax(0,1fr); }
+  .wx-main{ padding:9px 10px; gap:9px; }
+  .wx-icon{ width:44px; height:44px; }
+  .wx-temp b{ font-size:36px; }
+  .wx-temp span{ font-size:14px; }
+  .wx-fig{ width:58px; height:58px; }
+  .wx-outfit{ min-width:60px; }
+  .wx-hl{ font-size:11px; gap:5px; }
+  .wx-hl b{ font-size:12.5px; }
   .col-left, .kid-card[data-kid="haseong"], .kid-card[data-kid="hayun"], .col-right{ grid-column:1; grid-row:auto; }
   .col-right{ display:flex; flex-direction:column; align-items:stretch; gap:14px; }
   .chat-log{ max-height:230px; }
@@ -1640,21 +1677,27 @@ select.q-xp, #wishWho{
     <div class="col-left">
       <section class="card weather-card" id="weatherCard" aria-label="대구 동구 날씨">
         <div class="wx-top">
-          <span class="wx-icon" id="wxIcon" aria-hidden="true">🌤️</span>
           <div class="wx-place">
             <div class="wx-where">📍 대구 동구</div>
             <div class="wx-desc" id="wxDesc">날씨를 불러오는 중…</div>
           </div>
-          <div class="wx-temp"><b id="wxTemp">–</b><span>℃</span></div>
           <button class="wx-refresh" id="wxRefresh" type="button" aria-label="날씨 새로고침" title="날씨 새로고침">↻</button>
         </div>
-        <div class="wx-meta" id="wxMeta" hidden>
-          <span class="wx-chip">최고 <b id="wxMax">–</b>°</span>
-          <span class="wx-chip">최저 <b id="wxMin">–</b>°</span>
-          <span class="wx-chip">강수 <b id="wxPop">–</b>%</span>
+        <div class="wx-main">
+          <span class="wx-icon" id="wxIcon" aria-hidden="true"><svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M17 46 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#C6D8F0" stroke="#A3BDE1" stroke-width="1.8"/></svg></span>
+          <div class="wx-center">
+            <div class="wx-temp"><b id="wxTemp">–</b><span>℃</span></div>
+            <div class="wx-hl" id="wxHL" hidden>
+              <span class="hi">최고 <b id="wxMax">–</b>°</span><span class="sep">/</span><span class="lo">최저 <b id="wxMin">–</b>°</span>
+            </div>
+            <span class="wx-pop-chip" id="wxPopChip" hidden>강수확률 <b id="wxPop">–</b>%</span>
+          </div>
+          <div class="wx-outfit" id="wxOutfit" hidden>
+            <div class="wx-fig" id="wxFig" aria-hidden="true"></div>
+            <div class="wx-outfit-name" id="wxOutfitName">–</div>
+          </div>
         </div>
-        <p class="wx-outfit" id="wxOutfit" hidden>–</p>
-        <p class="wx-note" id="wxNote">대구 동구 · 인터넷이 되면 ↻ 를 눌러 주세요</p>
+        <p class="wx-note" id="wxNote" hidden></p>
       </section>
 
       <section class="card cal-card" aria-label="월간 달력">
@@ -5381,22 +5424,163 @@ const WX_INFO = {
 const WX_WET = new Set([51, 53, 55, 56, 57, 61, 63, 65, 66, 67, 71, 73, 75, 77, 80, 81, 82, 85, 86, 95, 96, 99]);
 let wxBusy = false;
 
+/* 날씨 상태별 컬러 SVG 아이콘 */
+const WX_ICONS = {
+  sun: '<circle cx="32" cy="32" r="13" fill="#F8C63F"/><circle cx="32" cy="32" r="13" fill="none" stroke="#F0A431" stroke-width="1.5" opacity=".55"/>'
+    + '<g stroke="#F5B93E" stroke-width="3.4" stroke-linecap="round">'
+    + '<path d="M32 9.5v6"/><path d="M32 48.5v6"/><path d="M9.5 32h6"/><path d="M48.5 32h6"/>'
+    + '<path d="M16 16l4.2 4.2"/><path d="M43.8 43.8L48 48"/><path d="M48 16l-4.2 4.2"/><path d="M20.2 43.8L16 48"/></g>',
+  suncloud: '<circle cx="23" cy="24" r="11" fill="#F8C63F"/>'
+    + '<g stroke="#F5B93E" stroke-width="3" stroke-linecap="round"><path d="M23 7.5v4.5"/><path d="M8.5 24H13"/><path d="M12.6 13.6l3.2 3.2"/><path d="M33.4 13.6l-3.2 3.2"/></g>'
+    + '<path d="M14 47 q-6.5 0 -6.5 -6.2 q0 -5.4 5.7 -6.1 q1.8 -7.4 9.3 -7.4 q6.5 0 8.6 5.2 q7.4 -.6 7.4 6.7 q0 7.8 -8.5 7.8 z" fill="#BFD5EF" stroke="#9FBBE0" stroke-width="1.6"/>',
+  cloud: '<path d="M17 46 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#C6D8F0" stroke="#A3BDE1" stroke-width="1.8"/>'
+    + '<path d="M22 40 q-3.6 -.8 -3.2 -4.2 q.4 -3.2 3.8 -3.4" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" opacity=".85"/>',
+  fog: '<path d="M17 38 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#C6D8F0" stroke="#A3BDE1" stroke-width="1.8"/>'
+    + '<g stroke="#AEB8D4" stroke-width="3" stroke-linecap="round"><path d="M13 46h30"/><path d="M19 54h26"/></g>',
+  drizzle: '<path d="M17 36 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#C6D8F0" stroke="#A3BDE1" stroke-width="1.8"/>'
+    + '<g stroke="#5E9FE8" stroke-width="3" stroke-linecap="round"><path d="M22 43v4"/><path d="M32 43v5.5"/><path d="M42 43v4"/></g>',
+  rain: '<path d="M17 34 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#9FBBE0" stroke="#7FA0CE" stroke-width="1.8"/>'
+    + '<g stroke="#4E8CD8" stroke-width="3.6" stroke-linecap="round"><path d="M20 41l-2.6 8"/><path d="M32 41l-2.6 9.5"/><path d="M44 41l-2.6 8"/></g>',
+  showers: '<circle cx="44" cy="17" r="8" fill="#F8C63F"/>'
+    + '<path d="M15 38 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q7 -.8 7 7.2 q0 8.5 -9.4 8.5 z" fill="#9FBBE0" stroke="#7FA0CE" stroke-width="1.8"/>'
+    + '<g stroke="#4E8CD8" stroke-width="3.6" stroke-linecap="round"><path d="M19 44l-2.4 7"/><path d="M30 44l-2.4 8.5"/><path d="M41 44l-2.4 7"/></g>',
+  snow: '<path d="M17 36 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#D4E2F6" stroke="#B0C6E8" stroke-width="1.8"/>'
+    + '<g fill="#6FB3E8"><circle cx="20" cy="45" r="2.6"/><circle cx="31" cy="50" r="2.6"/><circle cx="42" cy="45" r="2.6"/><circle cx="26" cy="55" r="2.2"/><circle cx="37" cy="57.5" r="2.2"/></g>',
+  thunder: '<path d="M17 34 q-8 0 -8 -7.6 q0 -6.6 7 -7.5 q2.2 -9 11.4 -9 q8 0 10.6 6.4 q9 -.8 9 8.2 q0 9.5 -10.4 9.5 z" fill="#8FA6CC" stroke="#7189B5" stroke-width="1.8"/>'
+    + '<path d="M30 39 l-7.5 12.5 h6.5 l-3 10 L38.5 47.5 h-6.8 l4.3 -8.5 z" fill="#F8C63F" stroke="#EBA92E" stroke-width="1.4"/>'
+};
+const WX_ICON_KEY = {
+  0: 'sun', 1: 'suncloud', 2: 'suncloud', 3: 'cloud',
+  45: 'fog', 48: 'fog',
+  51: 'drizzle', 53: 'drizzle', 55: 'rain', 56: 'drizzle', 57: 'drizzle',
+  61: 'rain', 63: 'rain', 65: 'rain', 66: 'rain', 67: 'rain',
+  71: 'snow', 73: 'snow', 75: 'snow', 77: 'snow', 85: 'snow', 86: 'snow',
+  80: 'showers', 81: 'rain', 82: 'rain',
+  95: 'thunder', 96: 'thunder', 99: 'thunder'
+};
+function wxIconSvg(code) {
+  const key = WX_ICON_KEY[code] || 'cloud';
+  return '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">' + WX_ICONS[key] + '</svg>';
+}
+
+/* 기온 구간별 옷차림 일러스트 (컬러 SVG) */
+function wxFace(hairColor, extraHair) {
+  return '<path d="M35.5 21 a14.5 14.5 0 0 1 29 0 q-4.5 -7.5 -14.5 -7.5 q-10 0 -14.5 7.5" fill="' + hairColor + '"/>' + (extraHair || '')
+    + '<circle cx="50" cy="21.5" r="13" fill="#FBDCBB"/>'
+    + '<path d="M36 20.5 q3.5 -6.5 14 -6.5 q10.5 0 14 6.5 q-4.5 -5 -14 -5 q-9.5 0 -14 5" fill="' + hairColor + '"/>'
+    + '<circle cx="44.5" cy="23" r="1.7" fill="#4A3B3B"/><circle cx="55.5" cy="23" r="1.7" fill="#4A3B3B"/>'
+    + '<path d="M47.5 28 q2.5 2.2 5 0" stroke="#C98A6B" stroke-width="1.4" stroke-linecap="round" fill="none"/>'
+    + '<circle cx="40.5" cy="27" r="2.4" fill="#F8C6B2" opacity=".8"/><circle cx="59.5" cy="27" r="2.4" fill="#F8C6B2" opacity=".8"/>';
+}
+function wxLegs(pants, shoe) {
+  return '<rect x="40.5" y="66" width="7.5" height="17" rx="3.5" fill="' + pants + '"/>'
+    + '<rect x="52" y="66" width="7.5" height="17" rx="3.5" fill="' + pants + '"/>'
+    + '<rect x="37.5" y="81.5" width="13.5" height="6.5" rx="3.2" fill="' + shoe + '"/>'
+    + '<rect x="49" y="81.5" width="13.5" height="6.5" rx="3.2" fill="' + shoe + '"/>';
+}
+const WX_OUTFITS = {
+  padding: { name: '패딩·목도리', tip: '따뜻한 패딩과 목도리로 나가요', svg:
+    wxLegs('#4A4258', '#37304A')
+    + '<rect x="23.5" y="44" width="10.5" height="20" rx="5.2" fill="#F0925F" transform="rotate(9 29 54)"/>'
+    + '<rect x="66" y="44" width="10.5" height="20" rx="5.2" fill="#F0925F" transform="rotate(-9 71 54)"/>'
+    + '<circle cx="27.5" cy="64.5" r="4" fill="#E0824C"/><circle cx="72.5" cy="64.5" r="4" fill="#E0824C"/>'
+    + '<path d="M31.5 45 q0 -10 18.5 -10 q18.5 0 18.5 10 l-1.6 16.5 q-.5 7 -16.9 7 q-16.4 0 -16.9 -7 z" fill="#F0925F"/>'
+    + '<path d="M33.6 51.5 h32.8" stroke="#D97B4C" stroke-width="2" stroke-linecap="round"/>'
+    + '<path d="M34.2 58 h31.6" stroke="#D97B4C" stroke-width="2" stroke-linecap="round"/>'
+    + wxFace('#4E3B31')
+    + '<path d="M35 36.5 q15 5.5 30 0 l1 6.5 q-16 6.5 -32 0 z" fill="#63BFAE"/>'
+    + '<rect x="56.5" y="42.5" width="8" height="15" rx="4" fill="#63BFAE" transform="rotate(7 60.5 50)"/>'
+    + '<path d="M58.5 55.5 l-1 4 M61 55 l-.5 4 M63.5 54 l0 4" stroke="#4FA894" stroke-width="1.2" stroke-linecap="round"/>' },
+  coat: { name: '코트·니트', tip: '코트나 경량 패딩이 좋아요', svg:
+    wxLegs('#5C5570', '#3A3346')
+    + '<rect x="24.5" y="45" width="10" height="21" rx="5" fill="#DCB98E" transform="rotate(8 29.5 55)"/>'
+    + '<rect x="65.5" y="45" width="10" height="21" rx="5" fill="#DCB98E" transform="rotate(-8 70.5 55)"/>'
+    + '<path d="M31.5 45 q0 -9.5 18.5 -9.5 q18.5 0 18.5 9.5 l-2.6 27 q-.5 5 -15.9 5 q-15.4 0 -15.9 -5 z" fill="#DCB98E"/>'
+    + '<path d="M50 37.5 v39" stroke="#C9A97E" stroke-width="1.6"/>'
+    + '<path d="M50 40.5 l-6.5 -3.5 M50 40.5 l6.5 -3.5" stroke="#C9A97E" stroke-width="1.6" stroke-linecap="round" fill="none"/>'
+    + '<circle cx="50" cy="47" r="1.5" fill="#8A6F4D"/><circle cx="50" cy="55" r="1.5" fill="#8A6F4D"/><circle cx="50" cy="63" r="1.5" fill="#8A6F4D"/>'
+    + '<rect x="43" y="33.5" width="14" height="6" rx="3" fill="#E8836F"/>'
+    + '<path d="M35.5 14 q-5.5 13 -2.5 27 q3.5 2.5 5.5 .5 q-2.5 -14 .5 -24.5 z" fill="#33292E"/>'
+    + '<path d="M64.5 14 q5.5 13 2.5 27 q-3.5 2.5 -5.5 .5 q2.5 -14 -.5 -24.5 z" fill="#33292E"/>'
+    + wxFace('#33292E') },
+  jacket: { name: '자켓·가디건', tip: '니트나 가디건·자켓을 챙기세요', svg:
+    wxLegs('#46527A', '#37304A')
+    + '<path d="M38 36 h24 l1.5 8 h-27 z" fill="#F7F3EC"/>'
+    + '<rect x="24.5" y="44.5" width="10" height="19" rx="5" fill="#6C8FC7" transform="rotate(8 29.5 54)"/>'
+    + '<rect x="65.5" y="44.5" width="10" height="19" rx="5" fill="#6C8FC7" transform="rotate(-8 70.5 54)"/>'
+    + '<path d="M31.5 45 q0 -9 18.5 -9 q7 0 11 2.5 l-1 31 q-11 3 -26 -1.5 q-2 -11 -2.5 -23 z" fill="#6C8FC7"/>'
+    + '<path d="M68.5 45 q0 -9 -18.5 -9 l2 31 q10.5 1.5 18.5 -1 q1 -11 -2 -21 z" fill="#6C8FC7" opacity="0"/>'
+    + '<path d="M50 37.5 v30" stroke="#5B7FB2" stroke-width="1.6"/>'
+    + '<circle cx="50" cy="44" r="1.4" fill="#F7F3EC"/><circle cx="50" cy="52" r="1.4" fill="#F7F3EC"/><circle cx="50" cy="60" r="1.4" fill="#F7F3EC"/>'
+    + '<path d="M40 38.5 l-6.5 -3 M60 38.5 l6.5 -3" stroke="#5B7FB2" stroke-width="1.6" stroke-linecap="round"/>'
+    + wxFace('#6B4A32') },
+  sweat: { name: '긴팔·맨투맨', tip: '긴팔이나 얇은 겉옷이 딱 좋아요', svg:
+    wxLegs('#6E6685', '#37304A')
+    + '<rect x="24.5" y="45" width="10" height="19" rx="5" fill="#8B7BF5" transform="rotate(8 29.5 54)"/>'
+    + '<rect x="65.5" y="45" width="10" height="19" rx="5" fill="#8B7BF5" transform="rotate(-8 70.5 54)"/>'
+    + '<path d="M31.5 45.5 q0 -10 18.5 -10 q18.5 0 18.5 10 l-1 17.5 q-.5 6.5 -17.5 6.5 q-17 0 -17.5 -6.5 z" fill="#8B7BF5"/>'
+    + '<path d="M33 60.5 h34" stroke="#7361EE" stroke-width="3" stroke-linecap="round"/>'
+    + '<path d="M42 47.5 h16" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>'
+    + '<path d="M46 53 h8" stroke="#fff" stroke-width="2.4" stroke-linecap="round" opacity=".9"/>'
+    + '<path d="M44 37 q6 3.5 12 0" stroke="#7361EE" stroke-width="3.5" stroke-linecap="round" fill="none"/>'
+    + '<path d="M47 39.5 v6 M53 39.5 v6" stroke="#FDF9EE" stroke-width="1.3" stroke-linecap="round"/>'
+    + wxFace('#3A3134') },
+  cardigan: { name: '반팔·얇은 가디건', tip: '반팔에 얇은 가디건 정도가 좋아요', svg:
+    wxLegs('#7B7290', '#fff')
+    + '<path d="M39 35 h22 l1 9 h-24 z" fill="#F6A9BC"/>'
+    + '<rect x="41.5" y="64" width="7" height="5" fill="#F0A03C"/><rect x="51.5" y="64" width="7" height="5" fill="#F0A03C"/>'
+    + '<rect x="25" y="45" width="9.5" height="18" rx="4.7" fill="#F7C46C" transform="rotate(9 30 54)"/>'
+    + '<rect x="65.5" y="45" width="9.5" height="18" rx="4.7" fill="#F7C46C" transform="rotate(-9 70 54)"/>'
+    + '<path d="M32 45.5 q0 -9 18 -9 q4.5 0 7 1.5 l-2.5 29 q-9.5 2.5 -21.5 -1 q-1 -10.5 -1 -20.5 z" fill="#F7C46C"/>'
+    + '<path d="M57 37.5 l3 29.5" stroke="#EAB04C" stroke-width="1.4"/>'
+    + '<circle cx="55.5" cy="44" r="1.2" fill="#C79134"/><circle cx="55.2" cy="52" r="1.2" fill="#C79134"/><circle cx="54.9" cy="60" r="1.2" fill="#C79134"/>'
+    + wxFace('#5A4638') },
+  summer: { name: '반팔·반바지', tip: '시원한 반팔·반바지 차림이 좋아요', svg:
+    '<rect x="40.5" y="66" width="7.5" height="17" rx="3.5" fill="#FBDCBB"/>'
+    + '<rect x="52" y="66" width="7.5" height="17" rx="3.5" fill="#FBDCBB"/>'
+    + '<rect x="37.5" y="81.5" width="13.5" height="6.5" rx="3.2" fill="#5FC9E8"/>'
+    + '<rect x="49" y="81.5" width="13.5" height="6.5" rx="3.2" fill="#5FC9E8"/>'
+    + '<path d="M38.5 61.5 h23 v6 q-6 3 -11.5 3 q-5.5 0 -11.5 -3 z" fill="#F7C948"/>'
+    + '<path d="M38.5 61.5 h23 v4.5 h-23 z" fill="#F0B62F" opacity=".55"/>'
+    + '<rect x="25.5" y="44" width="9" height="17" rx="4.5" fill="#FBDCBB" transform="rotate(9 30 52)"/>'
+    + '<rect x="65.5" y="44" width="9" height="17" rx="4.5" fill="#FBDCBB" transform="rotate(-9 70 52)"/>'
+    + '<path d="M31.5 46 q0 -10.5 18.5 -10.5 q18.5 0 18.5 10.5 l-1 15 q-.5 5.5 -17.5 5.5 q-17 0 -17.5 -5.5 z" fill="#5FC9E8"/>'
+    + '<path d="M31.8 52.5 q-3.5 -8.5 3 -11.5 l1.5 3.5 q-4.5 3 -4.5 8 z" fill="#4FB4D4"/>'
+    + '<path d="M68.2 52.5 q3.5 -8.5 -3 -11.5 l-1.5 3.5 q4.5 3 4.5 8 z" fill="#4FB4D4"/>'
+    + '<circle cx="50" cy="43.5" r="1.4" fill="#4FB4D4"/><circle cx="50" cy="51" r="1.4" fill="#4FB4D4"/>'
+    + wxFace('#7A4E2E', '<rect x="42.5" y="6.5" width="15" height="4.5" rx="2.2" fill="#F2925F" transform="rotate(-18 50 9)"/>') }
+};
 function outfitFor(t, code, pop) {
-  let line;
-  if (t < 5) line = '두꺼운 패딩·목도리 챙기세요 🧣';
-  else if (t < 12) line = '코트나 경량패딩이 좋아요 🧥';
-  else if (t < 17) line = '니트·가디건·자켓 추천 🧶';
-  else if (t < 23) line = '긴팔·얇은 겉옷이 딱 좋아요 👕';
-  else line = '시원한 반팔 차림 좋아요 ☀️';
-  if (WX_WET.has(code) || (pop != null && pop >= 50)) line += ' · 우산 꼭 챙기세요 ☂️';
-  return line;
+  const wet = WX_WET.has(code) || (pop != null && pop >= 50);
+  const snowy = [71, 73, 75, 77, 85, 86].indexOf(code) >= 0;
+  let key;
+  if (t <= 4) key = 'padding';
+  else if (t <= 9) key = 'coat';
+  else if (t <= 15) key = 'jacket';
+  else if (t <= 20) key = 'sweat';
+  else if (t <= 25) key = 'cardigan';
+  else key = 'summer';
+  return { key, wet, snowy };
+}
+function renderOutfit(o) {
+  const fig = $('#wxFig'), name = $('#wxOutfitName'), box = $('#wxOutfit');
+  if (!fig || !box) return;
+  const outfit = WX_OUTFITS[o.key] || WX_OUTFITS.jacket;
+  fig.innerHTML = '<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="옷차림 그림">' + outfit.svg + '</svg>'
+    + (o.wet ? '<span class="wx-umb" aria-hidden="true">' + (o.snowy ? '❄️' : '☂️') + '</span>' : '');
+  if (name) name.textContent = outfit.name;
+  box.hidden = false;
+  box.title = o.wet ? (o.snowy ? '눈이 올 수 있어요 · 따뜻하게 입고 외출하세요' : '비가 올 수 있어요 · 우산을 챙기세요') : outfit.tip || '';
 }
 function wxError(msg, note) {
-  const icon = $('#wxIcon'); if (icon) icon.textContent = '🌥️';
+  const card = $('#weatherCard'); if (card) card.classList.add('is-err');
+  const icon = $('#wxIcon'); if (icon) icon.innerHTML = wxIconSvg(-1);
   const temp = $('#wxTemp'); if (temp) temp.textContent = '–';
   const desc = $('#wxDesc'); if (desc) desc.textContent = msg;
-  const meta = $('#wxMeta'); if (meta) meta.hidden = true;
+  const hl = $('#wxHL'); if (hl) hl.hidden = true;
+  const popChip = $('#wxPopChip'); if (popChip) popChip.hidden = true;
   const outfit = $('#wxOutfit'); if (outfit) outfit.hidden = true;
+  const fig = $('#wxFig'); if (fig) fig.innerHTML = '';
   const noteEl = $('#wxNote');
   if (noteEl) { noteEl.hidden = false; noteEl.textContent = note; }
 }
@@ -5422,16 +5606,16 @@ async function loadWeather(silent) {
     const min = first(daily.temperature_2m_min);
     const pop = first(daily.precipitation_probability_max);
     const info = WX_INFO[code] || ['날씨', '🌡️'];
-    $('#wxIcon').textContent = info[1];
+  const card = $('#weatherCard'); if (card) card.classList.remove('is-err');
+  $('#wxIcon').innerHTML = wxIconSvg(code);
     $('#wxTemp').textContent = String(t);
     $('#wxDesc').textContent = info[0];
     $('#wxMax').textContent = max == null ? '–' : String(max);
     $('#wxMin').textContent = min == null ? '–' : String(min);
     $('#wxPop').textContent = pop == null ? '–' : String(pop);
-    $('#wxMeta').hidden = false;
-    const outfit = $('#wxOutfit');
-    outfit.hidden = false;
-    outfit.textContent = outfitFor(t, code, pop);
+    const hl = $('#wxHL'); if (hl) hl.hidden = (max == null && min == null);
+    const popChip = $('#wxPopChip'); if (popChip) popChip.hidden = (pop == null);
+    renderOutfit(outfitFor(t, code, pop));
     const note = $('#wxNote');
     note.hidden = false;
     note.textContent = `${fmtTime(Date.now())} 기준 · 대구 동구`;
