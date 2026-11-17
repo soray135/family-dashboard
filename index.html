@@ -716,11 +716,6 @@ select.q-xp, #wishWho{
 
 .chat-card{ padding:11px 13px 10px; display:flex; flex-direction:column; gap:5px; min-height:0; }
 .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 2px; }
-.chat-count{
-  font-size:11px; font-weight:800; color:#7A7290;
-  background:#F6F3FC; padding:2.5px 8px; border-radius:7px;
-  font-variant-numeric:tabular-nums;
-}
 .chat-head-right{ display:flex; align-items:center; gap:6px; flex:0 0 auto; }
 .chat-unread{
   font-size:10.5px; font-weight:800; color:#fff; letter-spacing:-0.02em;
@@ -1846,7 +1841,6 @@ select.q-xp, #wishWho{
         <h2 class="card-title">대화방👨‍👩‍👧‍👦</h2>
         <div class="chat-head-right">
           <button class="chat-unread" type="button" id="chatUnread" hidden>새 메시지 0</button>
-          <span class="chat-count" id="chatCount">0</span>
           <button class="push-btn" type="button" id="pushBtn" aria-pressed="false" aria-haspopup="dialog" title="휴대폰 푸시 알림 켜기"><span aria-hidden="true">📲</span> 푸시</button>
           <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
         </div>
@@ -2973,6 +2967,7 @@ function seed() {
     xpTune: 1,          /* 하성이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
     starterTune1: 1,    /* 엘사·디즈니 공주를 레벨 해금으로 되돌린 상태 (한 번만 적용) */
     xpTune2: 1,         /* 하윤이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
+    xpTune3: 1,         /* 하윤이 퀘스트 경험치 +5 조정을 이미 반영한 상태 (한 번만 적용) */
     orderTune1: 1,      /* 하성이 퀘스트 '디딤돌'을 '연산' 아래로 옮긴 상태 (한 번만 적용) */
     questDate: todayKey(),   /* 아이들 퀘스트 체크를 마지막으로 맞춘 날 (날이 바뀌면 자동으로 비워요) */
     title: '우리가족 대시보드',
@@ -2995,11 +2990,11 @@ function seed() {
       hayun: {
         name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
-          { id: uid(), text: '한글 2장', xp: 15, done: false },
-          { id: uid(), text: '수학 2장', xp: 15, done: false },
-          { id: uid(), text: '토도영어', xp: 15, done: false },
-          { id: uid(), text: '독서', xp: 10, done: false },
-          { id: uid(), text: '가방정리', xp: 10, done: false }
+          { id: uid(), text: '한글 2장', xp: 20, done: false },
+          { id: uid(), text: '수학 2장', xp: 20, done: false },
+          { id: uid(), text: '토도영어', xp: 20, done: false },
+          { id: uid(), text: '독서', xp: 15, done: false },
+          { id: uid(), text: '가방정리', xp: 15, done: false }
         ]
       }
     },
@@ -3144,6 +3139,16 @@ function normalize(raw) {
     });
   }
   out.xpTune2 = 1;
+  /* 하윤이 퀘스트 경험치를 다시 5점씩 올리기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
+     기본 퀘스트는 정해진 값으로 맞추기 때문에, 가족 방에서 다시 불러와도 두 번 오르지 않습니다 */
+  const HAYUN_XP_TUNE3 = { '한글 2장': 20, '수학 2장': 20, '토도영어': 20, '독서': 15, '가방정리': 15 };
+  if (Number(raw.xpTune3) !== 1) {
+    out.kids.hayun.quests.forEach(q => {
+      const tuned = HAYUN_XP_TUNE3[q.text];
+      q.xp = tuned != null ? tuned : Math.min(200, (Number(q.xp) || 20) + 5);
+    });
+  }
+  out.xpTune3 = 1;
   /* 하성이 퀘스트 순서: '디딤돌'을 '연산' 바로 아래로 이동 — 예전에 저장된 순서에도 딱 한 번만 적용해요 */
   if (Number(raw.orderTune1) !== 1) {
     const qs = out.kids.haseong.quests;
@@ -3185,7 +3190,7 @@ function load() {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     const st = normalize(parsed);
-    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1 || Number(parsed.orderTune1) !== 1 || Number(parsed.starterTune1) !== 1) {
+    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1 || Number(parsed.xpTune3) !== 1 || Number(parsed.orderTune1) !== 1 || Number(parsed.starterTune1) !== 1) {
       /* 한 번 적용한 결과를 바로 저장해 다음에 또 깎이지 않도록 */
       try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {}
     }
@@ -3796,7 +3801,6 @@ function renderChat() {
   });
   const log = $('#chatLog');
   const msgs = state.chat.msgs;
-  $('#chatCount').textContent = String(msgs.length);
   log.replaceChildren();
   if (!msgs.length) {
     const p = document.createElement('p');
@@ -3821,6 +3825,7 @@ function sendChat(text) {
   state.chat.msgs.push(msg);
   save();
   renderChat();
+  clearUnread();               /* 내가 보낸 뒤에는 새 메시지 배지를 지워요 */
   pushNotify(msg);             /* 나를 뺀 나머지 기기들에 휴대폰 알림을 부탁해요 (실패해도 채팅은 그대로) */
   return true;
 }
@@ -4464,6 +4469,7 @@ function buildDoc() {
     v: 1,
     xpTune: 1,
     xpTune2: 1,
+    xpTune3: 1,
     orderTune1: 1,
     starterTune1: 1,
     questDate: state.questDate || todayKey(),
@@ -4488,6 +4494,7 @@ function docToState(d) {
     v: 1,
     xpTune: d.xpTune,
     xpTune2: d.xpTune2,
+    xpTune3: d.xpTune3,
     orderTune1: d.orderTune1,
     starterTune1: d.starterTune1,
     questDate: d.questDate,
@@ -4987,8 +4994,8 @@ function applyRemoteDoc(d, opts) {
   renderAll();
   if (roll.reset) toast('날이 바뀌어서 아이들 퀘스트를 새로 시작했어요 🌅');
   /* 예전 방 문서에는 하윤이 조정 표시가 없어요 — 이 기기에서 한 번만 반영하고,
-     방에도 표시를 남겨 다른 기기·다음 불러오기에서 또 깎이지 않게 해요 */
-  if (roll.stamped || Number(d.xpTune2) !== 1 || Number(d.orderTune1) !== 1 || Number(d.starterTune1) !== 1) schedulePush(600);
+     방에도 표시를 남겨 다른 기기·다음 불러오기에서 또 조정되지 않게 해요 */
+  if (roll.stamped || Number(d.xpTune2) !== 1 || Number(d.xpTune3) !== 1 || Number(d.orderTune1) !== 1 || Number(d.starterTune1) !== 1) schedulePush(600);
   /* 실시간으로 보고 있는 중이면 '지금 온 메시지', 연결 직후·화면 복귀라면 '자리를 비운 사이 온 메시지' */
   noteIncoming(state.chat.msgs, { away: !(opts && opts.live) || document.hidden });
 }
@@ -5936,6 +5943,7 @@ function sendVoice(dataUrl, sec) {
   state.chat.msgs.push(msg);
   save();
   renderChat();
+  clearUnread();
   pushNotify(msg);                  /* 음성 메시지도 나머지 기기에 푸시로 알려요 */
   toast('🎤 음성 메시지를 보냈어요');
 }
