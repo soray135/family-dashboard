@@ -3211,7 +3211,12 @@ function save(opts) {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); }
     catch (e) { toast('저장 공간이 부족해 저장하지 못했어요'); }
   }
-  if (push) schedulePush();
+  if (!push) return;
+  /* 앱을 연 직후에는 방의 최신 값을 먼저 받아 온 뒤에 올려요.
+     예전에는 이 시점의 옛 로컬 값이 방의 새 값을 덮어써서, 다른 곳에서 맞춘 점수가
+     새로고침할 때마다 되돌아갔습니다. */
+  if (!firstPullDone && sync.url && sync.room) { pendingPush = true; return; }
+  schedulePush();
 }
 
 /* ---------- 날짜 바뀜: 아이들 퀘스트 체크만 자동으로 새로 시작 ---------- */
@@ -4388,6 +4393,17 @@ let syncES = null;
 let syncDoc = null;
 let pushTimer = null;
 let pushing = false;
+/* 앱을 연 뒤 첫 방 불러오기가 끝났는지 — 끝나기 전에는 이 기기 값을 방에 올리지 않아요 */
+let firstPullDone = false;
+/* 첫 불러오기 전에 생긴 이 기기 변경 — 방 값을 받아 온 뒤에 올려요 */
+let pendingPush = false;
+/* 마지막으로 반영한 방 문서의 updatedAt(ms) — 늦게 도착한 옛 문서를 무시할 때 씁니다 */
+let lastAppliedAt = 0;
+const STALE_DOC_MS = 60 * 1000;
+function markFirstPull() {
+  firstPullDone = true;
+  if (pendingPush) { pendingPush = false; schedulePush(400); }
+}
 
 const DEVICE_ID = (() => {
   try {
@@ -4977,6 +4993,11 @@ async function pushInit() {
 
 function applyRemoteDoc(d, opts) {
   if (!d || typeof d !== 'object') return;
+  /* 늦게 도착한 옛 문서가 지금 화면을 되돌리지 않도록, 이미 반영한 문서보다
+     확실히 오래된 것(1분 이상)만 건너뜁니다. 기기 시계 차이는 감안한 여유예요. */
+  const remoteAt = Number(d.meta && d.meta.updatedAt) || 0;
+  if (remoteAt && lastAppliedAt && remoteAt + STALE_DOC_MS < lastAppliedAt) return;
+  if (remoteAt > lastAppliedAt) lastAppliedAt = remoteAt;
   const prevMe = state.chat && state.chat.me;
   /* 푸시 구독 목록·서버 주소는 방 문서와 함께 와요 (다른 기기가 켜 둔 것도 여기서 받아요) */
   if (d.pushSubs && typeof d.pushSubs === 'object') { roomSubs = d.pushSubs; roomSubsKnown = true; }
@@ -5104,7 +5125,10 @@ async function syncConnect(opts) {
     if (data && typeof data === 'object') {
       syncDoc = data;
       sync.created = false;
-      if (!(data.meta && data.meta.by === DEVICE_ID)) applyRemoteDoc(data);
+      /* 이 기기가 마지막에 쓴 문서라도 방 값을 먼저 받아들여요.
+         (예전에는 자기 기기 문서를 건너뛰어서, 서버에서 바로잡은 점수를 그 기기가
+          새로고침해도 계속 옛 값으로 보여 주고 다시 덮어썼습니다) */
+      applyRemoteDoc(data);
       /* 방에 저장된 푸시 구독·서버 주소도 같이 받아 둡니다 */
       if (data.pushSubs && typeof data.pushSubs === 'object') { roomSubs = data.pushSubs; roomSubsKnown = true; }
       if (data.pushApi && typeof data.pushApi.url === 'string' && normPushApi(data.pushApi.url)) {
@@ -5115,6 +5139,7 @@ async function syncConnect(opts) {
       if (!roomSubsKnown) refreshSubs();
       openStream();
       setSyncStatus('on');
+      markFirstPull();
       /* 방에 채팅 기록이 아직 없으면 이 기기의 채팅을 먼저 올려 둡니다 */
       if (!data.chat || !data.chat.msgs) schedulePush(60);
     } else {
@@ -5123,6 +5148,7 @@ async function syncConnect(opts) {
       await putDoc();
       openStream();
       setSyncStatus('on');
+      markFirstPull();
     }
     if (!opts.silent) toast(`☁️ 실시간으로 연결됐어요 · '${sync.room}' 방`);
     return true;
