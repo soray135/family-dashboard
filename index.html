@@ -558,6 +558,7 @@ h1,h2,h3,p { margin:0; }
   transition:transform .14s ease, box-shadow .14s ease;
 }
 .quest.done.dragging{ background:linear-gradient(180deg,#F7F3FE,#F4EFFD); border-color:#D3C7F3; }
+.quest.dragging .qdel{ opacity:0; }   /* 떠 있는 동안에는 삭제 버튼을 감춰요 */
 body.quest-dragging{ cursor:grabbing; -webkit-user-select:none; user-select:none; }
 body.quest-dragging .quest{ cursor:grabbing; }
 .quest-empty{
