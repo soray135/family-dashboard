@@ -539,6 +539,27 @@ h1,h2,h3,p { margin:0; }
 .quest-list.dense .qtext{ font-size:12.3px; line-height:1.25; }
 .quest-list.dense .qxp{ font-size:10px; padding:2px 5px; }
 .quest-list.dense .qdel{ width:18px; height:18px; }
+
+/* ---------- 퀘스트 순서 바꾸기 (길게 눌러 위·아래로) ---------- */
+.quest{ touch-action:pan-y; -webkit-user-select:none; user-select:none; -webkit-touch-callout:none; }
+.quest-ph{
+  list-style:none; flex:0 0 auto; border-radius:11px;
+  border:1.5px dashed #D8CDF5;
+  background:linear-gradient(180deg,#F6F1FF,#FCFAFF);
+  box-shadow:inset 0 0 0 3px rgba(255,255,255,.55);
+}
+.quest-list.reordering .quest{ animation:none; }
+.quest-list.reordering .quest:not(.dragging){ transition:transform .16s ease; }
+.quest.dragging{
+  position:fixed; z-index:70; margin:0; box-sizing:border-box;
+  border-radius:12px; background:#fff; border:1px solid #CBBDF2;
+  box-shadow:0 16px 30px rgba(96,78,170,.22), 0 3px 8px rgba(96,78,170,.12);
+  animation:none; transform:scale(1.035); cursor:grabbing;
+  transition:transform .14s ease, box-shadow .14s ease;
+}
+.quest.done.dragging{ background:linear-gradient(180deg,#F7F3FE,#F4EFFD); border-color:#D3C7F3; }
+body.quest-dragging{ cursor:grabbing; -webkit-user-select:none; user-select:none; }
+body.quest-dragging .quest{ cursor:grabbing; }
 .quest-empty{
   text-align:center; color:#B6AEC4; font-size:12px; font-weight:600;
   padding:16px 6px; border:1.5px dashed #EFEAF8; border-radius:12px;
@@ -3497,6 +3518,156 @@ function toggleQuest(kidId, qid) {
   }
 }
 
+/* ---------- 퀘스트 순서 바꾸기 (길게 눌러 위·아래로) ----------
+   누르고만 있으면(380ms) 그 항목이 살짝 떠오르고, 그대로 위·아래로 끌면
+   지나가는 자리마다 순서가 바뀌어요. 손을 떼는 순간 state 배열 순서를 바꿔
+   save() 로 기기·가족 방에 함께 저장합니다. 짧은 클릭(✓)·삭제(×)·스크롤은
+   전혀 건드리지 않아요. */
+const QUEST_PRESS_MS = 380;      /* 이만큼 누르고 있으면 끌기 시작 */
+const QUEST_PRESS_SLOP = 8;      /* 이보다 움직이면 그냥 스크롤·클릭이에요 */
+let questBlockClickUntil = 0;    /* 방금 끌고 난 뒤의 클릭은 흘려보내요 */
+
+function wireQuestDrag(kidId, card) {
+  const ul = card.querySelector('[data-quests]');
+  if (!ul) return;
+  let press = null;      /* 누르고 있는 중 */
+  let drag = null;       /* 끌고 있는 중 */
+
+  const items = () => Array.from(ul.children).filter(el => el.classList.contains('quest'));
+  const orderKey = () => items().map(el => el.dataset.id).join(',');
+  const cancelPress = () => { if (press) { clearTimeout(press.timer); press = null; } };
+  const blockTouch = e => { if (drag && e.cancelable) e.preventDefault(); };
+
+  /* 지나가는 자리마다 실제로 자리를 바꿔요 (다른 항목은 부드럽게 밀려나고) */
+  function place(clientY) {
+    const sibs = items().filter(el => el !== drag.li);
+    let target = sibs.length;
+    for (let i = 0; i < sibs.length; i++) {
+      const r = sibs[i].getBoundingClientRect();
+      if (clientY < r.top + r.height / 2) { target = i; break; }
+    }
+    let cur = 0;
+    for (let n = drag.ph.previousElementSibling; n; n = n.previousElementSibling) {
+      if (n.classList.contains('quest') && n !== drag.li) cur++;
+    }
+    if (cur === target) return;
+    const before = new Map();
+    sibs.forEach(el => before.set(el, el.getBoundingClientRect()));
+    ul.insertBefore(drag.ph, sibs[target] || null);
+    const moved = [];
+    sibs.forEach(el => {
+      const b = before.get(el);
+      if (!b) return;
+      const dy = b.top - el.getBoundingClientRect().top;
+      if (Math.abs(dy) < 0.5) return;
+      el.style.transition = 'none';
+      el.style.transform = 'translateY(' + dy + 'px)';
+      moved.push(el);
+    });
+    if (!moved.length) return;
+    void ul.offsetHeight;                       /* 시작 위치를 한 번에 잡아 두고 */
+    moved.forEach(el => { el.style.transition = ''; el.style.transform = ''; });
+  }
+
+  function begin() {
+    const p = press;
+    press = null;
+    const li = p && p.li;
+    if (!li || !li.isConnected || li.parentNode !== ul) return false;
+    if (items().length < 2) return false;
+    const rect = li.getBoundingClientRect();
+    const ph = document.createElement('li');
+    ph.className = 'quest-ph';
+    ph.style.height = rect.height + 'px';
+    ph.setAttribute('aria-hidden', 'true');
+
+    li.style.left = rect.left + 'px';
+    li.style.top = rect.top + 'px';
+    li.style.width = rect.width + 'px';
+    li.style.height = rect.height + 'px';
+    ul.insertBefore(ph, li);
+    li.classList.add('dragging');
+    ul.classList.add('reordering');
+    document.body.classList.add('quest-dragging');
+    drag = { kidId, li, ph, startOrder: orderKey(), grabY: p.y - rect.top, pid: p.pid };
+    try { navigator.vibrate?.(15); } catch (e) {}
+    try { li.setPointerCapture(p.pid); } catch (e) {}
+    document.addEventListener('touchmove', blockTouch, { passive: false });
+    return true;
+  }
+
+  function move(e) {
+    if (!drag || e.pointerId !== drag.pid || !drag.li.isConnected) return;
+    drag.li.style.top = (e.clientY - drag.grabY) + 'px';
+    /* 목록 위·아래 끝에 닿으면 목록이 스스로 따라 내려가요 */
+    const lr = ul.getBoundingClientRect();
+    const EDGE = 30;
+    if (e.clientY < lr.top + EDGE) ul.scrollTop -= Math.ceil((lr.top + EDGE - e.clientY) / 2);
+    else if (e.clientY > lr.bottom - EDGE) ul.scrollTop += Math.ceil((e.clientY - (lr.bottom - EDGE)) / 2);
+    place(e.clientY);
+  }
+
+  function finish(drop) {
+    if (!drag) return;
+    const d = drag;
+    drag = null;
+    document.removeEventListener('touchmove', blockTouch);
+    document.body.classList.remove('quest-dragging');
+    ul.classList.remove('reordering');
+    try { d.li.releasePointerCapture?.(d.pid); } catch (e) {}
+    if (drop && d.li.isConnected) ul.insertBefore(d.li, d.ph);
+    d.ph.remove();
+    d.li.classList.remove('dragging');
+    d.li.removeAttribute('style');
+    items().forEach(el => { el.style.transition = ''; el.style.transform = ''; });
+    questBlockClickUntil = Date.now() + 350;
+    const keepScroll = ul.scrollTop;
+    if (!drop) { renderKid(d.kidId); ul.scrollTop = keepScroll; return; }
+    const nowOrder = orderKey();
+    if (nowOrder === d.startOrder) return;
+    const ids = nowOrder.split(',');
+    const k = state.kids[d.kidId];
+    const byId = new Map(k.quests.map(q => [String(q.id), q]));
+    const next = ids.map(id => byId.get(String(id))).filter(Boolean);
+    k.quests.forEach(q => { if (!ids.includes(String(q.id))) next.push(q); });
+    k.quests = next;
+    save();                                    /* 기기 저장 + 가족 방에 바로 알려요 */
+    renderKid(d.kidId);
+    ul.scrollTop = keepScroll;                 /* 목록을 내려 보고 있었으면 그 자리를 지켜요 */
+  }
+
+  ul.addEventListener('pointerdown', e => {
+    if (e.button != null && e.button !== 0) return;      /* 오른쪽·가운데 버튼은 그냥 */
+    if (e.target.closest('button')) return;              /* ✓·× 버튼은 원래 동작 그대로 */
+    const li = e.target.closest('.quest');
+    if (!li || li.parentNode !== ul || items().length < 2) return;
+    cancelPress();
+    const p = { li, x: e.clientX, y: e.clientY, pid: e.pointerId, timer: 0 };
+    p.timer = setTimeout(begin, QUEST_PRESS_MS);
+    press = p;
+  });
+  ul.addEventListener('pointermove', e => {
+    if (!press || drag || e.pointerId !== press.pid) return;
+    if (Math.abs(e.clientX - press.x) > QUEST_PRESS_SLOP || Math.abs(e.clientY - press.y) > QUEST_PRESS_SLOP) cancelPress();
+  });
+  window.addEventListener('pointermove', e => { if (drag) move(e); });
+  window.addEventListener('pointerup', e => {
+    if (!drag) { cancelPress(); return; }
+    if (e.pointerId === drag.pid) finish(true);
+  });
+  window.addEventListener('pointercancel', e => {
+    if (!drag) { cancelPress(); return; }
+    if (e.pointerId === drag.pid) finish(false);
+  });
+  ul.addEventListener('pointerup', () => { if (!drag) cancelPress(); });
+  ul.addEventListener('pointercancel', () => { if (drag) finish(false); });
+  ul.addEventListener('contextmenu', e => { if (press || drag) e.preventDefault(); });
+  /* 끌고 난 직후의 클릭(완료 체크·삭제)이 같이 눌리지 않게 막아요 */
+  ul.addEventListener('click', e => {
+    if (Date.now() < questBlockClickUntil) { e.preventDefault(); e.stopPropagation(); }
+  }, true);
+}
+
 /* ---------- 위시리스트 ---------- */
 function renderWishes() {
   const list = $('#wishList');
@@ -4012,6 +4183,7 @@ function bindEvents() {
       toast(`${k.name} 퀘스트를 초기화했어요 (경험치는 그대로)`);
     });
     card.querySelector('[data-dex]').addEventListener('click', () => openDex(kidId));
+    wireQuestDrag(kidId, card);          /* 길게 눌러 위·아래로 순서 바꾸기 */
 
     // 이름 · 태그 편집
     card.querySelectorAll('[data-field]').forEach(el => {
