@@ -168,7 +168,7 @@ h1,h2,h3,p { margin:0; }
 .col-left{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
 .col-center{ display:flex; flex-direction:column; gap:12px; min-width:0; min-height:0; height:100%; }
 .col-chat{ display:flex; flex-direction:column; min-width:0; height:100%; }
-/* 가운데 윗줄 — 하성이·하윤이 카드를 가로로 나란히 */
+/* 가운데 윗줄 — 하성·하윤 카드를 가로로 나란히 */
 .kids-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; flex:1 1 auto; }
 .kids-row > .kid-card{ min-width:0; min-height:0; }
 /* 가운데 아랫줄 — 공부 타이머 | 엄마 이거 사주세요, 타이머 내용에 딱 맞는 컴팩트한 높이 */
@@ -2063,7 +2063,7 @@ select.q-xp, #wishWho{
     <div class="col-center">
     <div class="kids-row">
     <!-- ── 아이 1 ── -->
-    <section class="card kid-card" data-kid="haseong" aria-label="하성이 퀘스트">
+    <section class="card kid-card" data-kid="haseong" aria-label="하성 퀘스트">
       <div class="kid-top" data-qtoggle role="button" tabindex="0" aria-expanded="false" aria-controls="questWrap-haseong">
         <div class="pet" data-pet></div>
         <div class="kid-meta">
@@ -2115,7 +2115,7 @@ select.q-xp, #wishWho{
     </section>
 
     <!-- ── 아이 2 ── -->
-    <section class="card kid-card" data-kid="hayun" aria-label="하윤이 퀘스트">
+    <section class="card kid-card" data-kid="hayun" aria-label="하윤 퀘스트">
       <div class="kid-top" data-qtoggle role="button" tabindex="0" aria-expanded="false" aria-controls="questWrap-hayun">
         <div class="pet" data-pet></div>
         <div class="kid-meta">
@@ -2130,8 +2130,8 @@ select.q-xp, #wishWho{
           </div>
           <div class="lv-row">
             <span class="lv-badge">Lv.<b data-lv>1</b></span>
-            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="200" aria-valuenow="0"><i data-xpbar></i></div>
-            <span class="xp-text" data-xptext>0/200</span>
+            <div class="xp-track" role="progressbar" aria-valuemin="0" aria-valuemax="180" aria-valuenow="0"><i data-xpbar></i></div>
+            <span class="xp-text" data-xptext>0/180</span>
           </div>
           <div class="kid-foot">
             <span class="kid-prog" data-qprog>0/0</span>
@@ -3122,7 +3122,7 @@ const CREATURES = [
       <ellipse cx="90" cy="62" rx="4" ry="2.6" fill="#F08FB0" opacity=".4"/>
     </svg>`
   },
-  /* ---------- 25~37. 하성이 도감 — 전설·메가 포켓몬 (PokeAPI 공식 아트워크) ---------- */
+  /* ---------- 25~37. 하성 도감 — 전설·메가 포켓몬 (PokeAPI 공식 아트워크) ---------- */
   { key:'giratina', name:'기라티나', emoji:'🌑' },
   { key:'hooh', name:'칠색조', emoji:'🕊️' },
   { key:'sharpedomega', name:'메가샤크니아', emoji:'🦈' },
@@ -3138,7 +3138,7 @@ const CREATURES = [
   { key:'charizardmegay', name:'메가리자몽Y', emoji:'🔥' },
   /* ---------- 38. 토토로 (두 아이 도감 모두) ---------- */
   { key:'totoro', name:'토토로', img:'assets/ghibli/totoro.png', emoji:'🌳' },
-  /* ---------- 39~46. 하윤이 도감 — 위시캣 (SAMG 공식 캐릭터) ---------- */
+  /* ---------- 39~46. 하윤 도감 — 위시캣 (SAMG 공식 캐릭터) ---------- */
   { key:'ainyang', name:'아이냥', img:'assets/wishcat/ainyang.png', emoji:'🐱' },
   { key:'kokonyang', name:'코코냥', img:'assets/wishcat/kokonyang.png', emoji:'🎤' },
   { key:'ttokttoknyang', name:'똑똑냥', img:'assets/wishcat/ttokttoknyang.png', emoji:'🤓' },
@@ -3153,7 +3153,7 @@ const CREATURE_MAP = Object.fromEntries(CREATURES.map(c => [c.key, c]));
 const DEX_ID = {
   charmander: 4, pichu: 172, squirtle: 7, bulbasaur: 1, eevee: 133, jigglypuff: 39,
   pikachu: 25, snorlax: 143, psyduck: 54, ditto: 132, caterpie: 10, mew: 151,
-  /* 하성이 도감 — 전설·메가 포켓몬 (PokeAPI 번호 그대로) */
+  /* 하성 도감 — 전설·메가 포켓몬 (PokeAPI 번호 그대로) */
   giratina: 487, hooh: 250, sharpedomega: 10070, kyogreprimal: 10077, palkia: 484,
   samurott: 503, genesect: 649, arceus: 493, groudonprimal: 10078, steelixmega: 10072,
   dialga: 483, charizardmegax: 10034, charizardmegay: 10035
@@ -3164,7 +3164,7 @@ CREATURES.forEach(c => { if (DEX_ID[c.key]) c.dex = DEX_ID[c.key]; });
 const STARTER_KEYS = ['charmander', 'pichu', 'cinnamoroll', 'mymelody'];
 /* 아이마다 도감이 따로 있어요 — 배열 순서가 곧 해금 순서(레벨이 오를 때마다 한 마리) */
 const KID_DEX_KEYS = {
-  /* 하성이 32종: 포켓몬 12 + 산리오 6 + 전설·메가 포켓몬 13 + 토토로 (디즈니 공주는 없어요) */
+  /* 하성 32종: 포켓몬 12 + 산리오 6 + 전설·메가 포켓몬 13 + 토토로 (디즈니 공주는 없어요) */
   haseong: [
     'charmander', 'pichu', 'cinnamoroll', 'mymelody',
     'squirtle', 'hellokitty', 'bulbasaur', 'pompompurin', 'eevee', 'pochacco',
@@ -3173,8 +3173,8 @@ const KID_DEX_KEYS = {
     'mew', 'caterpie', 'palkia', 'dialga', 'kyogreprimal', 'groudonprimal',
     'charizardmegax', 'charizardmegay', 'giratina', 'arceus'
   ],
-  /* 하윤이 32종: 포켓몬 11 + 산리오 6 + 디즈니 공주 6 + 토토로 + 위시캣 8
-     (애벌레 캐터피는 하윤이 도감에서 빼요 · 엘사는 Lv.15 그대로) */
+  /* 하윤 32종: 포켓몬 11 + 산리오 6 + 디즈니 공주 6 + 토토로 + 위시캣 8
+     (애벌레 캐터피는 하윤 도감에서 빼요 · 엘사는 Lv.15 그대로) */
   hayun: [
     'charmander', 'pichu', 'cinnamoroll', 'mymelody',
     'squirtle', 'hellokitty', 'cinderella', 'bulbasaur', 'pompompurin', 'rapunzel',
@@ -3224,7 +3224,7 @@ function dexGoal(kidId, level) {
 function ensureDex(kidId, k) {
   const seq = kidDexSeq(kidId);
   const inDex = new Set(seq.map(c => c.key));
-  /* 아이 도감에 없는 친구(예: 하성이의 옛 디즈니 공주, 하윤이의 캐터피)는 여기서 빠져요 */
+  /* 아이 도감에 없는 친구(예: 하성의 옛 디즈니 공주, 하윤의 캐터피)는 여기서 빠져요 */
   const start = new Set((Array.isArray(k.dexOpen) ? k.dexOpen : []).filter(x => inDex.has(x)));
   const open = new Set(start);
   STARTER_KEYS.forEach(key => { if (inDex.has(key)) open.add(key); });
@@ -3259,7 +3259,9 @@ function msgPreview(m) {
    ========================================================= */
 const STORE_KEY = 'sora-home-dashboard-v1';
 const WEEK = ['일','월','화','수','목','금','토'];
-const XP_PER_LEVEL = 200;   /* 이만큼 쌓일 때마다 레벨 +1 = 도감 새 친구 1마리 */
+/* 레벨업 기준 점수 — 아이마다 달라요. 하성 200점, 하윤 180점.
+   이만큼 쌓일 때마다 레벨 +1 = 도감 새 친구 1마리 */
+function xpPerLevel(kidId) { return kidId === 'hayun' ? 180 : 200; }
 
 const $  = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
@@ -3303,16 +3305,17 @@ const guessIcon = text => {
 function seed() {
   return {
     v: 1,
-    xpTune: 1,          /* 하성이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
+    xpTune: 1,          /* 하성 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
     starterTune1: 1,    /* 엘사·디즈니 공주를 레벨 해금으로 되돌린 상태 (한 번만 적용) */
-    xpTune2: 1,         /* 하윤이 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
-    xpTune3: 1,         /* 하윤이 퀘스트 경험치 +5 조정을 이미 반영한 상태 (한 번만 적용) */
-    orderTune1: 1,      /* 하성이 퀘스트 '디딤돌'을 '연산' 아래로 옮긴 상태 (한 번만 적용) */
+    xpTune2: 1,         /* 하윤 퀘스트 경험치 -5 조정을 이미 반영한 상태 (한 번만 적용) */
+    xpTune3: 1,         /* 하윤 퀘스트 경험치 +5 조정을 이미 반영한 상태 (한 번만 적용) */
+    orderTune1: 1,      /* 하성 퀘스트 '디딤돌'을 '연산' 아래로 옮긴 상태 (한 번만 적용) */
+    nameTune1: 1,       /* 이름 '하성이'→'하성', '하윤이'→'하윤' 정리를 이미 반영한 상태 (한 번만 적용) */
     questDate: todayKey(),   /* 아이들 퀘스트 체크를 마지막으로 맞춘 날 (날이 바뀌면 자동으로 비워요) */
     title: '우리가족 대시보드',
     kids: {
       haseong: {
-        name: '하성이', tag: '', partner: 'charmander', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
+        name: '하성', tag: '', partner: 'charmander', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
           { id: uid(), text: '리딩앤', xp: 10, done: false },
           { id: uid(), text: '연산', xp: 15, done: false },
@@ -3327,7 +3330,7 @@ function seed() {
         ]
       },
       hayun: {
-        name: '하윤이', tag: '', partner: 'pichu', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
+        name: '하윤', tag: '', partner: 'pichu', level: 1, xp: 0, dexOpen: STARTER_KEYS.slice(),
         quests: [
           { id: uid(), text: '한글 2장', xp: 20, done: false },
           { id: uid(), text: '수학 2장', xp: 20, done: false },
@@ -3430,8 +3433,13 @@ function normalize(raw) {
   };
   ['haseong', 'hayun'].forEach(id => {
     const k = out.kids[id];
+    const per = xpPerLevel(id);
     k.level = Math.max(1, Math.min(99, Number(k.level) || 1));
-    k.xp = Math.max(0, Math.min(XP_PER_LEVEL - 1, Number(k.xp) || 0));
+    k.xp = Math.max(0, Number(k.xp) || 0);
+    /* 기준 점수가 낮아진 아이(하윤 180점)는 예전에 쌓인 점수가 기준을 넘어 있으면
+       바로 다음 레벨로 올려요 — 예: 방에 xp 190 · Lv.1 로 남아 있으면 Lv.2 (10/180) */
+    while (k.xp >= per && k.level < 99) { k.xp -= per; k.level++; }
+    if (k.xp >= per) k.xp = per - 1;
     if (Array.isArray(k.dexOpen)) {
       /* 예전 '직접 그린 친구'(티아라·발레리나·유니콘)는 디즈니 공주로 이어받아요 */
       k.dexOpen = [...new Set(k.dexOpen.map(x => LEGACY_CREATURE_KEYS[x] || x))].filter(x => CREATURE_MAP[x]);
@@ -3445,7 +3453,7 @@ function normalize(raw) {
         k.dexOpen.push(c.key); extra--;
       });
     }
-    /* 아이 도감에 없는 친구(하성이의 디즈니 공주, 하윤이의 캐터피)는 여기서 정리되고,
+    /* 아이 도감에 없는 친구(하성의 디즈니 공주, 하윤의 캐터피)는 여기서 정리되고,
        레벨만큼의 친구 수로 다시 맞춥니다 */
     ensureDex(id, k);
     /* 엘사 잠금 정리 — 처음 한 번만 (이후엔 저장된 도감을 그대로 씁니다).
@@ -3455,7 +3463,7 @@ function normalize(raw) {
       .map(q => ({ id: q.id || uid(), text: q.text, xp: Number(q.xp) || 20, done: !!q.done })) : base.kids[id].quests;
     const partnerKey = LEGACY_CREATURE_KEYS[k.partner] || k.partner;
     k.partner = CREATURE_MAP[partnerKey] ? partnerKey : base.kids[id].partner;
-    /* 쓰던 친구가 이 아이 도감에 없으면 스타터로 되돌려요 (예: 하성이의 옛 엘사) */
+    /* 쓰던 친구가 이 아이 도감에 없으면 스타터로 되돌려요 (예: 하성의 옛 엘사) */
     if (!k.dexOpen.includes(k.partner)) {
       const first = kidDexSeq(id)[0];
       k.partner = (first && first.key) || 'charmander';
@@ -3463,12 +3471,19 @@ function normalize(raw) {
     k.name = typeof k.name === 'string' && k.name.trim() ? k.name : base.kids[id].name;
     k.tag = typeof k.tag === 'string' ? k.tag : '';
   });
-  /* 하성이 퀘스트 경험치를 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요 */
+  /* 아이 이름 정리: '하성이' → '하성', '하윤이' → '하윤'
+     — 예전 기기·예전 방 문서에도 딱 한 번만 적용해요 (직접 바꿔 둔 다른 이름은 건드리지 않아요) */
+  if (Number(raw.nameTune1) !== 1) {
+    if (out.kids.haseong.name === '하성이') out.kids.haseong.name = '하성';
+    if (out.kids.hayun.name === '하윤이') out.kids.hayun.name = '하윤';
+  }
+  out.nameTune1 = 1;
+  /* 하성 퀘스트 경험치를 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요 */
   if (Number(raw.xpTune) !== 1) {
     out.kids.haseong.quests.forEach(q => { q.xp = Math.max(5, (Number(q.xp) || 20) - 5); });
   }
   out.xpTune = 1;
-  /* 하윤이 퀘스트 경험치도 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
+  /* 하윤 퀘스트 경험치도 5점씩 낮추기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
      기본 퀘스트는 정해진 값으로 맞추기 때문에, 가족 방에서 다시 불러와도 두 번 깎이지 않습니다 */
   const HAYUN_XP_TUNE = { '한글 2장': 15, '수학 2장': 15, '토도영어': 15, '독서': 10, '가방정리': 10 };
   if (Number(raw.xpTune2) !== 1) {
@@ -3478,7 +3493,7 @@ function normalize(raw) {
     });
   }
   out.xpTune2 = 1;
-  /* 하윤이 퀘스트 경험치를 다시 5점씩 올리기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
+  /* 하윤 퀘스트 경험치를 다시 5점씩 올리기 — 예전에 저장된 값에도 딱 한 번만 적용해요.
      기본 퀘스트는 정해진 값으로 맞추기 때문에, 가족 방에서 다시 불러와도 두 번 오르지 않습니다 */
   const HAYUN_XP_TUNE3 = { '한글 2장': 20, '수학 2장': 20, '토도영어': 20, '독서': 15, '가방정리': 15 };
   if (Number(raw.xpTune3) !== 1) {
@@ -3488,7 +3503,7 @@ function normalize(raw) {
     });
   }
   out.xpTune3 = 1;
-  /* 하성이 퀘스트 순서: '디딤돌'을 '연산' 바로 아래로 이동 — 예전에 저장된 순서에도 딱 한 번만 적용해요 */
+  /* 하성 퀘스트 순서: '디딤돌'을 '연산' 바로 아래로 이동 — 예전에 저장된 순서에도 딱 한 번만 적용해요 */
   if (Number(raw.orderTune1) !== 1) {
     const qs = out.kids.haseong.quests;
     const iDi = qs.findIndex(q => q.text === '디딤돌');
@@ -3529,7 +3544,7 @@ function load() {
     if (!raw) return null;
     const parsed = JSON.parse(raw);
     const st = normalize(parsed);
-    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1 || Number(parsed.xpTune3) !== 1 || Number(parsed.orderTune1) !== 1 || Number(parsed.starterTune1) !== 1) {
+    if (Number(parsed.xpTune) !== 1 || Number(parsed.xpTune2) !== 1 || Number(parsed.xpTune3) !== 1 || Number(parsed.orderTune1) !== 1 || Number(parsed.starterTune1) !== 1 || Number(parsed.nameTune1) !== 1) {
       /* 한 번 적용한 결과를 바로 저장해 다음에 또 깎이지 않도록 */
       try { localStorage.setItem(STORE_KEY, JSON.stringify(st)); } catch (e) {}
     }
@@ -3763,11 +3778,12 @@ function renderDDay() {
 
 /* ---------- 아이 카드 ---------- */
 function addXp(kidId, k, amount) {
+  const per = xpPerLevel(kidId);
   k.xp += amount;
-  while (k.xp >= XP_PER_LEVEL && k.level < 99) { k.xp -= XP_PER_LEVEL; k.level++; }
-  while (k.xp < 0 && k.level > 1) { k.level--; k.xp += XP_PER_LEVEL; }
+  while (k.xp >= per && k.level < 99) { k.xp -= per; k.level++; }
+  while (k.xp < 0 && k.level > 1) { k.level--; k.xp += per; }
   if (k.xp < 0) k.xp = 0;
-  if (k.xp >= XP_PER_LEVEL) k.xp = XP_PER_LEVEL - 1;
+  if (k.xp >= per) k.xp = per - 1;
   return ensureDex(kidId, k);
 }
 function questNode(kidId, q) {
@@ -3899,11 +3915,12 @@ function renderKid(kidId) {
   const tagEl = card.querySelector('[data-field="tag"]');
   if (document.activeElement !== tagEl) tagEl.textContent = k.tag || '';
 
+  const per = xpPerLevel(kidId);
   card.querySelector('[data-lv]').textContent = k.level;
-  card.querySelector('[data-xpbar]').style.width = Math.min(100, (k.xp / XP_PER_LEVEL) * 100) + '%';
-  card.querySelector('[data-xptext]').textContent = `${k.xp}/${XP_PER_LEVEL}`;
+  card.querySelector('[data-xpbar]').style.width = Math.min(100, (k.xp / per) * 100) + '%';
+  card.querySelector('[data-xptext]').textContent = `${k.xp}/${per}`;
   card.querySelector('.xp-track').setAttribute('aria-valuenow', k.xp);
-  card.querySelector('.xp-track').setAttribute('aria-valuemax', XP_PER_LEVEL);
+  card.querySelector('.xp-track').setAttribute('aria-valuemax', per);
 
   const total = k.quests.length;
   const done = k.quests.filter(q => q.done).length;
@@ -5062,6 +5079,7 @@ function buildDoc() {
     xpTune3: 1,
     orderTune1: 1,
     starterTune1: 1,
+    nameTune1: 1,
     questDate: state.questDate || todayKey(),
     title: state.title,
     kids: state.kids,
@@ -5087,6 +5105,7 @@ function docToState(d) {
     xpTune3: d.xpTune3,
     orderTune1: d.orderTune1,
     starterTune1: d.starterTune1,
+    nameTune1: d.nameTune1,
     questDate: d.questDate,
     title: d.title,
     kids: d.kids || {},
@@ -5588,9 +5607,11 @@ function applyRemoteDoc(d, opts) {
   save({ push: false });
   renderAll();
   if (roll.reset) toast('날이 바뀌어서 아이들 퀘스트를 새로 시작했어요 🌅');
-  /* 예전 방 문서에는 하윤이 조정 표시가 없어요 — 이 기기에서 한 번만 반영하고,
+  /* 예전 방 문서에는 하윤 조정 표시가 없어요 — 이 기기에서 한 번만 반영하고,
      방에도 표시를 남겨 다른 기기·다음 불러오기에서 또 조정되지 않게 해요 */
-  if (roll.stamped || Number(d.xpTune2) !== 1 || Number(d.xpTune3) !== 1 || Number(d.orderTune1) !== 1 || Number(d.starterTune1) !== 1) schedulePush(600);
+  const docHayun = (d.kids && d.kids.hayun) || {};
+  const hayunNeedsLevelCarry = (Number(docHayun.xp) || 0) >= xpPerLevel('hayun');
+  if (roll.stamped || hayunNeedsLevelCarry || Number(d.xpTune2) !== 1 || Number(d.xpTune3) !== 1 || Number(d.orderTune1) !== 1 || Number(d.starterTune1) !== 1 || Number(d.nameTune1) !== 1) schedulePush(600);
   /* 실시간으로 보고 있는 중이면 '지금 온 메시지', 연결 직후·화면 복귀라면 '자리를 비운 사이 온 메시지' */
   noteIncoming(state.chat.msgs, { away: !(opts && opts.live) || document.hidden });
 }
@@ -5938,7 +5959,7 @@ function showTimerDone() {
     const k = state.kids[kidId];
     if (!cell || !k) return;
     const cr = CREATURE_MAP[k.partner] || CREATURES[0];
-    const name = k.name || (i ? '하윤이' : '하성이');
+    const name = k.name || (i ? '하윤' : '하성');
     const art = cell.querySelector('[data-tmart]');
     if (art) art.replaceChildren(artBox(cr));
     const nm = cell.querySelector('[data-tmname]');
