@@ -175,8 +175,10 @@ h1,h2,h3,p { margin:0; }
 .stack-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; flex:1 1 auto; min-height:0; }
 .stack-row > .card{ min-width:0; min-height:0; }
 .stack-row > .timer-card{ display:flex; flex-direction:column; }
-/* 한 아이 카드를 펼쳐도 아래 두 카드가 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤) */
-.col-center.kid-open .kids-row{ flex:0 1 auto; max-height:44%; }
+/* 한 아이 카드를 펼쳐도 아래 두 카드가 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤)
+   화면이 낮으면(노트북 768px 높이 등) 고정 비율만으로는 퀘스트 목록이 너무 좁아지므로 최소 340px(단, 가운데 칼럼의 56%를 넘지 않게)을 보장합니다.
+   펼치든 접든 kids-row는 늘 이 안에서만 커지므로 왼쪽·오른쪽 칼럼의 카드 높이·위치는 1px도 바뀌지 않습니다. */
+.col-center.kid-open .kids-row{ flex:0 1 auto; max-height:max(44%, min(340px, 56%)); }
 /* 칼럼이 남는 높이를 채워 세 칼럼 바닥선이 정확히 맞도록 */
 .col-left > .dday-card{ flex:1 1 auto; }
 .col-chat > .chat-card{ flex:1 1 auto; min-height:0; }
@@ -1847,11 +1849,23 @@ select.q-xp, #wishWho{
   .sb-cards{ flex-direction:column; align-items:stretch; }
   .sb-card{ max-width:none; }
 }
-/* 데스크톱 3칼럼: 화면 높이 안에서 칼럼이 끝나도록 잡고, 남는 세로 공간은 대화방이 흡수합니다 */
-@media (min-width:1280px) and (min-height:900px){
+/* 데스크톱 3칼럼: 화면 높이에 딱 맞춘 **고정 높이**로 잡습니다(높이와 무관하게 1280px 이상 전부).
+   세 칼럼의 윗선·바닥선이 늘 같은 줄에 서고, 퀘스트를 펼치면 가운데 칼럼 안에서만
+   kids-row ↔ 타이머·사주세요 높이가 바뀌므로 왼쪽(날씨·달력·D-Day)·오른쪽(대화방) 카드의
+   높이와 위치는 접힘/펼침 전후 완전히 같습니다(0px). 남는 세로 공간은 대화방·D-Day가 흡수합니다. */
+@media (min-width:1280px){
   .app{ height:100vh; display:flex; flex-direction:column; }
   .app > .grid{ flex:1 1 auto; min-height:0; grid-template-rows:minmax(0,1fr); }
   .chat-log{ max-height:none; }
+}
+/* 낮은 화면(노트북 1366×768 등)에서도 세 칼럼이 한 화면에 들어오도록 위아래 여백만 살짝 조입니다 */
+@media (min-width:1280px) and (max-height:884px){
+  .app{ padding-top:10px; padding-bottom:14px; }
+  .topbar{ padding-bottom:9px; }
+  .card{ padding:13px; }
+  .cal-cell{ height:29px; }
+  .wx-main{ margin-top:6px; padding:9px 11px; }
+  .wx-fig{ width:54px; height:54px; }
 }
 @media (prefers-reduced-motion:reduce){
   *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
