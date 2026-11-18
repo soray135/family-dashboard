@@ -28,7 +28,7 @@ def geo(pg):
       const hs = document.querySelector('.kid-card[data-kid=haseong]');
       const qw = hs.querySelector('[data-questwrap]');
       return {
-        left: b('.col-left'), mid: b('.col-center'), kids: b('.kids-row'), chat: b('.chat-card'), side: b('.col-side'),
+        left: b('.col-left'), mid: b('.col-center'), kids: b('.kids-row'), chat: b('.chat-card'), side: b('.col-chat'),
         haseong: b('.kid-card[data-kid=haseong]'), hayun: b('.kid-card[data-kid=hayun]'),
         chatlog: b('.chat-log'), timer: b('.timer-card'), wish: b('.wish-card'),
         questW: Math.round(qw.getBoundingClientRect().height),

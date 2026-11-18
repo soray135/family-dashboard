@@ -156,29 +156,30 @@ h1,h2,h3,p { margin:0; }
 .btn-danger{ color:#D2604B; background:#FDEDE9; border:1px solid #F8D6CD; }
 .btn-danger:hover{ background:#FBE2DA; }
 
-/* 3칼럼(PC 데스크톱): 왼쪽(날씨·달력·디데이) · 가운데(하성·하윤 가로 + 대화방) · 오른쪽(타이머·사주세요)
-   가운데는 위에 아이 카드 두 장을 나란히 두고, 아래 대화방이 남은 세로 높이를 모두 차지해
-   세 칼럼의 바닥선이 한 줄로 맞습니다. */
+/* 3칼럼(PC 데스크톱): 왼쪽(날씨·달력·디데이) · 가운데(하성·하윤 위, 타이머·사주세요 아래) · 오른쪽(대화방)
+   가운데는 아이 카드 두 장 아래에 타이머와 사주세요가 나란히 들어가고,
+   오른쪽 대화방이 세로 높이를 모두 차지해 세 칼럼의 바닥선이 한 줄로 맞습니다. */
 .grid{
   display:grid;
-  grid-template-columns:minmax(296px,1fr) minmax(0,2.06fr) minmax(272px,.92fr);
+  grid-template-columns:minmax(272px,1fr) minmax(0,1.62fr) clamp(360px,26vw,410px);
   gap:14px;
   align-items:stretch;      /* 세 칼럼의 위·아래 라인을 맞춥니다 */
 }
 .col-left{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
 .col-center{ display:flex; flex-direction:column; gap:12px; min-width:0; min-height:0; height:100%; }
-.col-side{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
+.col-chat{ display:flex; flex-direction:column; min-width:0; height:100%; }
 /* 가운데 윗줄 — 하성이·하윤이 카드를 가로로 나란히 */
 .kids-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; flex:0 0 auto; }
 .kids-row > .kid-card{ min-width:0; min-height:0; }
-/* 가운데 아랫줄 — 대화방이 남는 세로 높이를 전부 흡수합니다 */
-.col-center > .chat-card{ flex:1 1 auto; min-height:0; }
-/* 한 아이 카드를 펼쳐도 대화방이 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤) */
-.col-center.kid-open .kids-row{ flex:0 1 auto; max-height:48%; }
+/* 가운데 아랫줄 — 공부 타이머 | 엄마 이거 사주세요, 남는 세로 높이를 나눠 채웁니다 */
+.stack-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; flex:1 1 auto; min-height:0; }
+.stack-row > .card{ min-width:0; min-height:0; }
+.stack-row > .timer-card{ display:flex; flex-direction:column; }
+/* 한 아이 카드를 펼쳐도 아래 두 카드가 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤) */
+.col-center.kid-open .kids-row{ flex:0 1 auto; max-height:44%; }
 /* 칼럼이 남는 높이를 채워 세 칼럼 바닥선이 정확히 맞도록 */
 .col-left > .dday-card{ flex:1 1 auto; }
-.col-side > .timer-card{ flex:1 1 auto; display:flex; flex-direction:column; }
-.col-side > .wish-card{ flex:1 1 auto; min-height:0; }
+.col-chat > .chat-card{ flex:1 1 auto; min-height:0; }
 
 /* ============ cards ============ */
 .card{
@@ -750,7 +751,7 @@ select.q-xp, #wishWho{
 .wish-form input::placeholder{ color:#B7AFC6; }
 .wish-form input:focus, .wish-form select:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
 #wishName{ padding:5px 9px; }
-.wish-row{ display:flex; gap:5px; }
+.wish-row{ display:flex; gap:5px; min-width:0; }
 #wishWho{
   flex:0 0 auto; width:64px;
   padding:4px 3px 4px 7px;
@@ -769,9 +770,9 @@ select.q-xp, #wishWho{
 #wishAdd:hover{ transform:translateY(-1px); }
 #wishAdd:active{ transform:translateY(1px) scale(.97); }
 .wish-list{ display:flex; flex-direction:column; gap:3px; margin-top:6px; flex:0 1 auto; min-height:0; max-height:88px; overflow-y:auto; }
-/* 오른쪽 칼럼에서는 사주세요 카드가 남는 높이를 쓰고 목록도 그만큼 보여요 */
-.col-side .wish-list{ flex:1 1 auto; max-height:none; }
-.col-side .wish-empty{ margin:auto; }
+/* 가운데 아랫줄에서는 사주세요 카드가 남는 높이를 쓰고 목록도 그만큼 보여요 */
+.stack-row .wish-list{ flex:1 1 auto; max-height:none; }
+.stack-row .wish-empty{ margin:auto; }
 .wish{
   display:flex; align-items:flex-start; gap:7px;
   padding:5px 7px 5px 8px;
@@ -1010,6 +1011,12 @@ select.q-xp, #wishWho{
 }
 .chat-send:hover{ transform:translateY(-1px); }
 .chat-send:active{ transform:translateY(1px) scale(.97); }
+
+/* 오른쪽 대화방(좁은 폭): 보낸 사람 칩은 한 줄에 네 개 나란히, 빠른 반응은 그 아래 줄에 가지런히 */
+.col-chat .chat-tools{ flex-wrap:wrap; row-gap:5px; }
+.col-chat .who-pick{ flex:1 1 100%; }
+.col-chat .who-chip{ flex:1 1 0; padding:3px 6px; }
+.col-chat .reaction-row{ flex:1 1 100%; margin-left:0; justify-content:flex-end; }
 
 /* 달력 일정 ↔ D-Day 연동 */
 .ev-tag{
@@ -1529,10 +1536,16 @@ select.q-xp, #wishWho{
   text-shadow:0 5px 15px rgba(120,100,200,.14);
   transition:color .2s;
 }
-/* 오른쪽 칼럼에서 타이머가 세로로 길게 보이므로 숫자도 그만큼 크게 */
+/* 가운데 아랫줄에서는 카드가 세로로 길어 남는 높이를 숫자 크기로 씁니다 (조작부는 한 덩어리로 가운데, 진행선은 맨 아래) */
 @media (min-width:1280px){
-  .col-side .timer-display{ font-size:clamp(32px,4.4vh,52px); }
-  .col-side .timer-row{ margin:8px 0 10px; }
+  .stack-row .timer-pane{ justify-content:center; gap:9px; padding:4px 0 0; }
+  .stack-row #timerDisplay{ font-size:clamp(46px,4.4vw,74px); }
+  .stack-row .sw-display{ font-size:clamp(28px,2.4vw,44px); }
+  .stack-row .timer-row{ margin:0; }
+  .stack-row .timer-custom, .stack-row .timer-actions{ margin-top:0; }
+  .stack-row .timer-row{ margin-top:auto; }        /* 조작부는 가운데, 진행선은 카드 맨 아래 */
+  .stack-row .timer-progress{ margin-top:auto; }
+  .stack-row .sw-laps{ height:150px; }
 }
 .timer-display.warn{ color:#E9785F; }
 /* 스톱워치: 1/100초까지 — 숫자 폭 고정 + 한 줄 고정(카드 높이 유지) */
@@ -1762,15 +1775,18 @@ select.q-xp, #wishWho{
 .msg.mine .msg-audio{ background:rgba(255,255,255,.9); }
 
 /* ============ responsive ============ */
-/* 좁은 화면(태블릿·작은 노트북): 2칼럼 — 위에 날씨·달력·디데이 | 타이머·사주세요, 그 아래 아이들 + 대화방 */
+/* 좁은 화면(태블릿·작은 노트북): 2칼럼 — 위에 날씨·달력·디데이 | 대화방,
+   그 아래 아이들 두 장, 맨 아래 타이머 | 사주세요 */
 @media (max-width:1279px){
   .grid{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; align-items:start; }
   .col-left{ grid-column:1; grid-row:1; height:auto; }
-  .col-side{ grid-column:2; grid-row:1; height:auto; }
-  .col-center{ grid-column:1 / -1; grid-row:2; height:auto; }
-  .col-center > .chat-card{ flex:0 0 auto; }
+  .col-chat{ grid-column:2; grid-row:1; height:auto; align-self:stretch; }
+  .col-center{ display:contents; }
+  .kids-row{ grid-column:1 / -1; grid-row:2; }
+  .stack-row{ grid-column:1 / -1; grid-row:3; }
+  .col-chat > .chat-card{ flex:1 1 auto; }
   .col-center.kid-open .kids-row{ max-height:none; }
-  .chat-log{ max-height:340px; }
+  .chat-log{ max-height:none; }
   .wish-form{ flex-direction:row; align-items:stretch; flex-wrap:wrap; }
   #wishName{ flex:1 1 240px; }
   .wish-row{ flex:1 1 280px; }
@@ -1782,7 +1798,6 @@ select.q-xp, #wishWho{
   .clock-pill{ order:2; }
   .top-actions{ order:3; margin-left:auto; }
   .dex-grid{ grid-template-columns:repeat(4,1fr); }
-  .chat-log{ max-height:300px; }
 }
 @media (max-width:796px){
   .app{ padding:14px 12px 26px; }
@@ -1795,11 +1810,16 @@ select.q-xp, #wishWho{
   .wx-outfit{ min-width:60px; }
   .wx-hl{ font-size:11px; gap:5px; }
   .wx-hl b{ font-size:12.5px; }
-  .col-left, .col-center, .col-side{ grid-column:1; grid-row:auto; height:auto; gap:14px; }
-  .kids-row{ grid-template-columns:minmax(0,1fr); }
-  .kids-row > .kid-card{ flex:0 0 auto; min-height:0; }
-  .col-center > .chat-card{ flex:0 0 auto; }
+  .col-left, .col-chat{ grid-column:1; grid-row:auto; height:auto; }
+  .kids-row, .stack-row{ grid-column:1; grid-row:auto; grid-template-columns:minmax(0,1fr); }
+  .col-left{ order:1; }
+  .kids-row{ order:2; gap:12px; }
+  .col-chat{ order:3; }
+  .stack-row{ order:4; gap:14px; }
+  .kids-row > .kid-card{ min-height:0; }
+  .col-chat > .chat-card{ flex:0 0 auto; }
   .col-center.kid-open .kids-row{ max-height:none; }
+  .stack-row .wish-list{ max-height:220px; }
   .chat-log{ max-height:300px; min-height:150px; }
   .chat-tools{ flex-wrap:wrap; gap:5px; }
   .who-pick{ flex:1 1 100%; }
@@ -2021,43 +2041,8 @@ select.q-xp, #wishWho{
 
     </div><!-- /kids-row -->
 
-<!-- ── 대화방: 가운데 칼럼의 남은 세로 높이를 꽉 채워요 ── -->
-    <section class="card chat-card" aria-label="대화방👨‍👩‍👧‍👦">
-      <div class="chat-head">
-        <h2 class="card-title">대화방👨‍👩‍👧‍👦</h2>
-        <div class="chat-head-right">
-          <button class="chat-unread" type="button" id="chatUnread" hidden>새 메시지 0</button>
-          <button class="push-btn" type="button" id="pushBtn" aria-pressed="false" aria-haspopup="dialog" title="휴대폰 푸시 알림 켜기"><span aria-hidden="true">📲</span> 푸시</button>
-          <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
-        </div>
-      </div>
-      <div class="chat-tools">
-      <div class="who-pick" id="whoPick" role="group" aria-label="보낸 사람 고르기">
-        <button type="button" class="who-chip" data-who="하성" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧒</span>하성</button>
-        <button type="button" class="who-chip" data-who="하윤" aria-pressed="false"><span class="wc-av" aria-hidden="true">👧</span>하윤</button>
-        <button type="button" class="who-chip" data-who="엄마" aria-pressed="false"><span class="wc-av" aria-hidden="true">👩</span>엄마</button>
-        <button type="button" class="who-chip" data-who="아빠" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧔</span>아빠</button>
-      </div>
-      <div class="reaction-row" id="reactionRow" role="group" aria-label="빠른 리액션">
-        <button type="button" class="re-btn" data-emoji="❤️" title="최근 메시지에 ❤️">❤️</button>
-        <button type="button" class="re-btn" data-emoji="👍" title="최근 메시지에 👍">👍</button>
-        <button type="button" class="re-btn" data-emoji="👏" title="최근 메시지에 👏">👏</button>
-        <button type="button" class="re-btn" data-emoji="😂" title="최근 메시지에 😂">😂</button>
-        <button type="button" class="re-btn" data-emoji="🎉" title="최근 메시지에 🎉">🎉</button>
-      </div>
-      </div>
-      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="대화방👨‍👩‍👧‍👦 대화"></div>
-      <form class="chat-form" id="chatForm" autocomplete="off">
-        <button class="chat-mic" id="chatMic" type="button" aria-label="음성 메시지 녹음" title="눌러서 녹음 (최대 30초)"><span class="mic-ico" aria-hidden="true">🎤</span><b class="mic-time" id="chatMicTime" hidden>0:00</b></button>
-        <input class="chat-input" id="chatInput" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지">
-        <button class="chat-send" id="chatSend" type="submit" aria-label="보내기">↑</button>
-      </form>
-    </section>
-
-    </div>
-
-    <!-- ── 오른쪽: 공부 타이머 · 엄마 이거 사주세요 ── -->
-    <div class="col-side">
+    <!-- ── 가운데 아랫줄: 공부 타이머 | 엄마 이거 사주세요 ── -->
+    <div class="stack-row">
     <!-- ── ⏱️ 공부 타이머 / 스톱워치 ── -->
     <section class="card timer-card" aria-label="공부 타이머와 스톱워치">
       <div class="timer-head">
@@ -2130,8 +2115,43 @@ select.q-xp, #wishWho{
       <ul class="wish-list" id="wishList"></ul>
       <p class="wish-empty" id="wishEmpty">아직 올린 게 없어요 🌱<br>필요한 걸 적어 두면 엄마가 봐요!</p>
     </section>
+    </div><!-- /stack-row -->
+    </div><!-- /col-center -->
 
-    </div>
+    <!-- ── 오른쪽: 대화방 — 칼럼의 세로 높이를 꽉 채워요 ── -->
+    <div class="col-chat">
+    <section class="card chat-card" aria-label="대화방👨‍👩‍👧‍👦">
+      <div class="chat-head">
+        <h2 class="card-title">대화방👨‍👩‍👧‍👦</h2>
+        <div class="chat-head-right">
+          <button class="chat-unread" type="button" id="chatUnread" hidden>새 메시지 0</button>
+          <button class="push-btn" type="button" id="pushBtn" aria-pressed="false" aria-haspopup="dialog" title="휴대폰 푸시 알림 켜기"><span aria-hidden="true">📲</span> 푸시</button>
+          <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
+        </div>
+      </div>
+      <div class="chat-tools">
+      <div class="who-pick" id="whoPick" role="group" aria-label="보낸 사람 고르기">
+        <button type="button" class="who-chip" data-who="하성" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧒</span>하성</button>
+        <button type="button" class="who-chip" data-who="하윤" aria-pressed="false"><span class="wc-av" aria-hidden="true">👧</span>하윤</button>
+        <button type="button" class="who-chip" data-who="엄마" aria-pressed="false"><span class="wc-av" aria-hidden="true">👩</span>엄마</button>
+        <button type="button" class="who-chip" data-who="아빠" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧔</span>아빠</button>
+      </div>
+      <div class="reaction-row" id="reactionRow" role="group" aria-label="빠른 리액션">
+        <button type="button" class="re-btn" data-emoji="❤️" title="최근 메시지에 ❤️">❤️</button>
+        <button type="button" class="re-btn" data-emoji="👍" title="최근 메시지에 👍">👍</button>
+        <button type="button" class="re-btn" data-emoji="👏" title="최근 메시지에 👏">👏</button>
+        <button type="button" class="re-btn" data-emoji="😂" title="최근 메시지에 😂">😂</button>
+        <button type="button" class="re-btn" data-emoji="🎉" title="최근 메시지에 🎉">🎉</button>
+      </div>
+      </div>
+      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="대화방👨‍👩‍👧‍👦 대화"></div>
+      <form class="chat-form" id="chatForm" autocomplete="off">
+        <button class="chat-mic" id="chatMic" type="button" aria-label="음성 메시지 녹음" title="눌러서 녹음 (최대 30초)"><span class="mic-ico" aria-hidden="true">🎤</span><b class="mic-time" id="chatMicTime" hidden>0:00</b></button>
+        <input class="chat-input" id="chatInput" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지">
+        <button class="chat-send" id="chatSend" type="submit" aria-label="보내기">↑</button>
+      </form>
+    </section>
+    </div><!-- /col-chat -->
   </main>
 
   <footer class="foot">이 기기(브라우저)에 자동 저장돼요 · 인터넷 없이도 열려요 · ☁️ 가족 방과 실시간으로 함께 맞춰져요</footer>
