@@ -169,10 +169,10 @@ h1,h2,h3,p { margin:0; }
 .col-center{ display:flex; flex-direction:column; gap:12px; min-width:0; min-height:0; height:100%; }
 .col-chat{ display:flex; flex-direction:column; min-width:0; height:100%; }
 /* 가운데 윗줄 — 하성이·하윤이 카드를 가로로 나란히 */
-.kids-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; flex:0 0 auto; }
+.kids-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; flex:1 1 auto; }
 .kids-row > .kid-card{ min-width:0; min-height:0; }
-/* 가운데 아랫줄 — 공부 타이머 | 엄마 이거 사주세요, 남는 세로 높이를 나눠 채웁니다 */
-.stack-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; flex:1 1 auto; min-height:0; }
+/* 가운데 아랫줄 — 공부 타이머 | 엄마 이거 사주세요, 타이머 내용에 딱 맞는 컴팩트한 높이 */
+.stack-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; flex:0 0 auto; min-height:0; }
 .stack-row > .card{ min-width:0; min-height:0; }
 .stack-row > .timer-card{ display:flex; flex-direction:column; }
 /* 한 아이 카드를 펼쳐도 아래 두 카드가 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤)
@@ -1857,6 +1857,82 @@ select.q-xp, #wishWho{
   .app{ height:100vh; display:flex; flex-direction:column; }
   .app > .grid{ flex:1 1 auto; min-height:0; grid-template-rows:minmax(0,1fr); }
   .chat-log{ max-height:none; }
+
+  /* ── 가운데 칼럼 비율 조정 (v10): 아랫줄은 타이머 내용 높이에 딱 맞추고,
+     줄어든 만큼 남는 세로 공간은 윗줄 아이들 카드가 전부 차지합니다. ──
+     · stack-row 높이 = 공부 타이머 카드의 자연 높이 (사주세요 카드는 contain:size로
+       높이 계산에서 빠져 줄을 늘리지 않고, 같은 높이로 늘어난 뒤 목록만 안에서 스크롤)
+     · 그래서 타이머 카드 위아래에는 빈 여백이 남지 않습니다. */
+  .stack-row{ flex:0 0 auto; min-height:0; height:var(--stack-h, auto); }
+  /* 높이를 재는 동안에만: 타이머 화면을 보이게 하고(스톱워치 화면은 잠시 감춤) 줄을 자연 높이로 */
+  .stack-row.measuring{ height:auto; }
+  .stack-row.measuring #swPane{ display:none !important; }
+  .stack-row.measuring #timerPane{ display:flex !important; }
+  .stack-row > .wish-card{ contain:size; overflow:hidden; }
+  .stack-row .wish-list{ flex:1 1 auto; min-height:0; max-height:none; }
+  .stack-row .wish-empty{ flex:0 0 auto; }
+  /* 스톱워치 랩은 카드 높이를 밀지 않고 남는 자리에서만 스크롤 */
+  .stack-row .sw-laps{ height:auto; flex:1 1 auto; min-height:0; }
+  .stack-row .timer-pane{ flex:1 1 auto; min-height:0; }
+
+  /* 윗줄 — 남는 세로를 모두 차지 */
+  .kids-row{ flex:1 1 auto; min-height:0; }
+  .col-center.kid-open .kids-row{ flex:1 1 auto; max-height:none; }
+  /* 펼쳐도 칼럼 바닥선은 그대로: 퀘스트는 카드 안에서만 커지고 넘치면 안에서 스크롤 */
+  .col-center.kid-open .kids-row > .kid-card{ min-height:0; }
+
+  /* 커진 카드 높이에 맞춰 캐릭터를 시원하게 — 카드가 큰 만큼만 키워 넘치지 않게
+     (카드를 사이즈 컨테이너로 두고 100cqh = 카드 높이 기준) */
+  .kids-row > .kid-card{ padding:16px 16px 14px; border-radius:24px; container-type:size; }
+  .kids-row > .kid-card:not(.open){ justify-content:center; }
+  .kids-row > .kid-card:not(.open) > .kid-top{ gap:clamp(10px, 2.2vh, 20px); }
+  .kids-row > .kid-card:not(.open) .pet{
+    width:clamp(120px, 22vh, 344px);   /* 컨테이너 쿼리 단위를 모르는 브라우저 폴백 */
+    width:min(100%, max(112px, calc(100cqh - clamp(172px, 25cqh, 225px))), 344px);
+    height:auto; aspect-ratio:1/1;
+    border-radius:clamp(26px, 5vh, 46px);
+    box-shadow:0 18px 40px rgba(120,100,180,.18), inset 0 2px 0 #fff;
+  }
+  .kids-row > .kid-card:not(.open) .kid-name{ font-size:clamp(19px, 2.2vh, 25px); }
+  .kids-row > .kid-card:not(.open) .kid-avatar{ font-size:clamp(18px, 2.1vh, 24px); }
+  .kids-row > .kid-card:not(.open) .kid-name-row{ gap:7px; }
+  .kids-row > .kid-card:not(.open) .kid-tag{ font-size:clamp(11px, 1.2vh, 13px); padding:3px 8px; }
+  .kids-row > .kid-card:not(.open) .pet-row{ margin-top:clamp(6px, 1.2vh, 12px); gap:6px; }
+  .kids-row > .kid-card:not(.open) .pet-name{ font-size:clamp(12px, 1.35vh, 14.5px); }
+  .kids-row > .kid-card:not(.open) .dex-btn{ font-size:clamp(11px, 1.2vh, 12.5px); padding:3px 8px; }
+  .kids-row > .kid-card:not(.open) .lv-row{ width:min(100%, 300px); margin-top:clamp(7px, 1.5vh, 14px); gap:8px; }
+  .kids-row > .kid-card:not(.open) .lv-badge{ font-size:clamp(11.5px, 1.3vh, 13.5px); padding:3px 9px; }
+  .kids-row > .kid-card:not(.open) .xp-track{ height:clamp(8px, 1.1vh, 12px); }
+  .kids-row > .kid-card:not(.open) .xp-text{ font-size:clamp(10.5px, 1.2vh, 12.5px); }
+  .kids-row > .kid-card:not(.open) .kid-foot{ margin-top:clamp(9px, 1.8vh, 18px); gap:7px; }
+  .kids-row > .kid-card:not(.open) .kid-prog,
+  .kids-row > .kid-card:not(.open) .kid-toggle{ font-size:clamp(11px, 1.2vh, 12.5px); padding:4px 10px; }
+  /* 펼쳤을 때도 카드가 커진 만큼 캐릭터·글자에 여유 */
+  .kids-row > .kid-card.open .pet{ width:clamp(66px, 5vw, 92px); height:clamp(66px, 5vw, 92px); }
+  .kids-row > .kid-card.open .kid-name{ font-size:18px; }
+  .kids-row > .kid-card.open .kid-avatar{ font-size:18px; }
+}
+
+/* 아주 낮은 화면(브라우저 툴바까지 내려간 1366×620 등)에서는 카드가 낮아
+   세로로 쌓으면 캐릭터가 잘립니다. 그때만 가로 배치(캐릭터 옆에 이름·레벨)로 바꿉니다. */
+@container (max-height:300px){
+  .kids-row > .kid-card:not(.open) > .kid-top{
+    flex-direction:row; align-items:center; justify-content:flex-start;
+    text-align:left; gap:12px;
+  }
+  .kids-row > .kid-card:not(.open) .kid-meta{ align-items:flex-start; width:auto; flex:1 1 auto; }
+  .kids-row > .kid-card:not(.open) .kid-name-row{ justify-content:flex-start; }
+  .kids-row > .kid-card:not(.open) .pet-row{ justify-content:flex-start; }
+  .kids-row > .kid-card:not(.open) .lv-row{ width:100%; margin-top:7px; }
+  .kids-row > .kid-card:not(.open) .kid-foot{ margin-top:7px; }
+  .kids-row > .kid-card:not(.open) .pet{
+    width:min(46%, calc(100cqh - 34px));
+    height:auto; aspect-ratio:1/1; border-radius:22px;
+  }
+  /* 이 높이에서는 펼친 퀘스트 목록 자리를 조금이라도 더 비워 줍니다 */
+  .kids-row > .kid-card.open .kid-foot{ display:none; }
+  .kids-row > .kid-card.open .quest-head{ padding-top:6px; margin-bottom:4px; }
+  .kids-row > .kid-card.open .quest-form{ margin-top:4px; }
 }
 /* 낮은 화면(노트북 1366×768 등)에서도 세 칼럼이 한 화면에 들어오도록 위아래 여백만 살짝 조입니다 */
 @media (min-width:1280px) and (max-height:884px){
@@ -6369,6 +6445,29 @@ function bindVoice() {
   setMicUI();
 }
 
+/* ---------- 가운데 아랫줄 높이: 공부 타이머 내용에 딱 맞춤 (3칼럼) ----------
+   · 타이머 카드는 최대한 컴팩트하게, 남는 세로는 윗줄 아이들 카드가 차지합니다.
+   · 탭을 스톱워치로 바꾸거나 랩이 쌓여도 줄 높이가 흔들리지 않도록,
+     타이머 화면 기준의 자연 높이를 재서 --stack-h로 고정합니다. */
+function fitStackRow() {
+  const row = document.querySelector('.stack-row');
+  if (!row) return;
+  let narrow = true;
+  try { narrow = !window.matchMedia('(min-width:1280px)').matches; } catch (e) {}
+  if (narrow) { row.style.removeProperty('--stack-h'); return; }
+  const card = row.querySelector('.timer-card');
+  if (!card) return;
+  row.classList.add('measuring');
+  const h = Math.ceil(card.getBoundingClientRect().height);
+  row.classList.remove('measuring');
+  if (h > 0) row.style.setProperty('--stack-h', h + 'px');
+}
+let stackFitTimer = null;
+function scheduleStackFit(delay) {
+  clearTimeout(stackFitTimer);
+  stackFitTimer = setTimeout(fitStackRow, delay == null ? 60 : delay);
+}
+
 /* ---------- 시작 ---------- */
 function init() {
   const roll = questDayRollover();   /* 날이 바뀌었으면 아이들 퀘스트 체크만 먼저 비워요 */
@@ -6378,6 +6477,10 @@ function init() {
   bindVoice();
   bindHiFive();
   bindWeather();
+  fitStackRow();                     /* 가운데 아랫줄을 타이머 내용 높이에 맞춤 */
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitStackRow());
+  window.addEventListener('resize', () => scheduleStackFit());
+  window.addEventListener('orientationchange', () => scheduleStackFit(200));
   loadWeather();
   setInterval(() => loadWeather(true), 30 * 60 * 1000);
   tickClock();
