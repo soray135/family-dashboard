@@ -1,7 +1,7 @@
 /* 우리가족 대시보드 서비스 워커
    · 홈 화면에 추가했을 때 앱처럼 뜨게 하고(오프라인에서도 마지막 화면은 열려요)
    · 휴대폰 푸시(VAPID) 알림을 받아 띄우고, 누르면 대시보드로 들어와요 */
-const VERSION = 'v11-bigger-chat-input';
+const VERSION = 'v12-floating-quest';
 const CACHE = 'family-dashboard-' + VERSION;
 const PRECACHE = [
   './',

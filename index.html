@@ -1921,6 +1921,33 @@ select.q-xp, #wishWho{
   .kids-row > .kid-card.open .pet{ width:clamp(66px, 5vw, 92px); height:clamp(66px, 5vw, 92px); }
   .kids-row > .kid-card.open .kid-name{ font-size:18px; }
   .kids-row > .kid-card.open .kid-avatar{ font-size:18px; }
+
+  /* ── v12 플로팅 확장 (소라 님 요청) ───────────────────────────────
+     퀘스트를 펼친 카드만 그 자리에서 위로 떠올라(z-index) **아래로 쭉 늘어나고**,
+     옆에 접혀 있는 아이 카드·왼쪽(날씨·달력·D-Day)·오른쪽(대화방)·타이머·사주세요는
+     카드가 빠져나간 자리를 그대로 지켜 1px도 움직이지 않습니다.
+     카드는 내용 높이만큼 늘어나되 화면 아래로 넘치지 않게 max-height 안전선을 두고,
+     그 안에 다 들어가면 스크롤이 아예 생기지 않습니다. (--fx-h0: 원래 자리 높이, --fx-max: 화면에 남은 높이) */
+  .kids-row{ position:relative; }
+  .kids-row.fx-on{ z-index:60; }
+  .kids-row.fx-haseong > .kid-card[data-kid="hayun"]{ grid-column:2; }
+  .kids-row.fx-hayun > .kid-card[data-kid="haseong"]{ grid-column:1; }
+  .kids-row.fx-on > .kid-card.fx{
+    grid-column:auto;
+    position:absolute; top:0; left:0;
+    width:calc(50% - 6px);
+    height:auto;
+    min-height:var(--fx-h0, 0px);
+    max-height:var(--fx-max, none);
+    container-type:normal;          /* 내용 높이에 맞춰 늘어나도록 사이즈 containment 해제 */
+    background:#FFFFFF;             /* 아래 카드가 비쳐 보이지 않는 불투명 배경 */
+    border:1px solid rgba(226,216,248,.95);
+    border-radius:26px;
+    box-shadow:0 30px 64px rgba(72,56,124,.26), 0 10px 24px rgba(72,56,124,.14);
+    animation:fxIn .18s ease both;
+  }
+  .kids-row.fx-on > .kid-card.fx[data-kid="hayun"]{ left:calc(50% + 6px); }
+  @keyframes fxIn{ from{ transform:translateY(-4px); } to{ transform:none; } }
 }
 
 /* 아주 낮은 화면(브라우저 툴바까지 내려간 1366×620 등)에서는 카드가 낮아
@@ -3762,11 +3789,72 @@ function questNode(kidId, q) {
   li.append(btn, span, xp, del);
   return li;
 }
+/* ── v12 플로팅 확장 ────────────────────────────────────────────────
+   PC(≥1280px)에서 아이 카드를 펼치면 그 카드만 원래 자리에서 떠올라 아래로 늘어납니다.
+   · 절대 위치로 띄우므로 옆 아이 카드·왼쪽·오른쪽 칼럼·타이머·사주세요의 자리는 그대로입니다.
+   · 높이는 내용에 맞춰 늘어나고, 화면 아래로 넘칠 때만 max-height 안전선 안에서 목록이 스크롤됩니다. */
+const FX_MQ = window.matchMedia('(min-width:1280px)');
+let fxCard = null;          /* 지금 떠 있는 카드 (한 번에 한 아이만) */
+
+function fxFit(card) {
+  if (!card || !card.classList.contains('fx')) return;
+  const row = card.closest('.kids-row');
+  if (!row) return;
+  const room = Math.round(window.innerHeight - row.getBoundingClientRect().top - 12);
+  card.style.setProperty('--fx-max', Math.max(200, room) + 'px');
+}
+function fxApply(card) {
+  const row = card.closest('.kids-row');
+  if (!row) return;
+  /* 띄우기 전(원래 자리)의 높이를 기억해 두면, 펼쳐도 카드가 그 자리에서 시작해 아래로만 늘어나요 */
+  card.style.setProperty('--fx-h0', Math.round(card.getBoundingClientRect().height) + 'px');
+  card.classList.add('fx');
+  row.classList.add('fx-on');
+  row.classList.toggle('fx-haseong', card.dataset.kid === 'haseong');
+  row.classList.toggle('fx-hayun', card.dataset.kid === 'hayun');
+  fxCard = card;
+  fxFit(card);
+}
+function fxRelease(card) {
+  if (!card) return;
+  if (fxCard === card) fxCard = null;
+  if (!card.classList.contains('fx')) return;
+  const row = card.closest('.kids-row');
+  card.classList.remove('fx');
+  card.style.removeProperty('--fx-h0');
+  card.style.removeProperty('--fx-max');
+  if (row) row.classList.remove('fx-on', 'fx-haseong', 'fx-hayun');
+}
+/* 카드 바깥을 누르면 바로 접히고(카드 안쪽 체크·추가·삭제·드래그는 그대로), ESC 도 접어요 */
+document.addEventListener('pointerdown', e => {
+  if (!fxCard || fxCard.contains(e.target)) return;
+  setKidOpen(fxCard.dataset.kid, false);
+}, true);
+document.addEventListener('keydown', e => {
+  if (e.key !== 'Escape' || !fxCard) return;
+  if (document.querySelector('.modal.open') || $('#standby').classList.contains('on')) return;
+  setKidOpen(fxCard.dataset.kid, false);
+});
+window.addEventListener('resize', () => {
+  if (!fxCard) return;
+  if (!FX_MQ.matches) setKidOpen(fxCard.dataset.kid, false);   /* 좁아지면 평소 펼침으로 */
+  else fxFit(fxCard);
+});
+
 /* 접고 펴기 — 캐릭터/이름을 누르면 오늘의 퀘스트가 부드럽게 열리고, 다시 누르면 접혀요.
    접힌 동안에는 퀘스트 안쪽 버튼·입력칸이 탭 키에 걸리지 않도록 inert 로 막아 둡니다. */
 function setKidOpen(kidId, open) {
   const card = $(`.kid-card[data-kid="${kidId}"]`);
   if (!card) return;
+  /* PC에서 펼치면 이 카드만 떠오르게 — 다른 아이가 떠 있으면 먼저 접어요 */
+  if (open && FX_MQ.matches) {
+    if (!card.classList.contains('open')) {
+      if (fxCard && fxCard !== card) setKidOpen(fxCard.dataset.kid, false);
+      fxApply(card);
+    }
+  } else if (!open) {
+    fxRelease(card);
+  }
   card.classList.toggle('open', !!open);
   /* 한 아이를 펼치면 그 아이들 줄만 높아지고 대화방은 남는 만큼만 줄어들도록 표시 */
   const colC = card.closest('.col-center');
