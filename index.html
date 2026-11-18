@@ -156,24 +156,27 @@ h1,h2,h3,p { margin:0; }
 .btn-danger{ color:#D2604B; background:#FDEDE9; border:1px solid #F8D6CD; }
 .btn-danger:hover{ background:#FBE2DA; }
 
-/* 4칼럼: 왼쪽(날씨·달력·디데이) · 가운데(하성·하윤 세로로) · 대화방(통째로 길게) · 오른쪽(타이머·사주세요)
-   대화방이 한 칼럼을 온전히 차지해서 세로로 길어지고, 아이 카드 둘은 가운데에서 위·아래로 나눠 가집니다. */
+/* 3칼럼(PC 데스크톱): 왼쪽(날씨·달력·디데이) · 가운데(하성·하윤 가로 + 대화방) · 오른쪽(타이머·사주세요)
+   가운데는 위에 아이 카드 두 장을 나란히 두고, 아래 대화방이 남은 세로 높이를 모두 차지해
+   세 칼럼의 바닥선이 한 줄로 맞습니다. */
 .grid{
   display:grid;
-  grid-template-columns:minmax(300px,1.12fr) minmax(276px,1.02fr) minmax(276px,.99fr) minmax(258px,.9fr);
+  grid-template-columns:minmax(296px,1fr) minmax(0,2.06fr) minmax(272px,.92fr);
   gap:14px;
-  align-items:stretch;      /* 네 칼럼의 위·아래 라인을 맞춥니다 */
+  align-items:stretch;      /* 세 칼럼의 위·아래 라인을 맞춥니다 */
 }
 .col-left{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
-.col-mid{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
-.col-chat{ display:flex; flex-direction:column; min-width:0; height:100%; }
+.col-center{ display:flex; flex-direction:column; gap:12px; min-width:0; min-height:0; height:100%; }
 .col-side{ display:flex; flex-direction:column; gap:12px; min-width:0; height:100%; }
-/* 칼럼이 남는 높이를 채워 네 칼럼 바닥선이 정확히 맞도록 */
+/* 가운데 윗줄 — 하성이·하윤이 카드를 가로로 나란히 */
+.kids-row{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-height:0; flex:0 0 auto; }
+.kids-row > .kid-card{ min-width:0; min-height:0; }
+/* 가운데 아랫줄 — 대화방이 남는 세로 높이를 전부 흡수합니다 */
+.col-center > .chat-card{ flex:1 1 auto; min-height:0; }
+/* 한 아이 카드를 펼쳐도 대화방이 사라지지 않도록 펼친 줄의 높이만 제한합니다 (퀘스트 목록은 카드 안에서 스크롤) */
+.col-center.kid-open .kids-row{ flex:0 1 auto; max-height:48%; }
+/* 칼럼이 남는 높이를 채워 세 칼럼 바닥선이 정확히 맞도록 */
 .col-left > .dday-card{ flex:1 1 auto; }
-.col-chat > .chat-card{ flex:1 1 auto; min-height:0; }
-.col-mid > .kid-card{ flex:1 1 auto; min-height:0; }
-/* 펼친 카드가 가운데 공간을 더 가져가고, 접힌 카드는 컴팩트하게 남아요 */
-.col-mid > .kid-card.open{ flex-grow:1.9; }
 .col-side > .timer-card{ flex:1 1 auto; display:flex; flex-direction:column; }
 .col-side > .wish-card{ flex:1 1 auto; min-height:0; }
 
@@ -390,6 +393,31 @@ h1,h2,h3,p { margin:0; }
 .kid-card:not(.open) .kid-name:hover,
 .kid-card:not(.open) .kid-tag:hover{ border-color:transparent; background:transparent; }
 .kid-card:not(.open) [data-field]{ cursor:pointer; }
+
+/* ── 3칼럼 개편: 가로로 나란히 놓이는 아이 카드는 한눈에 들어오게 컴팩트하게 ──
+   (캐릭터·패딩을 줄이고 이름·레벨·진행률을 한 덩어리로) */
+@media (min-width:797px){
+  .kids-row > .kid-card{ padding:11px 12px 10px; border-radius:20px; }
+  .kids-row > .kid-card:not(.open) > .kid-top{ gap:6px; }
+  .kids-row > .kid-card:not(.open) .pet{
+    width:clamp(76px,6.1vw,102px);
+    height:clamp(76px,6.1vw,102px);
+    border-radius:24px;
+    box-shadow:0 8px 20px rgba(120,100,180,.14), inset 0 2px 0 #fff;
+  }
+  .kids-row > .kid-card:not(.open) .kid-name{ font-size:16.5px; }
+  .kids-row > .kid-card:not(.open) .kid-avatar{ font-size:16px; }
+  .kids-row > .kid-card:not(.open) .pet-row{ margin-top:4px; }
+  .kids-row > .kid-card:not(.open) .lv-row{ width:min(100%,232px); margin-top:6px; }
+  .kids-row > .kid-card:not(.open) .kid-foot{ margin-top:6px; gap:5px; }
+  .kids-row > .kid-card:not(.open) .kid-prog,
+  .kids-row > .kid-card:not(.open) .kid-toggle{ padding:3px 8px; font-size:10.5px; }
+  .kids-row > .kid-card .kid-tag{ font-size:10.5px; padding:2px 6px; }
+  /* 펼쳤을 때는 캐릭터를 조금 더 작게 해 퀘스트 목록 자리를 비워요 */
+  .kids-row > .kid-card.open > .kid-top{ gap:9px; }
+  .kids-row > .kid-card.open .pet{ width:clamp(62px,4.4vw,80px); height:clamp(62px,4.4vw,80px); border-radius:18px; }
+  .kids-row > .kid-card.open .quest-head{ padding-top:8px; margin-bottom:7px; }
+}
 .pet.pop{ animation:petPop .55s cubic-bezier(.34,1.56,.64,1); }
 @keyframes petPop{ 0%{ transform:scale(.82) rotate(-4deg);} 60%{ transform:scale(1.06) rotate(2deg);} 100%{ transform:scale(1);} }
 .pet svg{ width:100%; height:100%; display:block; }
@@ -797,8 +825,9 @@ select.q-xp, #wishWho{
 .who-chip[data-who="하성"], .msg[data-who="하성"]{ --who:#E9A15C; --who-soft:#FFF3E6; --who-line:#F7E0C6; --who-deep:#BE7A2B; }
 .who-chip[data-who="하윤"], .msg[data-who="하윤"]{ --who:#9C86F2; --who-soft:#F3EFFF; --who-line:#E1D8FC; --who-deep:#7359D8; }
 
-.chat-card{ padding:11px 13px 10px; display:flex; flex-direction:column; gap:5px; min-height:0; }
+.chat-card{ padding:9px 12px 9px; display:flex; flex-direction:column; gap:4px; min-height:0; }
 .chat-head{ display:flex; align-items:center; justify-content:space-between; gap:8px; padding:0 2px; }
+.chat-head .card-title{ font-size:14.5px; }
 .chat-head-right{ display:flex; align-items:center; gap:6px; flex:0 0 auto; }
 .chat-unread{
   font-size:10.5px; font-weight:800; color:#fff; letter-spacing:-0.02em;
@@ -818,16 +847,17 @@ select.q-xp, #wishWho{
 .bell-btn.on, .push-btn.on{ color:#6C5FD0; background:#F1ECFC; border-color:#DCD2FB; }
 .push-btn.on{ color:#5B3FD6; background:#EEE8FF; border-color:#CFC2FB; box-shadow:0 2px 8px rgba(124,58,237,.18); }
 @keyframes popIn{ from{ transform:scale(.7); opacity:0; } to{ transform:none; opacity:1; } }
-.who-pick{ display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:5px; }
+.chat-tools{ display:flex; align-items:center; gap:8px; min-width:0; }
+.who-pick{ display:flex; gap:4px; flex:0 1 auto; min-width:0; }
 .who-chip{
-  display:flex; flex-direction:column; align-items:center; gap:1px;
-  padding:2px 2px 1px;
-  border-radius:9px;
+  display:flex; flex:0 1 auto; flex-direction:row; align-items:center; justify-content:center; gap:3px;
+  padding:3px 9px;
+  border-radius:8px;
   background:#FBFAFE; border:1.5px solid #F1ECFA;
-  color:#7E7695; font-size:9.5px; font-weight:750; letter-spacing:-0.02em;
+  color:#7E7695; font-size:10px; font-weight:750; letter-spacing:-0.02em;
   transition:background .15s, border-color .15s, color .15s, transform .12s;
 }
-.who-chip .wc-av{ font-size:13px; line-height:1.05; }
+.who-chip .wc-av{ font-size:12px; line-height:1.05; }
 .who-chip:hover{ background:#fff; border-color:#E4DCF6; }
 .who-chip:active{ transform:scale(.97); }
 .who-chip.sel{
@@ -838,12 +868,12 @@ select.q-xp, #wishWho{
 }
 
 .chat-log{
-  display:flex; flex-direction:column; gap:6px;
+  display:flex; flex-direction:column; gap:5px;
   flex:1 1 auto;
-  min-height:150px;
+  min-height:120px;
   max-height:none;
   overflow-y:auto; overscroll-behavior:contain;
-  padding:3px 2px 1px;
+  padding:2px 2px 0;
   scroll-behavior:smooth;
 }
 /* 말이 적을 때는 맨 아래부터 쌓이도록(카톡처럼) 빈 자리를 위쪽에 둡니다 — 스크롤은 그대로 */
@@ -852,24 +882,27 @@ select.q-xp, #wishWho{
 .chat-log::-webkit-scrollbar-thumb{ background:#E4DEF3; border-radius:99px; }
 .chat-empty{ margin:auto; text-align:center; font-size:11.5px; font-weight:650; color:#B6AEC4; line-height:1.65; word-break:keep-all; }
 
-.msg{ display:flex; align-items:flex-start; gap:6px; }
+.msg{ display:flex; align-items:flex-start; gap:5px; }
 .msg .msg-av{
   flex:0 0 auto; width:22px; height:22px; margin-top:1px;
   border-radius:50%; display:grid; place-items:center;
   font-size:12px; background:#fff; border:1px solid #F0EBFA;
   box-shadow:0 1px 3px rgba(96,80,150,.08);
 }
-.msg-col{ display:flex; flex-direction:column; align-items:flex-start; gap:3px; min-width:0; max-width:calc(100% - 30px); }
+.msg-col{ display:flex; flex-direction:column; align-items:flex-start; gap:2px; min-width:0; max-width:calc(100% - 30px); }
 .msg.mine{ flex-direction:row-reverse; }
 .msg.mine .msg-col{ align-items:flex-end; }
-.msg-who{ font-size:10px; font-weight:800; color:#9C93B2; letter-spacing:-0.01em; padding-left:2px; }
+/* 말풍선 옆에 시간을 나란히 — 줄마다 시간 줄이 따로 생기지 않아 한 화면에 더 많이 보입니다 */
+.msg-line{ display:flex; align-items:flex-end; gap:5px; min-width:0; max-width:100%; }
+.msg.mine .msg-line{ flex-direction:row-reverse; }
+.msg-who{ font-size:9.5px; font-weight:800; color:#9C93B2; letter-spacing:-0.01em; padding-left:2px; }
 .msg.mine .msg-who{ display:none; }
 .msg-bubble{
   position:relative;
-  max-width:100%;
-  padding:6px 9px;
-  border-radius:13px; border-top-left-radius:5px;
-  font-size:12.2px; font-weight:600; line-height:1.45;
+  max-width:100%; min-width:0;
+  padding:5px 8px;
+  border-radius:12px; border-top-left-radius:5px;
+  font-size:12px; font-weight:600; line-height:1.4;
   color:#403856;
   background:var(--who-soft);
   border:1px solid var(--who-line);
@@ -894,9 +927,9 @@ select.q-xp, #wishWho{
 .msg.mine .msg-del{ right:auto; left:-6px; }
 .msg:hover .msg-del, .msg:focus-within .msg-del{ opacity:1; }
 .msg-del:hover{ background:#FBE8E3; color:#DB6A54; }
-.msg-foot{ display:flex; align-items:center; gap:6px; flex-wrap:wrap; padding:0 2px; }
+.msg-foot{ display:flex; align-items:center; gap:5px; flex-wrap:wrap; padding:0 2px; }
 .msg.mine .msg-foot{ flex-direction:row-reverse; }
-.msg-time{ font-size:9.5px; font-weight:650; color:#B3ABBF; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
+.msg-time{ flex:0 0 auto; padding-bottom:2px; font-size:9px; font-weight:650; color:#B3ABBF; font-variant-numeric:tabular-nums; letter-spacing:-0.01em; }
 .msg-react{ display:flex; gap:3px; flex-wrap:wrap; }
 .msg-rx{
   font-size:10px; font-weight:750; line-height:1;
@@ -946,10 +979,10 @@ select.q-xp, #wishWho{
   .rx-picker button{ width:38px; height:38px; font-size:21px; }
 }
 
-.reaction-row{ display:flex; gap:4px; }
+.reaction-row{ display:flex; gap:4px; margin-left:auto; flex:0 0 auto; }
 .re-btn{
-  flex:1; height:22px; border-radius:8px;
-  font-size:12px; line-height:1;
+  flex:0 0 auto; width:27px; height:20px; border-radius:7px;
+  font-size:11px; line-height:1;
   background:#FBFAFE; border:1px solid #F1ECFA;
   transition:transform .12s, background .15s, border-color .15s;
 }
@@ -957,10 +990,10 @@ select.q-xp, #wishWho{
 .re-btn:active{ transform:scale(.94); }
 .re-btn.on{ background:#F1ECFE; border-color:#D9CDFB; }
 
-.chat-form{ display:flex; gap:6px; }
+.chat-form{ display:flex; gap:5px; }
 .chat-input{
   flex:1; min-width:0;
-  padding:7px 10px;
+  padding:6px 10px;
   border-radius:11px; border:1px solid #EFEAF8; background:#FBFAFE;
   font-size:12px; font-weight:600; color:#463E5E;
   transition:border-color .15s, background .15s, box-shadow .15s;
@@ -968,7 +1001,7 @@ select.q-xp, #wishWho{
 .chat-input::placeholder{ color:#B7AFC6; }
 .chat-input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
 .chat-send{
-  flex:0 0 auto; width:36px; border-radius:11px;
+  flex:0 0 auto; width:34px; border-radius:11px;
   color:#fff; font-size:14px; font-weight:800;
   display:grid; place-items:center;
   background:linear-gradient(180deg,#8B7BF5,#7361EE);
@@ -1702,7 +1735,7 @@ select.q-xp, #wishWho{
 
 /* ============ 🎤 음성 메시지 ============ */
 .chat-mic{
-  flex:0 0 auto; min-width:34px; padding:0 8px;
+  flex:0 0 auto; min-width:32px; padding:0 7px;
   border-radius:11px;
   display:flex; align-items:center; justify-content:center; gap:4px;
   color:#7B6AD8; font-size:14px; font-weight:800;
@@ -1729,15 +1762,15 @@ select.q-xp, #wishWho{
 .msg.mine .msg-audio{ background:rgba(255,255,255,.9); }
 
 /* ============ responsive ============ */
-/* 좁은 화면(태블릿·작은 노트북): 2칼럼 2줄 — 왼쪽|아이들, 그 아래 대화방|타이머·사주세요 */
+/* 좁은 화면(태블릿·작은 노트북): 2칼럼 — 위에 날씨·달력·디데이 | 타이머·사주세요, 그 아래 아이들 + 대화방 */
 @media (max-width:1279px){
   .grid{ grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:14px; align-items:start; }
-  .col-left{ grid-column:1; grid-row:1; }
-  .col-mid{ grid-column:2; grid-row:1; height:auto; }
-  .col-chat{ grid-column:1; grid-row:2; height:auto; }
-  .col-side{ grid-column:2; grid-row:2; height:auto; }
-  .col-mid > .kid-card{ flex:0 0 auto; }
-  .chat-log{ max-height:320px; }
+  .col-left{ grid-column:1; grid-row:1; height:auto; }
+  .col-side{ grid-column:2; grid-row:1; height:auto; }
+  .col-center{ grid-column:1 / -1; grid-row:2; height:auto; }
+  .col-center > .chat-card{ flex:0 0 auto; }
+  .col-center.kid-open .kids-row{ max-height:none; }
+  .chat-log{ max-height:340px; }
   .wish-form{ flex-direction:row; align-items:stretch; flex-wrap:wrap; }
   #wishName{ flex:1 1 240px; }
   .wish-row{ flex:1 1 280px; }
@@ -1749,7 +1782,7 @@ select.q-xp, #wishWho{
   .clock-pill{ order:2; }
   .top-actions{ order:3; margin-left:auto; }
   .dex-grid{ grid-template-columns:repeat(4,1fr); }
-  .chat-log{ max-height:280px; }
+  .chat-log{ max-height:300px; }
 }
 @media (max-width:796px){
   .app{ padding:14px 12px 26px; }
@@ -1762,9 +1795,17 @@ select.q-xp, #wishWho{
   .wx-outfit{ min-width:60px; }
   .wx-hl{ font-size:11px; gap:5px; }
   .wx-hl b{ font-size:12.5px; }
-  .col-left, .col-mid, .col-chat, .col-side{ grid-column:1; grid-row:auto; height:auto; gap:14px; }
-  .col-mid > .kid-card{ flex:0 0 auto; min-height:0; }
-  .chat-log{ max-height:300px; }
+  .col-left, .col-center, .col-side{ grid-column:1; grid-row:auto; height:auto; gap:14px; }
+  .kids-row{ grid-template-columns:minmax(0,1fr); }
+  .kids-row > .kid-card{ flex:0 0 auto; min-height:0; }
+  .col-center > .chat-card{ flex:0 0 auto; }
+  .col-center.kid-open .kids-row{ max-height:none; }
+  .chat-log{ max-height:300px; min-height:150px; }
+  .chat-tools{ flex-wrap:wrap; gap:5px; }
+  .who-pick{ flex:1 1 100%; }
+  .who-chip{ flex:1 1 0; padding:4px 6px; }
+  .reaction-row{ flex:1 1 100%; margin-left:0; }
+  .re-btn{ flex:1 1 0; width:auto; }
   .topbar{ padding-bottom:12px; }
   .brand{ white-space:normal; font-size:18px; }
   .top-actions{ width:100%; }
@@ -1786,10 +1827,7 @@ select.q-xp, #wishWho{
   .sb-cards{ flex-direction:column; align-items:stretch; }
   .sb-card{ max-width:none; }
 }
-/* 데스크톱 4칼럼: 화면 높이 안에서 칼럼이 끝나도록 잡아 주고, 남는 세로 공간은 가족 톡이 흡수합니다 */
-@media (min-width:1280px){
-  .chat-log{ max-height:clamp(120px,26vh,220px); }   /* 화면이 낮을 땐 통째로 늘리지 않고 스크롤 */
-}
+/* 데스크톱 3칼럼: 화면 높이 안에서 칼럼이 끝나도록 잡고, 남는 세로 공간은 대화방이 흡수합니다 */
 @media (min-width:1280px) and (min-height:900px){
   .app{ height:100vh; display:flex; flex-direction:column; }
   .app > .grid{ flex:1 1 auto; min-height:0; grid-template-rows:minmax(0,1fr); }
@@ -1874,8 +1912,9 @@ select.q-xp, #wishWho{
       </section>
     </div>
 
-    <!-- ── 가운데: 아이 둘 (기본은 접힘 · 카드를 누르면 오늘의 퀘스트가 열려요) ── -->
-    <div class="col-mid">
+    <!-- ── 가운데: 아이 둘(가로 2열 · 기본은 접힘) + 그 아래 대화방 ── -->
+    <div class="col-center">
+    <div class="kids-row">
     <!-- ── 아이 1 ── -->
     <section class="card kid-card" data-kid="haseong" aria-label="하성이 퀘스트">
       <div class="kid-top" data-qtoggle role="button" tabindex="0" aria-expanded="false" aria-controls="questWrap-haseong">
@@ -1980,11 +2019,9 @@ select.q-xp, #wishWho{
       </div>
     </section>
 
-        </div>
+    </div><!-- /kids-row -->
 
-<!-- ── 대화방: 한 칼럼을 통째로 차지해 세로로 길게 ── -->
-    <div class="col-chat">
-<!-- ── 가족 톡 ── -->
+<!-- ── 대화방: 가운데 칼럼의 남은 세로 높이를 꽉 채워요 ── -->
     <section class="card chat-card" aria-label="대화방👨‍👩‍👧‍👦">
       <div class="chat-head">
         <h2 class="card-title">대화방👨‍👩‍👧‍👦</h2>
@@ -1994,13 +2031,13 @@ select.q-xp, #wishWho{
           <button class="bell-btn" type="button" id="bellBtn" aria-pressed="false" title="새 메시지 알림 받기"><span aria-hidden="true">🔔</span> 알림</button>
         </div>
       </div>
+      <div class="chat-tools">
       <div class="who-pick" id="whoPick" role="group" aria-label="보낸 사람 고르기">
         <button type="button" class="who-chip" data-who="하성" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧒</span>하성</button>
         <button type="button" class="who-chip" data-who="하윤" aria-pressed="false"><span class="wc-av" aria-hidden="true">👧</span>하윤</button>
         <button type="button" class="who-chip" data-who="엄마" aria-pressed="false"><span class="wc-av" aria-hidden="true">👩</span>엄마</button>
         <button type="button" class="who-chip" data-who="아빠" aria-pressed="false"><span class="wc-av" aria-hidden="true">🧔</span>아빠</button>
       </div>
-      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="대화방👨‍👩‍👧‍👦 대화"></div>
       <div class="reaction-row" id="reactionRow" role="group" aria-label="빠른 리액션">
         <button type="button" class="re-btn" data-emoji="❤️" title="최근 메시지에 ❤️">❤️</button>
         <button type="button" class="re-btn" data-emoji="👍" title="최근 메시지에 👍">👍</button>
@@ -2008,6 +2045,8 @@ select.q-xp, #wishWho{
         <button type="button" class="re-btn" data-emoji="😂" title="최근 메시지에 😂">😂</button>
         <button type="button" class="re-btn" data-emoji="🎉" title="최근 메시지에 🎉">🎉</button>
       </div>
+      </div>
+      <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="대화방👨‍👩‍👧‍👦 대화"></div>
       <form class="chat-form" id="chatForm" autocomplete="off">
         <button class="chat-mic" id="chatMic" type="button" aria-label="음성 메시지 녹음" title="눌러서 녹음 (최대 30초)"><span class="mic-ico" aria-hidden="true">🎤</span><b class="mic-time" id="chatMicTime" hidden>0:00</b></button>
         <input class="chat-input" id="chatInput" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지">
@@ -3609,6 +3648,16 @@ function setKidOpen(kidId, open) {
   const card = $(`.kid-card[data-kid="${kidId}"]`);
   if (!card) return;
   card.classList.toggle('open', !!open);
+  /* 한 아이를 펼치면 그 아이들 줄만 높아지고 대화방은 남는 만큼만 줄어들도록 표시 */
+  const colC = card.closest('.col-center');
+  if (colC) colC.classList.toggle('kid-open', !!colC.querySelector('.kid-card.open'));
+  /* 카드가 열리고 닫히며 대화방 높이가 바뀔 때, 맨 아래를 보고 있었다면 최신 메시지를 계속 보여 줍니다 */
+  const logEl = $('#chatLog');
+  if (logEl && logEl.scrollHeight - logEl.scrollTop - logEl.clientHeight <= 24) {
+    const stick = () => { logEl.scrollTop = logEl.scrollHeight; };
+    requestAnimationFrame(stick);
+    setTimeout(stick, 380);
+  }
   const head = card.querySelector('[data-qtoggle]');
   const wrap = card.querySelector('[data-questwrap]');
   if (head) head.setAttribute('aria-expanded', open ? 'true' : 'false');
@@ -3949,7 +3998,25 @@ function chatNode(m) {
   del.type = 'button'; del.className = 'msg-del'; del.dataset.del = m.id;
   del.setAttribute('aria-label', `${m.who} 메시지 삭제`); del.textContent = '×';
   bub.appendChild(del);
-  col.appendChild(bub);
+
+  /* 말풍선·시간·반응 버튼을 한 줄에 놓아 대화가 세로로 촘촘히 보이게 (반응 이모지는 말풍선 아래 줄) */
+  const line = document.createElement('div');
+  line.className = 'msg-line';
+  line.appendChild(bub);
+  const time = document.createElement('span');
+  time.className = 'msg-time';
+  time.textContent = fmtTime(m.at);
+  line.appendChild(time);
+  const rxBtn = document.createElement('button');
+  rxBtn.type = 'button';
+  rxBtn.className = 'msg-react-btn';
+  rxBtn.dataset.rxopen = m.id;
+  rxBtn.title = '이 말풍선에 반응 달기';
+  rxBtn.setAttribute('aria-label', `${m.who} 메시지에 반응 달기`);
+  rxBtn.setAttribute('aria-haspopup', 'dialog');
+  rxBtn.textContent = '＋ 반응';
+  line.appendChild(rxBtn);
+  col.appendChild(line);
 
   const foot = document.createElement('div');
   foot.className = 'msg-foot';
@@ -3970,20 +4037,7 @@ function chatNode(m) {
     });
     foot.appendChild(rx);
   }
-  const time = document.createElement('span');
-  time.className = 'msg-time';
-  time.textContent = fmtTime(m.at);
-  foot.appendChild(time);
-  const rxBtn = document.createElement('button');
-  rxBtn.type = 'button';
-  rxBtn.className = 'msg-react-btn';
-  rxBtn.dataset.rxopen = m.id;
-  rxBtn.title = '이 말풍선에 반응 달기';
-  rxBtn.setAttribute('aria-label', `${m.who} 메시지에 반응 달기`);
-  rxBtn.setAttribute('aria-haspopup', 'dialog');
-  rxBtn.textContent = '＋ 반응';
-  foot.appendChild(rxBtn);
-  col.appendChild(foot);
+  if (foot.children.length) col.appendChild(foot);
   wrap.appendChild(col);
   return wrap;
 }
