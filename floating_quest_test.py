@@ -170,6 +170,30 @@ with sync_playwright() as p:
         chk("퀘스트 삭제해도 카드가 닫히지 않음", g["cards"]["haseong"]["open"] and g["cards"]["haseong"]["n"] == 10,
             (g["cards"]["haseong"]["open"], g["cards"]["haseong"]["n"]))
 
+        # 길게 눌러 순서 바꾸기 / 하루 초기화도 카드를 닫지 않아야 함
+        order0 = pg.eval_on_selector_all('.kid-card[data-kid=haseong] .quest .qtext', 'els => els.map(e => e.textContent)')
+        bb = pg.locator('.kid-card[data-kid=haseong] .quest').nth(0).bounding_box()
+        x, y = bb["x"] + bb["width"] / 2, bb["y"] + bb["height"] / 2
+        pg.mouse.move(x, y)
+        pg.mouse.down()
+        pg.wait_for_timeout(520)
+        for i in range(1, 9):
+            pg.mouse.move(x, y + i * 12)
+            pg.wait_for_timeout(25)
+        pg.mouse.up()
+        pg.wait_for_timeout(400)
+        order1 = pg.eval_on_selector_all('.kid-card[data-kid=haseong] .quest .qtext', 'els => els.map(e => e.textContent)')
+        g = pg.evaluate(GEO)
+        chk("롤프레스 드래그로 순서가 바뀌고 카드는 열린 채", order0 != order1 and g["cards"]["haseong"]["open"],
+            (order0, order1, g["cards"]["haseong"]["open"]))
+        chk("드래그 뒤에도 퀘스트가 전부 보임", g["cards"]["haseong"]["ulScroll"][0] <= g["cards"]["haseong"]["ulScroll"][1] + 1,
+            g["cards"]["haseong"]["ulScroll"])
+        pg.click('.kid-card[data-kid=haseong] [data-reset]')
+        pg.wait_for_timeout(400)
+        g = pg.evaluate(GEO)
+        chk("하루 초기화를 눌러도 카드는 열린 채", g["cards"]["haseong"]["open"]
+            and pg.evaluate("() => document.querySelectorAll('.kid-card[data-kid=haseong] .quest.done').length") == 0)
+
         # 도감 버튼 → 모달이 뜨고 카드는 유지, ESC는 모달만 닫음
         pg.click('.kid-card[data-kid=haseong] [data-dex]')
         pg.wait_for_timeout(450)
