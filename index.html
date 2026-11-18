@@ -993,19 +993,24 @@ select.q-xp, #wishWho{
 .re-btn:active{ transform:scale(.94); }
 .re-btn.on{ background:#F1ECFE; border-color:#D9CDFB; }
 
-.chat-form{ display:flex; gap:5px; }
+/* 입력줄: 두 줄이 넉넉히 들어가는 큰 입력창 + 그 키에 맞춘 음성·전송 버튼
+   (커진 만큼 대화 로그가 flex로 그만큼 줄어들어 카드 전체 높이는 그대로입니다) */
+.chat-form{ display:flex; gap:6px; align-items:stretch; }
 .chat-input{
-  flex:1; min-width:0;
-  padding:6px 10px;
-  border-radius:11px; border:1px solid #EFEAF8; background:#FBFAFE;
-  font-size:12px; font-weight:600; color:#463E5E;
+  flex:1 1 auto; min-width:0;
+  height:72px; min-height:72px;
+  padding:12px 14px;
+  border-radius:18px; border:1px solid #EFEAF8; background:#FBFAFE;
+  font-family:inherit;
+  font-size:14px; font-weight:600; line-height:1.45; color:#463E5E;
+  resize:none; overflow-y:auto; overscroll-behavior:contain;
   transition:border-color .15s, background .15s, box-shadow .15s;
 }
 .chat-input::placeholder{ color:#B7AFC6; }
 .chat-input:focus{ background:#fff; border-color:#CFC4F2; box-shadow:0 0 0 3px rgba(124,108,240,.1); }
 .chat-send{
-  flex:0 0 auto; width:34px; border-radius:11px;
-  color:#fff; font-size:14px; font-weight:800;
+  flex:0 0 auto; width:52px; border-radius:18px;
+  color:#fff; font-size:20px; font-weight:800;
   display:grid; place-items:center;
   background:linear-gradient(180deg,#8B7BF5,#7361EE);
   box-shadow:0 4px 10px rgba(115,97,238,.3), inset 0 1px 0 rgba(255,255,255,.3);
@@ -1750,17 +1755,17 @@ select.q-xp, #wishWho{
 
 /* ============ 🎤 음성 메시지 ============ */
 .chat-mic{
-  flex:0 0 auto; min-width:32px; padding:0 7px;
-  border-radius:11px;
+  flex:0 0 auto; min-width:46px; padding:0 9px;
+  border-radius:18px;
   display:flex; align-items:center; justify-content:center; gap:4px;
-  color:#7B6AD8; font-size:14px; font-weight:800;
+  color:#7B6AD8; font-size:18px; font-weight:800;
   background:#F6F2FF; border:1px solid #E5DCFB;
   transition:background .15s, border-color .15s, color .15s, transform .12s;
 }
 .chat-mic:hover{ background:#EFE8FE; border-color:#D8CCFA; }
 .chat-mic:active{ transform:scale(.97); }
 .chat-mic .mic-ico{ line-height:1; }
-.chat-mic .mic-time{ font-size:10.5px; font-weight:850; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
+.chat-mic .mic-time{ font-size:11px; font-weight:850; font-variant-numeric:tabular-nums; letter-spacing:-0.02em; }
 .chat-mic.rec{
   color:#fff; border-color:transparent;
   background:linear-gradient(180deg,#F2788C,#E4546C);
@@ -1823,6 +1828,11 @@ select.q-xp, #wishWho{
   .col-center.kid-open .kids-row{ max-height:none; }
   .stack-row .wish-list{ max-height:220px; }
   .chat-log{ max-height:300px; min-height:150px; }
+  /* 손가락 화면: 입력창은 조금만 낮추고 버튼은 그 높이에 맞춰 */
+  .chat-form{ gap:5px; }
+  .chat-input{ height:64px; min-height:64px; padding:10px 12px; border-radius:16px; font-size:14px; }
+  .chat-mic{ min-width:44px; padding:0 7px; border-radius:16px; font-size:17px; }
+  .chat-send{ width:48px; border-radius:16px; font-size:19px; }
   .chat-tools{ flex-wrap:wrap; gap:5px; }
   .who-pick{ flex:1 1 100%; }
   .who-chip{ flex:1 1 0; padding:4px 6px; }
@@ -2237,7 +2247,7 @@ select.q-xp, #wishWho{
       <div class="chat-log" id="chatLog" role="log" aria-live="polite" aria-label="대화방👨‍👩‍👧‍👦 대화"></div>
       <form class="chat-form" id="chatForm" autocomplete="off">
         <button class="chat-mic" id="chatMic" type="button" aria-label="음성 메시지 녹음" title="눌러서 녹음 (최대 30초)"><span class="mic-ico" aria-hidden="true">🎤</span><b class="mic-time" id="chatMicTime" hidden>0:00</b></button>
-        <input class="chat-input" id="chatInput" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지">
+        <textarea class="chat-input" id="chatInput" rows="2" placeholder="메시지를 적어 주세요" maxlength="200" aria-label="메시지" enterkeyhint="send" title="Enter로 바로 보내기 · Shift+Enter는 줄바꿈"></textarea>
         <button class="chat-send" id="chatSend" type="submit" aria-label="보내기">↑</button>
       </form>
     </section>
@@ -4714,6 +4724,16 @@ function bindEvents() {
     const input = $('#chatInput');
     if (sendChat(input.value)) input.value = '';
     input.focus();
+  });
+  /* Enter는 바로 전송, Shift+Enter는 줄바꿈.
+     한글을 조합하는 중(예: '안'을 만들며) 누른 Enter는 조합 확정이라 그대로 넘깁니다. */
+  $('#chatInput').addEventListener('keydown', e => {
+    if (e.key !== 'Enter' || e.shiftKey || e.altKey || e.ctrlKey || e.metaKey) return;
+    if (e.isComposing || e.keyCode === 229) return;
+    e.preventDefault();
+    const form = $('#chatForm');
+    if (form.requestSubmit) form.requestSubmit();
+    else form.dispatchEvent(new Event('submit', { cancelable: true }));
   });
   $('#chatLog').addEventListener('click', e => {
     const del = e.target.closest('[data-del]');
