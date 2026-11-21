@@ -2011,7 +2011,7 @@ body.gift-open{ overflow:hidden; }
   .topbar{ padding-bottom:12px; }
   .brand{ white-space:normal; font-size:18px; }
   .top-actions{ width:100%; }
-  .top-actions .btn{ flex:1; justify-content:center; }
+  .top-actions .btn{ flex:1; min-width:0; justify-content:center; }
   .clock-pill{ order:2; width:100%; justify-content:center; font-size:12px; }
   .top-actions{ order:3; margin-left:0; }
   .qtext{ font-size:13.4px; }
@@ -2153,6 +2153,11 @@ body.gift-open{ overflow:hidden; }
 @media (prefers-reduced-motion:reduce){
   *, *::before, *::after{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+/* 좁은 손가락 화면: 상단 버튼이 네 개라 한 줄에 다 들어가지 않아 두 줄로 나눕니다(가로 스크롤 방지) */
+@media (max-width:380px){
+  .top-actions{ flex-wrap:wrap; row-gap:8px; }
+  .top-actions .btn{ flex:1 0 calc(50% - 6px); min-width:0; padding:9px 10px; }
+}
 </style>
 </head>
 <body>
@@ -2169,6 +2174,7 @@ body.gift-open{ overflow:hidden; }
     <div class="top-actions">
       <button class="btn btn-ghost sync-btn" id="syncBtn" type="button" aria-haspopup="dialog" title="실시간 연동 설정"><span aria-hidden="true">☁️</span><i class="dot" aria-hidden="true"></i><span id="syncLabel">로컬 모드</span></button>
       <button class="btn btn-primary" id="standbyBtn" type="button"><span aria-hidden="true">🖥️</span> 대기화면</button>
+      <a class="btn btn-ghost" id="progressBtn" href="progress.html" target="_blank" rel="noopener" title="연간 학습 진도표 · 새 탭에서 열기"><span aria-hidden="true">📅</span> 진도표</a>
       <button class="btn btn-ghost" id="backupBtn" type="button"><span aria-hidden="true">💾</span> 백업</button>
     </div>
   </header>
@@ -5395,6 +5401,29 @@ function bindEvents() {
   $('#standbyClose').addEventListener('click', e => { e.stopPropagation(); exitStandby(); });
   $('#standby').addEventListener('click', () => exitStandby());
   $('#backupBtn').addEventListener('click', () => openModal('#backupModal'));
+
+  /* 📅 진도표 — 온라인에서는 새 탭 링크 그대로, 단독 실행 파일(file://)은 안에 담아 둔 진도표를 새 창에 띄워요.
+     (about:blank 창은 이 파일과 같은 저장소를 쓰기 때문에 진도 기록이 그대로 남습니다) */
+  const progressBtn = $('#progressBtn');
+  if (progressBtn) progressBtn.addEventListener('click', (e) => {
+    const tpl = document.getElementById('progressPageB64');
+    const b64 = tpl ? tpl.textContent.trim() : '';
+    if (location.protocol !== 'file:' || b64.length < 200) return;
+    e.preventDefault();
+    try {
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const html = new TextDecoder('utf-8').decode(bytes);
+      const w = window.open('about:blank', '_blank');
+      if (!w) { toast('새 탭이 막혔어요. 브라우저에서 팝업을 허용해 주세요'); return; }
+      w.document.open();
+      w.document.write(html);
+      w.document.close();
+    } catch (err) {
+      toast('진도표를 열지 못했어요 (' + ((err && err.message) || '오류') + ')');
+    }
+  });
   $('#exportBtn').addEventListener('click', exportJson);
   $('#importBtn').addEventListener('click', () => $('#importFile').click());
   $('#importFile').addEventListener('change', e => {
@@ -5547,6 +5576,8 @@ function buildDoc() {
     chat: { me: state.chat.me, msgs },
     meta: { updatedAt: Date.now(), by: DEVICE_ID }
   };
+  /* 방 전체를 덮어써도 진도표(/rooms/{room}/progress)가 지워지지 않도록 방 문서에서 받아 둔 값을 같이 담아 둡니다 */
+  if (syncDoc && syncDoc.progress && typeof syncDoc.progress === 'object') doc.progress = syncDoc.progress;
   /* 방 전체를 덮어써도 푸시 구독이 지워지지 않도록 같이 담아 둡니다
      (방에서 받아 둔 것과 합쳐서, 다른 기기가 방금 등록한 구독도 살려 둬요) */
   if (roomSubsKnown) doc.pushSubs = mergeSubs();
@@ -7099,5 +7130,9 @@ if (document.readyState === 'loading') document.addEventListener('DOMContentLoad
 else init();
 
 </script>
+
+<!-- 단독 실행 파일(downloads/우리집_가족_대시보드.html)에서 📅 진도표를 새 창으로 열 때 쓰는 진도표 본문.
+     배포판 index.html에서는 비어 있고, build_standalone.py 가 progress.html 을 base64 로 채워 넣습니다. -->
+<script type="text/template" id="progressPageB64"></script>
 </body>
 </html>
