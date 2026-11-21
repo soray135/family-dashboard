@@ -1205,7 +1205,9 @@ function openSubjects(kid, focusId) {
    ============================================================ */
 function exportJSON() {
   const data = JSON.stringify({ v: 1, years: store.years, meta: { updatedAt: nowMs(), by: DEVICE } }, null, 2);
-  const stamp = new Date().toISOString().slice(0, 10);
+  const d = new Date();
+  const pad = n => (n < 10 ? '0' + n : '' + n);
+  const stamp = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
   try {
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
