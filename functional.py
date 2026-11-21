@@ -37,8 +37,8 @@ with sync_playwright() as p:
             vmax: c.querySelector('.xp-track').getAttribute('aria-valuemax'),
             now: c.querySelector('.xp-track').getAttribute('aria-valuenow'),
             dex: c.querySelector('[data-dexcount]').textContent,
-            celeb: document.querySelector('#celebrate').classList.contains('on'),
-            celebSub: document.querySelector('#celebSub').textContent.trim(),
+            celeb: document.querySelector('#giftLv').classList.contains('on'),
+            celebSub: document.querySelector('#giftTitle').textContent.trim(),
             quests: [...c.querySelectorAll('.quest')].map(q => [q.querySelector('.qtext')?.textContent || q.textContent.slice(0,6), q.querySelector('.qxp')?.textContent || ''])
           };
         }""")
@@ -71,9 +71,9 @@ with sync_playwright() as p:
       const c = document.querySelector('.kid-card[data-kid=\\"haseong\\"]');
       return { lv: c.querySelector('[data-lv]').textContent, xp: c.querySelector('[data-xptext]').textContent,
                bar: c.querySelector('[data-xpbar]').style.width, dex: c.querySelector('[data-dexcount]').textContent,
-               celeb: document.querySelector('#celebrate').classList.contains('on'),
-               sub: document.querySelector('#celebSub').textContent.trim(),
-               title: document.querySelector('#celebTitle').textContent };
+               celeb: document.querySelector('#giftLv').classList.contains('on'),
+               sub: document.querySelector('#giftTitle').textContent.trim(),
+               title: document.querySelector('#giftBadge').textContent };
     }""")
 
     out["퀘스트 점수(하성이)"] = page.evaluate("""() => [...document.querySelectorAll('.kid-card[data-kid=\\"haseong\\"] .quest')].map(q => q.querySelector('.qxp').textContent)""")

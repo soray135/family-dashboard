@@ -1312,46 +1312,217 @@ select.q-xp, #wishWho{
 @keyframes toastIn{ from{ opacity:0; transform:translateY(14px) scale(.96);} to{ opacity:1; transform:none;} }
 @keyframes toastOut{ to{ opacity:0; transform:translateY(10px) scale(.97);} }
 
-/* celebration */
-.celebrate{
-  position:fixed; inset:0; z-index:110;
+/* ============ 🎁 레벨업 선물상자 (1단계 도착 · 2단계 개봉) ============ */
+.gift{
+  position:fixed; inset:0; z-index:118;
   display:none;
-  align-items:center; justify-content:center;
+  flex-direction:column; align-items:center; justify-content:center;
+  padding:clamp(16px,3.6vh,40px) 16px;
+  overflow:auto;
+  color:#fff;
+  background:
+    radial-gradient(circle at 50% 44%, #FFE9A8 0%, #FFD25C 22%, #FFB132 46%, #FA981F 70%, #EC7F10 100%);
+  -webkit-tap-highlight-color:transparent;
+}
+.gift.on{ display:flex; animation:giftFade .32s ease both; }
+body.gift-open{ overflow:hidden; }
+@keyframes giftFade{ from{ opacity:0; } to{ opacity:1; } }
+.gift-rays{
+  position:absolute; left:50%; top:50%;
+  width:min(118vmin,960px); aspect-ratio:1;
+  transform:translate(-50%,-56%);
+  background:repeating-conic-gradient(from 0deg, rgba(255,255,255,.26) 0deg 6deg, rgba(255,255,255,0) 6deg 18deg);
+  -webkit-mask-image:radial-gradient(circle, rgba(0,0,0,.85) 4%, rgba(0,0,0,.38) 26%, rgba(0,0,0,0) 47%);
+  mask-image:radial-gradient(circle, rgba(0,0,0,.85) 4%, rgba(0,0,0,.38) 26%, rgba(0,0,0,0) 47%);
+  animation:giftRays 26s linear infinite;
+  pointer-events:none;
+  transition:opacity .5s;
+}
+@keyframes giftRays{ to{ transform:translate(-50%,-54%) rotate(360deg); } }
+.gift.opened .gift-rays{ animation-duration:3.2s; }
+.gift-bg{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:0; }
+.gift-confetti{ position:absolute; inset:0; overflow:hidden; pointer-events:none; z-index:1; }
+.gift-fx i{
+  position:absolute; left:50%; top:50%;
+  font-style:normal; line-height:1;
+  animation:giftSpark .95s cubic-bezier(.16,.8,.3,1) forwards;
+  will-change:transform,opacity;
+}
+@keyframes giftSpark{
+  from{ opacity:1; transform:translate(-50%,-50%) scale(.35) rotate(0deg); }
+  to{ opacity:0; transform:translate(calc(-50% + var(--tx)), calc(-50% + var(--ty))) scale(1.15) rotate(var(--rot,40deg)); }
+}
+.gift-stage{
+  position:relative; z-index:2;
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:clamp(8px,1.8vh,20px);
+  width:100%; max-width:min(94vw,760px);
+  text-align:center;
+}
+.gift-stage[hidden], .gift-open[hidden]{ display:none; }
+.gift-badge{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:9px 20px; border-radius:999px;
+  background:#fff; color:#E2721F;
+  font-size:clamp(12.5px,1.5vw,16.5px); font-weight:850; letter-spacing:-0.03em;
+  box-shadow:0 10px 24px rgba(150,70,0,.2);
+  animation:giftPop .55s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes giftPop{ 0%{ opacity:0; transform:translateY(-12px) scale(.86); } 100%{ opacity:1; transform:none; } }
+.gift-title{
+  font-size:clamp(19px,3vw,34px); font-weight:900; letter-spacing:-0.045em;
+  color:#fff;
+  text-shadow:0 3px 0 rgba(190,92,8,.26), 0 12px 28px rgba(150,70,0,.24);
+  word-break:keep-all; line-height:1.25;
+  animation:giftPop .6s .06s cubic-bezier(.34,1.56,.64,1) both;
+}
+.gift-box{
+  position:relative;
+  width:clamp(160px,42vmin,270px); aspect-ratio:1;
+  display:grid; place-items:center;
+  padding:0; border:0; background:none; cursor:pointer;
+  filter:drop-shadow(0 20px 28px rgba(150,60,0,.28));
+  animation:giftBob 1.9s ease-in-out infinite;
+  border-radius:28px;
+}
+.gift-box:focus-visible{ outline:3px solid #fff; outline-offset:8px; }
+.gift-box-svg{ width:100%; height:100%; display:block; overflow:visible; transition:transform .2s; }
+.gift-box:hover .gift-box-svg, .gift-box:focus-visible .gift-box-svg{ transform:scale(1.05); }
+@keyframes giftBob{
+  0%,100%{ transform:translateY(0) rotate(-2.2deg) scale(1); }
+  50%{ transform:translateY(-14px) rotate(2.2deg) scale(1.03); }
+}
+.gift-box.burst{ animation:giftBurst .5s cubic-bezier(.3,.8,.4,1) forwards; pointer-events:none; }
+@keyframes giftBurst{
+  0%{ transform:scale(1); opacity:1; }
+  45%{ transform:scale(1.22) rotate(6deg); opacity:1; }
+  100%{ transform:scale(.55) rotate(-14deg); opacity:0; }
+}
+.gift-hint{
+  font-size:clamp(12.5px,1.7vw,18px); font-weight:850; letter-spacing:-0.02em;
+  color:#FFF7E2; background:rgba(178,82,6,.24);
+  padding:9px 20px; border-radius:999px;
+  text-shadow:0 1px 2px rgba(150,70,0,.28);
+  animation:giftHint 1.6s ease-in-out infinite;
+}
+@keyframes giftHint{
+  0%,100%{ opacity:.8; transform:translateY(0); }
+  50%{ opacity:1; transform:translateY(-3px); }
+}
+.gift-open{
+  position:relative; z-index:2;
+  display:flex; justify-content:center;
+  width:100%;
+  animation:giftFade .3s ease both;
+}
+.go-card{
+  position:relative;
+  width:min(94vw,470px);
+  max-height:calc(100vh - 32px);
+  overflow:auto;
+  padding:22px 22px 18px;
+  border-radius:30px;
+  text-align:center;
+  color:#4A3A2C;
+  background:linear-gradient(172deg,#FFFDF7 0%,#FFF5E6 46%,#FFEDD8 100%);
+  border:2px solid #FFF6E2;
+  box-shadow:0 32px 70px rgba(140,60,0,.32), 0 8px 20px rgba(140,60,0,.16);
+  animation:giftCardIn .46s cubic-bezier(.34,1.56,.64,1) both;
+}
+@keyframes giftCardIn{ 0%{ opacity:0; transform:scale(.82) translateY(26px); } 100%{ opacity:1; transform:none; } }
+.go-tag{
+  display:inline-flex; align-items:center; gap:5px;
+  padding:5px 14px; border-radius:999px;
+  font-size:11.5px; font-weight:850; letter-spacing:-0.02em;
+  color:#fff; background:linear-gradient(180deg,#FFB43C,#F08A18);
+  box-shadow:0 5px 12px rgba(226,122,20,.28);
+}
+.go-art{
+  position:relative;
+  width:clamp(132px,30vmin,196px); aspect-ratio:1;
+  margin:8px auto 2px;
+  display:grid; place-items:center;
+  border-radius:50%;
+  background:radial-gradient(circle at 50% 52%, #FFFDF6 0%, #FFF6DE 54%, rgba(255,238,196,.28) 74%, rgba(255,238,196,0) 80%);
+  animation:goArtIn .7s .05s cubic-bezier(.34,1.56,.64,1) both;
+}
+.go-art::after{
+  content:''; position:absolute; inset:-9%;
+  border-radius:50%;
+  background:conic-gradient(from 0deg, rgba(255,203,104,.9), rgba(255,255,255,0) 16%, rgba(255,203,104,.85) 38%, rgba(255,255,255,0) 60%, rgba(255,203,104,.9) 82%, rgba(255,255,255,0) 100%);
+  -webkit-mask-image:radial-gradient(circle, transparent 70%, #000 74%, #000 78%, transparent 83%);
+  mask-image:radial-gradient(circle, transparent 70%, #000 74%, #000 78%, transparent 83%);
+  animation:giftRays 9s linear infinite;
   pointer-events:none;
 }
-.celebrate.on{
-  display:flex;
-  background:radial-gradient(circle at 50% 46%, rgba(255,255,255,.62), rgba(248,245,255,.28) 60%, rgba(248,245,255,.16));
-  backdrop-filter:blur(2.5px);
-  -webkit-backdrop-filter:blur(2.5px);
-  animation:fadeIn .2s ease both;
+.go-art .art{ width:100%; height:100%; }
+.go-art .art-img{ width:100%; height:100%; object-fit:contain; }
+@keyframes goArtIn{ 0%{ opacity:0; transform:scale(.45) rotate(-10deg); } 70%{ transform:scale(1.06) rotate(2deg); } 100%{ opacity:1; transform:none; } }
+.go-art .art-svg{ transform:none; }
+.go-name{
+  margin-top:2px;
+  font-size:clamp(20px,2.6vw,26px); font-weight:900; letter-spacing:-0.04em;
+  color:#3F2C1B;
 }
-.celeb-card{
-  position:relative;
-  background:rgba(255,255,255,.96);
-  border-radius:26px;
-  padding:22px 26px 20px;
-  text-align:center;
-  box-shadow:0 30px 70px rgba(60,45,110,.28);
-  border:1px solid #fff;
-  animation:celebIn .5s cubic-bezier(.34,1.56,.64,1) both;
-  pointer-events:auto;
-  max-width:min(86vw,340px);
+.go-name small{ display:block; font-size:11.5px; font-weight:750; color:#B08A5E; letter-spacing:-0.01em; margin-top:2px; }
+.go-desc{
+  margin:7px auto 0; max-width:34ch;
+  font-size:clamp(12.5px,1.5vw,14px); font-weight:700; line-height:1.62;
+  color:#6E563E; letter-spacing:-0.02em; word-break:keep-all;
 }
-@keyframes celebIn{ 0%{ opacity:0; transform:scale(.8) translateY(20px);} 100%{ opacity:1; transform:none;} }
-.celeb-art{ width:110px; height:110px; margin:0 auto 4px; }
-.celeb-art svg{ width:100%; height:100%; }
-.celeb-title{ font-size:17px; font-weight:850; letter-spacing:-0.035em; color:#3A3152; }
-.celeb-sub{ font-size:12.5px; font-weight:650; color:#8C84A2; margin-top:5px; word-break:keep-all; }
-.celeb-sub b{ color:#7663E6; }
+.go-more{
+  display:flex; flex-wrap:wrap; align-items:center; justify-content:center; gap:6px;
+  margin-top:11px; padding-top:10px; border-top:1px dashed #F0DAC0;
+}
+.go-more[hidden]{ display:none; }
+.go-more-head{ flex:0 0 100%; font-size:11px; font-weight:800; color:#B08A5E; letter-spacing:-0.01em; }
+.go-chip{
+  display:inline-flex; align-items:center; gap:5px;
+  padding:4px 9px 4px 4px; border-radius:999px;
+  background:#fff; border:1.5px solid #F3E2C9;
+  font-size:11px; font-weight:850; color:#7A6046;
+  cursor:pointer; transition:transform .15s, border-color .15s, box-shadow .15s;
+}
+.go-chip:hover{ transform:translateY(-1px); box-shadow:0 6px 12px rgba(180,120,40,.14); }
+.go-chip.on{ border-color:#F5A93A; box-shadow:0 0 0 2px rgba(245,169,58,.22); }
+.go-chip-art{ width:22px; height:22px; display:grid; place-items:center; border-radius:50%; background:#FFF6E4; overflow:hidden; }
+.go-chip-art .art{ width:100%; height:100%; }
+.go-chip-art .art-img{ width:100%; height:100%; object-fit:contain; }
+.go-dex{
+  margin-top:9px;
+  font-size:11px; font-weight:750; color:#B0916C; letter-spacing:-0.01em;
+}
+.go-btns{ display:flex; gap:8px; margin-top:13px; }
+.go-btn{
+  flex:1; padding:12px 10px; border-radius:14px;
+  font-size:13.5px; font-weight:850; letter-spacing:-0.025em;
+  transition:transform .14s, box-shadow .14s, background .14s;
+}
+.go-btn:active{ transform:scale(.97); }
+.go-btn.primary{
+  color:#fff;
+  background:linear-gradient(180deg,#FFB33C,#F08816);
+  box-shadow:0 8px 18px rgba(226,122,20,.32);
+}
+.go-btn.primary:disabled{ background:#F3E3CD; color:#B39B7D; box-shadow:none; cursor:default; }
+.go-btn.ghost{ color:#8A6B4E; background:#fff; border:1.5px solid #F1DFC6; }
+.go-btn[hidden]{ display:none; }
 .confetti{ position:fixed; inset:0; pointer-events:none; z-index:109; overflow:hidden; }
-.confetti i{
+.confetti i, .gift-confetti i{
   position:absolute; top:-20px;
   width:9px; height:9px; border-radius:2px;
   animation:fall linear forwards;
 }
 @keyframes fall{
   to{ transform:translateY(110vh) rotate(720deg); opacity:.9; }
+}
+@media (max-height:560px){
+  .gift-box{ width:clamp(110px,22vmin,180px); }
+  .gift-stage{ gap:6px; }
+  .go-art{ width:clamp(88px,18vmin,130px); }
+}
+@media (prefers-reduced-motion:reduce){
+  .gift-box, .gift-hint, .gift-rays{ animation:none !important; }
 }
 
 /* ============ standby ============ */
@@ -1436,7 +1607,6 @@ select.q-xp, #wishWho{
 .art .art-emo{ font-size:clamp(24px,2.6vw,40px); line-height:1; }
 .pet img{ width:100%; height:100%; object-fit:contain; }
 .dex-item.locked .art{ filter:grayscale(1) brightness(1.03) opacity(.28); }
-.celeb-emoji{ font-size:52px; line-height:1; }
 
 /* ============ 🌤️ 날씨 (아이콘 | 현재·최고·최저 온도 | 옷차림 그림 3단) ============ */
 .weather-card{
@@ -2470,12 +2640,51 @@ select.q-xp, #wishWho{
   <div class="sb-hint">화면을 누르면 대시보드로 돌아갑니다</div>
 </div>
 
-<!-- ── 레벨업 축하 ── -->
-<div class="celebrate" id="celebrate" aria-live="polite">
-  <div class="celeb-card" id="celebCard">
-    <div class="celeb-art" id="celebArt"></div>
-    <div class="celeb-title" id="celebTitle">레벨 업!</div>
-    <div class="celeb-sub" id="celebSub"></div>
+<!-- ── 🎁 레벨업 선물상자 — 1단계 도착 / 2단계 개봉 ── -->
+<div class="gift" id="giftLv" role="dialog" aria-modal="true" aria-labelledby="giftTitle" aria-describedby="giftHint">
+  <div class="gift-bg" aria-hidden="true">
+    <div class="gift-rays"></div>
+    <div class="gift-fx" id="giftFx"></div>
+  </div>
+  <div class="gift-stage" id="giftStage">
+    <div class="gift-badge" id="giftBadge">⚡ 멋진 하윤! Lv.3 달성!</div>
+    <div class="gift-title" id="giftTitle">🎉 축하해요! 선물이 도착했어요! 🎉</div>
+    <button class="gift-box" type="button" id="giftBox" aria-label="선물 상자를 열어 보기">
+      <svg class="gift-box-svg" viewBox="0 0 220 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <defs>
+          <linearGradient id="giftRed" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#F45B4D"/><stop offset="1" stop-color="#D6332A"/>
+          </linearGradient>
+          <linearGradient id="giftGold" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FFE477"/><stop offset="1" stop-color="#F3B216"/>
+          </linearGradient>
+        </defs>
+        <ellipse cx="110" cy="198" rx="62" ry="12" fill="#B8560C" opacity=".2"/>
+        <rect x="44" y="94" width="132" height="96" rx="14" fill="url(#giftRed)" stroke="#B22B24" stroke-width="4"/>
+        <rect x="96" y="94" width="28" height="96" fill="url(#giftGold)" stroke="#D99A11" stroke-width="3"/>
+        <path d="M56 106 L82 106 L65 152 L54 152 Z" fill="#fff" opacity=".16"/>
+        <rect x="30" y="62" width="160" height="38" rx="12" fill="url(#giftRed)" stroke="#B22B24" stroke-width="4"/>
+        <rect x="95" y="62" width="30" height="38" fill="url(#giftGold)" stroke="#D99A11" stroke-width="3"/>
+        <path d="M110 60 C96 40 74 28 66 41 C58 53 86 61 110 60 Z" fill="url(#giftGold)" stroke="#D99A11" stroke-width="3.5" stroke-linejoin="round"/>
+        <path d="M110 60 C124 40 146 28 154 41 C162 53 134 61 110 60 Z" fill="url(#giftGold)" stroke="#D99A11" stroke-width="3.5" stroke-linejoin="round"/>
+        <circle cx="110" cy="60" r="8" fill="#FFE477" stroke="#D99A11" stroke-width="3"/>
+      </svg>
+    </button>
+    <div class="gift-hint" id="giftHint">👇 선물 상자를 터치해서 열어보세요!</div>
+  </div>
+  <div class="gift-open" id="giftOpen" hidden>
+    <div class="go-card" role="group" aria-labelledby="goName">
+      <span class="go-tag" id="goTag">✨ 새 친구 등장!</span>
+      <div class="go-art" id="goArt"></div>
+      <div class="go-name" id="goName"></div>
+      <p class="go-desc" id="goDesc"></p>
+      <div class="go-more" id="goMore" hidden></div>
+      <div class="go-dex" id="goDex"></div>
+      <div class="go-btns">
+        <button class="go-btn ghost" type="button" id="giftCloseBtn">확인</button>
+        <button class="go-btn primary" type="button" id="giftTake">파트너로 데려가기</button>
+      </div>
+    </div>
   </div>
 </div>
 <div class="confetti" id="confetti" aria-hidden="true"></div>
@@ -3623,12 +3832,13 @@ function toast(msg) {
   wrap.appendChild(t);
   setTimeout(() => { t.classList.add('leaving'); setTimeout(() => t.remove(), 340); }, 2300);
 }
-function confetti(count = 38) {
-  const box = $('#confetti');
+function confetti(count = 38, host) {
+  const box = host || $('#confetti');
+  if (!box) return;
   const colors = ['#8B7BF5', '#F6A48F', '#7ED3B2', '#FFD46B', '#F5A8CB', '#8ECBE6'];
   for (let i = 0; i < count; i++) {
     const p = document.createElement('i');
-    p.style.left = Math.random() * 100 + 'vw';
+    p.style.left = Math.random() * 100 + '%';
     p.style.background = colors[i % colors.length];
     p.style.animationDuration = (1.5 + Math.random() * 1.6) + 's';
     p.style.animationDelay = (Math.random() * 0.5) + 's';
@@ -3947,24 +4157,270 @@ function renderKid(kidId) {
     k.quests.forEach(q => ul.appendChild(questNode(kidId, q)));
   }
 }
-function celebrate(kidId, prevLevel, newKeys) {
-  const k = state.kids[kidId];
-  const c = (newKeys && newKeys.length) ? CREATURE_MAP[newKeys[newKeys.length - 1]] : null;
-  const art = $('#celebArt');
-  if (c) art.replaceChildren(artBox(c));
-  else art.innerHTML = '<div class="celeb-emoji">✨</div>';
-  $('#celebTitle').textContent = `Lv.${k.level} 달성! 🎉`;
-  $('#celebSub').innerHTML = c
-    ? `<b>${escapeHtml(c.name)}</b> 해금! 도감 ${k.dexOpen.length}/${kidDexTotal(kidId)}`
-    : `${escapeHtml(k.name)}가 계속 자라고 있어요!`;
-  const box = $('#celebrate');
-  box.classList.add('on');
-  confetti(46);
-  clearTimeout(celebrate._t);
-  celebrate._t = setTimeout(() => box.classList.remove('on'), 2600);
-  const pet = $(`.kid-card[data-kid="${kidId}"] [data-pet]`);
-  if (pet) { pet.classList.add('pop'); setTimeout(() => pet.classList.remove('pop'), 620); }
+/* =========================================================
+   🎁 레벨업 선물상자 — 1단계 도착 화면 → 2단계 개봉·새 친구 소개
+   ========================================================= */
+/* 도감 친구마다 아이 눈높이의 한두 줄 소개 (하성·하윤 도감 32종 전부) */
+const GIFT_INTRO = {
+  charmander: '꼬리 끝에 작은 불꽃을 달고 다니는 친구예요. 비가 와도 꼬리 끝 불꽃은 꺼지지 않게 스스로 감싸 안고 잠들어요.',
+  pichu: '아직 전기를 조절하는 연습 중이에요. 신이나면 저도 모르게 짜릿! 하고 불꽃이 튢어요.',
+  cinnamoroll: '하늘을 나는 하얀 강아지예요. 시나몬 향이 나는 꼬리를 살랑살랑 흔들며 어디든 함께 가요.',
+  mymelody: '분홍 두건이 트레이드마크인 토끼예요. 친구에게 쿠키를 구워 주는 다정한 마음을 가졌어요.',
+  elsa: '손끝에서 눈꽃이 피어나는 버을의 여왕이에요. 마음을 열면 온 세상이 반짝반짝 얼음빛으로 물들어요.',
+  squirtle: '등껍질 안에 물을 담아 두고, 신나면 물대프를 쏘아요. 물장난을 제일 좋아하는 장난꾸러기예요.',
+  hellokitty: '빨간 리본을 단 상냥한 친구예요. 말없이 곁에 있어 주는 것만으로 마음이 포근해져요.',
+  cinderella: '유리구두 한 짝으로 진짜 꿈을 찾아간 공주님이에요. 힘든 날에도 포기하지 않는 용기를 보여 줘요.',
+  bulbasaur: '등에 달린 씨앗이 햇빛을 받으면 조금씩 자라요. 너와 함께 크고 싶어서 온 친구랍니다.',
+  pompompurin: '노란 베레모를 쓴 강아지예요. 푸딩처럼 말랑한 성격이라 어디서든 낮잠이 최고예요.',
+  rapunzel: '길고 반짝이는 머리로 고탑에서 내려와 모험을 떠난 공주님이에요. 세상 모든 게 궁금해요.',
+  eevee: '어떤 모습으로도 자랄 수 있는 가능성 가득한 친구예요. 오늘의 너도 무한히 자랄 수 있어요.',
+  pochacco: '호기심 가득한 강아지예요. 코를 킁킁 대며 신기한 걸 찾아 제일 먼저 달려가요.',
+  belle: '책을 사랑하는 공주님이에요. 겉모습보다 마음을 먼저 보는 지혜를 가졌어요.',
+  pikachu: '볼에서 전기가 찌릿찌릿! 기쁨 때는 꼬리로 번개를 그려요. 노란 몸을 꼭 안아 주세요.',
+  kuromi: '도깨비 모자에 해골 리본을 단 장난꾸러기 토끼예요. 사실은 친구가 제일 좋은 츤데레랍니다.',
+  ariel: '바다 속에서 노래하는 인어공주예요. 새로운 세상을 궁금해하는 모험의 마음이 가득해요.',
+  snowwhite: '새와 다람쥐가 따라오는 상냥한 공주님이에요. 어떤 어려움에도 다정함을 잃지 않아요.',
+  jigglypuff: '동그란 몸으로 노래를 부르면 모두 스르르 잠들어요. 이불처럼 포근한 친구예요.',
+  snorlax: '먹고 자는 게 특기인 든든한 친구예요. 옆에 있으면 왍지 안심되는 커다란 품이에요.',
+  psyduck: '자꾸 머리를 감싸는 이유는 고민이 많아서래요. 그런데 그 고민 덕분에 초능력이 터지기도 해요.',
+  ditto: '무엇이든 따라 변신하는 말랑한 친구예요. 너를 닮아 보고 싶어서 왔대요.',
+  caterpie: '작은 애벌레이지만 언젠가 나비가 될 꿈을 품고 있어요. 한 뼘씩 자라는 너와 닮았어요.',
+  mew: '모든 포켓몬의 유전자를 품은 신비로운 친구예요. 투명하게 나타나서 시원한 장난을 좋아해요.',
+  giratina: '반전된 세계를 지키는 고고한 용이에요. 혼자서도 씩씩한 너를 조용히 지켜봐 주고 있어요.',
+  hooh: '무지개빛 날개를 펼치는 전설의 새예요. 지나간 자리마다 새로운 시작이 샐트는 친구예요.',
+  sharpedomega: '날카로운 이빨의 바다 사냥꾼이에요. 어려운 일도 정면으로 돌파하는 용기를 가졌어요.',
+  kyogreprimal: '태고의 바다를 품은 전설의 포켓몬이에요. 넓고 깊은 바다처럼 마음도 정말 커요.',
+  palkia: '공간을 비틀어 어디든 갈 수 있는 전설의 포켓몬이에요. 너의 상상 속 세상도 열어 줄 수 있어요.',
+  samurott: '뿔에 감춘 큰 검을 뽑아 드는 사무라이 포켓몬이에요. 조용히 마음을 지키는 친구예요.',
+  genesect: '3억 년 전 곤충을 되살린 로봇 포켓몬이에요. 정확하고 꼼꼼한 숙제 짝꿍이에요.',
+  arceus: '세상의 시작에 있다는 창조의 포켓몬이에요. 가장 어려운 순간에 너의 편으로 와 줄 거예요.',
+  groudonprimal: '대지를 뜨겁게 달구는 원시의 포켓몬이에요. 열정으로 친구들을 이끄는 멋진 리더예요.',
+  steelixmega: '다이아몬드처럼 단단해진 몸을 가진 거대한 뱀 포켓몬이에요. 마음도 단단하게 지켜 줄게요.',
+  dialga: '시간을 다스리는 전설의 포켓몬이에요. 서두르지 않아도 네 속도로 충분하다고 알려 줌요.',
+  charizardmegax: '푸릇빛 날개와 뜨거운 불꽃을 가진 메가리자몽이에요. 힘을 다해 나아가는 너를 응원해요.',
+  charizardmegay: '하늘 높이 솟는 불꽃을 두른 메가리자몽이에요. 뜨거운 마음으로 네 옆을 지켜요.',
+  totoro: '비 오는 정류장에서 우산을 빌려 준 커다란 친구예요. 꼭 안아 주면 마음이 몽글몽글해져요.',
+  ainyang: '아기처럼 앙증맞은 위시캣이에요. 냐아~ 하고 울면 모든 걱정이 사르르 녹아요.',
+  kokonyang: '마이크를 들고 나타나는 노래하는 위시캣이에요. 오늘의 기분을 노래로 만들어 줘요.',
+  ttokttoknyang: '안경을 쓴 똑똑한 위시캣이에요. 어려운 산수도 뚝딱! 숙제 고민이 있으면 이 친구에게.',
+  bebenyang: '아기 젖병이 트레이드마크인 귀여운 위시캣이에요. 응원 한 마디로 기분을 포근하게 해 줘요.',
+  daldalnyang: '컵케이크처럼 달콤한 위시캣이에요. 하루를 달콤한 간식 같은 기분으로 물들여 줘요.',
+  helssinyang: '테니스 라켓을 든 건강한 위시캣이에요. 같이 놀면 몸도 마음도 튼튼해져요.',
+  ippeunyang: '거울을 좋아하는 예쁨 가득 위시캣이에요. 너만의 예쁜 매력을 알아봐 주는 친구예요.',
+  reobeunyang: '하트를 잔뜩 품은 사랑의 위시캣이에요. 가족에게 “사랑해”를 전하고 싶은 마음을 응원해요.'
+};
+
+let giftJob = null;          /* 지금 떠 있는 선물 */
+const giftQueue = [];        /* 선물이 떠 있는 동안에 생긴 다음 레벨업 */
+const giftAfter = [];        /* 선물을 다 닫고 나서 이어서 할 일 (하이파이브 등) */
+
+function giftIntroOf(key) { return GIFT_INTRO[key] || '새로운 친구가 우리 가족이 되었어요!'; }
+function giftSparkle(n) {
+  const fx = $('#giftFx');
+  if (!fx) return;
+  const glyphs = ['✨', '⭐', '💫', '🌟', '✦', '✨'];
+  const far = Math.min(420, Math.max(150, window.innerHeight * 0.44));
+  for (let i = 0; i < n; i++) {
+    const s = document.createElement('i');
+    s.textContent = glyphs[i % glyphs.length];
+    const ang = Math.random() * Math.PI * 2;
+    const dist = far * (0.35 + Math.random() * 0.75);
+    s.style.setProperty('--tx', Math.round(Math.cos(ang) * dist) + 'px');
+    s.style.setProperty('--ty', Math.round(Math.sin(ang) * dist * 0.86) + 'px');
+    s.style.setProperty('--rot', Math.round(-120 + Math.random() * 240) + 'deg');
+    s.style.fontSize = (10 + Math.random() * 16) + 'px';
+    s.style.animationDelay = (Math.random() * 0.12) + 's';
+    s.style.animationDuration = (0.7 + Math.random() * 0.65) + 's';
+    fx.appendChild(s);
+    setTimeout(() => s.remove(), 2000);
+  }
 }
+function giftConfetti(count) {
+  /* 선물 화면 안쪽에 뿌려서 카드(글자)는 가리지 않게 해요 */
+  const host = $('#giftLv');
+  if (!host) { confetti(count); return; }
+  const bg = host.querySelector('.gift-bg') || host;
+  let layer = $('#giftConfetti');
+  if (!layer) {
+    layer = document.createElement('div');
+    layer.className = 'gift-confetti';
+    layer.id = 'giftConfetti';
+    layer.setAttribute('aria-hidden', 'true');
+    bg.appendChild(layer);
+  }
+  confetti(count, layer);
+}
+function showLevelUpGift(kidId, prevLevel, newKeys, after) {
+  const k = state.kids[kidId];
+  if (!k) return;
+  const job = {
+    kidId, prevLevel, level: k.level,
+    keys: (newKeys || []).filter(key => CREATURE_MAP[key]),
+    picked: null, revealed: false, after: after || null
+  };
+  if (giftJob) { giftQueue.push(job); return; }
+  runGift(job);
+}
+function runGift(job) {
+  giftJob = job;
+  const k = state.kids[job.kidId];
+  const box = $('#giftLv');
+  if (!box) return;
+  $('#giftBadge').textContent = `⚡ 멋진 ${k.name}! Lv.${job.level} 달성!`;
+  $('#giftStage').hidden = false;
+  $('#giftOpen').hidden = true;
+  const giftBoxEl = $('#giftBox');
+  giftBoxEl.classList.remove('burst');
+  giftBoxEl.disabled = false;
+  box.classList.remove('opened');
+  box.classList.add('on');
+  document.body.classList.add('gift-open');
+  playDingDong();
+  setTimeout(() => {
+    if (giftJob !== job || job.revealed) return;
+    try { giftBoxEl.focus({ preventScroll: true }); } catch (e) {}
+  }, 90);
+}
+function revealGift() {
+  const job = giftJob;
+  if (!job || job.revealed) return;
+  job.revealed = true;
+  $('#giftBox').classList.add('burst');
+  $('#giftLv').classList.add('opened');
+  giftSparkle(28);
+  giftConfetti(58);
+  playClapFanfare();
+  const pet = $(`.kid-card[data-kid="${job.kidId}"] [data-pet]`);
+  if (pet) { pet.classList.add('pop'); setTimeout(() => pet.classList.remove('pop'), 620); }
+  setTimeout(() => {
+    if (giftJob !== job) return;
+    $('#giftStage').hidden = true;
+    const giftBoxEl = $('#giftBox');
+    giftBoxEl.classList.remove('burst');
+    giftBoxEl.disabled = true;
+    $('#giftOpen').hidden = false;
+    if (!job.keys.length) renderGiftComplete(job);
+    else renderGiftFriend(job, job.picked || job.keys[job.keys.length - 1]);
+    const focusEl = job.keys.length ? $('#giftTake') : $('#giftCloseBtn');
+    if (focusEl && !focusEl.hidden && !focusEl.disabled) { try { focusEl.focus({ preventScroll: true }); } catch (e) {} }
+  }, 330);
+}
+function renderGiftFriend(job, key) {
+  const k = state.kids[job.kidId];
+  const c = CREATURE_MAP[key];
+  if (!c) return;
+  job.picked = key;
+  $('#goTag').textContent = '✨ 새 친구 등장!';
+  $('#goArt').replaceChildren(artBox(c));
+  $('#goName').innerHTML = `${escapeHtml(c.name)}<small>${escapeHtml(k.name)}의 도감에 새로 들어왔어요</small>`;
+  $('#goDesc').textContent = giftIntroOf(key);
+
+  const more = $('#goMore');
+  more.replaceChildren();
+  if (job.keys.length > 1) {
+    more.hidden = false;
+    const head = document.createElement('span');
+    head.className = 'go-more-head';
+    head.textContent = `이번 선물로 친구 ${job.keys.length}마리를 만났어요! 눌러서 소개를 봐요`;
+    more.appendChild(head);
+    job.keys.forEach(kk => {
+      const cc = CREATURE_MAP[kk];
+      if (!cc) return;
+      const chip = document.createElement('button');
+      chip.type = 'button';
+      chip.className = 'go-chip' + (kk === key ? ' on' : '');
+      chip.setAttribute('aria-pressed', kk === key ? 'true' : 'false');
+      const art = document.createElement('span');
+      art.className = 'go-chip-art';
+      art.appendChild(artBox(cc, { lazy: true }));
+      const nm = document.createElement('b');
+      nm.textContent = cc.name;
+      chip.append(art, nm);
+      chip.addEventListener('click', () => renderGiftFriend(job, kk));
+      more.appendChild(chip);
+    });
+  } else {
+    more.hidden = true;
+  }
+
+  const same = k.partner === key;
+  const take = $('#giftTake');
+  take.hidden = false;
+  take.disabled = same;
+  take.textContent = same ? '지금 함께 놀고 있어요' : '파트너로 데려가기';
+  take.setAttribute('aria-label', `${c.name}을(를) 파트너로 데려가기`);
+  $('#giftCloseBtn').textContent = '확인';
+  $('#goDex').textContent = `${k.name}의 도감 ${k.dexOpen.length}/${kidDexTotal(job.kidId)} · Lv.${job.level}`;
+}
+function renderGiftComplete(job) {
+  const k = state.kids[job.kidId];
+  const seq = kidDexSeq(job.kidId);
+  const last = seq[seq.length - 1] || CREATURE_MAP.charmander;
+  $('#goTag').textContent = '🏆 도감 완성!';
+  $('#goArt').replaceChildren(artBox(last));
+  $('#goName').innerHTML = `도감을 모두 모았어요!<small>${escapeHtml(k.name)}의 도감 ${k.dexOpen.length}/${kidDexTotal(job.kidId)} · Lv.${job.level}</small>`;
+  $('#goDesc').textContent = `Lv.${job.level}까지 쌓은 노력으로 친구들을 전부 만났어요! 이제 어떤 친구와도 함께 놀 수 있어요. 정말 대단해요 🎉`;
+  const more = $('#goMore');
+  more.replaceChildren();
+  more.hidden = true;
+  const take = $('#giftTake');
+  take.hidden = true;
+  take.disabled = false;
+  $('#giftCloseBtn').textContent = '확인';
+  $('#goDex').textContent = `${k.name}의 도감 ${k.dexOpen.length}/${kidDexTotal(job.kidId)} · Lv.${job.level}`;
+}
+function giftTakePartner() {
+  const job = giftJob;
+  if (!job) return;
+  const key = job.picked || (job.keys.length ? job.keys[job.keys.length - 1] : null);
+  const c = key ? CREATURE_MAP[key] : null;
+  if (c) {
+    state.kids[job.kidId].partner = key;
+    save();
+    renderKid(job.kidId);
+    toast(`${withJosa(c.name, '과', '와')} 함께하게 되었어요! 🎉`);
+  }
+  closeGift();
+}
+function closeGift() {
+  const job = giftJob;
+  if (!job) return;
+  giftJob = null;
+  const box = $('#giftLv');
+  if (box) box.classList.remove('on', 'opened');
+  $('#giftStage').hidden = false;
+  $('#giftOpen').hidden = true;
+  const giftBoxEl = $('#giftBox');
+  giftBoxEl.classList.remove('burst');
+  giftBoxEl.disabled = false;
+  document.body.classList.remove('gift-open');
+  if (job.after) giftAfter.push(job.after);
+  if (giftQueue.length) {
+    const next = giftQueue.shift();
+    setTimeout(() => runGift(next), 280);
+    return;
+  }
+  const after = giftAfter.splice(0);
+  if (after.length) {
+    setTimeout(() => after.forEach(fn => { try { fn(); } catch (e) {} }), 300);
+  }
+}
+function bindGift() {
+  const box = $('#giftLv');
+  if (!box) return;
+  const stage = $('#giftStage');
+  if (stage) stage.addEventListener('click', e => { e.stopPropagation(); revealGift(); });
+  const take = $('#giftTake');
+  if (take) take.addEventListener('click', e => { e.stopPropagation(); giftTakePartner(); });
+  const closeBtn = $('#giftCloseBtn');
+  if (closeBtn) closeBtn.addEventListener('click', e => { e.stopPropagation(); closeGift(); });
+  document.addEventListener('keydown', e => {
+    if (e.key !== 'Escape' || !box.classList.contains('on')) return;
+    e.stopPropagation();
+    closeGift();
+  }, true);
+}
+
 function toggleQuest(kidId, qid) {
   const k = state.kids[kidId];
   const q = k.quests.find(x => x.id === qid);
@@ -3976,11 +4432,13 @@ function toggleQuest(kidId, qid) {
   save();
   renderKid(kidId);
   const leveled = k.level > prevLevel;
-  if (leveled) celebrate(kidId, prevLevel, newKeys);
   const nowAll = k.quests.length > 0 && k.quests.every(x => x.done);
-  if (q.done && nowAll && !wasAll) {
-    /* 레벨업 축하가 떠 있으면 하이파이브는 잠시 뒤에 이어서 보여 줘요 */
-    setTimeout(() => showHiFive(k), leveled ? 2750 : 240);
+  const cheer = () => { if (q.done && nowAll && !wasAll) showHiFive(k); };
+  if (leveled) {
+    /* 레벨업 → 선물상자 도착 → 개봉 → 새 친구 소개 → (닫으면) 하이파이브 */
+    showLevelUpGift(kidId, prevLevel, newKeys, cheer);
+  } else if (q.done && nowAll && !wasAll) {
+    setTimeout(cheer, 240);
   }
 }
 
@@ -6605,6 +7063,7 @@ function init() {
   bindTimer();
   bindVoice();
   bindHiFive();
+  bindGift();
   bindWeather();
   fitStackRow();                     /* 가운데 아랫줄을 타이머 내용 높이에 맞춤 */
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => fitStackRow());
