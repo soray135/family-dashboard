@@ -970,6 +970,10 @@ function applyRemote(d) {
   if (nowMs() - SYNC.lastPush > 1200) schedulePush(700);
 }
 
+function hasAnyItems() {
+  return Object.keys(store.years).some(y => KIDS.some(k => (store.years[y].kids[k.id].items || []).length));
+}
+
 async function loadRemote() {
   if (!SYNC.on) { SYNC.loaded = true; return; }
   setSyncState('connecting');
@@ -978,6 +982,7 @@ async function loadRemote() {
     if (!r.ok) throw new Error('HTTP ' + r.status);
     const remote = await r.json().catch(() => null);
     if (remote && typeof remote === 'object' && remote.years) applyRemote(remote);
+    else if (hasAnyItems()) schedulePush(600);   /* 방에 진도표가 아직 없으면 이 기기 기록을 올려 둬요 */
     SYNC.loaded = true;
     openStream();
     setSyncState('on');
