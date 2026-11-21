@@ -2173,7 +2173,7 @@ body.gift-open{ overflow:hidden; }
     </div>
     <div class="top-actions">
       <button class="btn btn-ghost sync-btn" id="syncBtn" type="button" aria-haspopup="dialog" title="실시간 연동 설정"><span aria-hidden="true">☁️</span><i class="dot" aria-hidden="true"></i><span id="syncLabel">로컬 모드</span></button>
-      <button class="btn btn-primary" id="standbyBtn" type="button"><span aria-hidden="true">🖥️</span> 대기화면</button>
+      <button class="btn btn-primary" id="standbyBtn" type="button"><span aria-hidden="true">🖥️</span> 대기</button>
       <a class="btn btn-ghost" id="progressBtn" href="progress.html" target="_blank" rel="noopener" title="연간 학습 진도표 · 새 탭에서 열기"><span aria-hidden="true">📅</span> 진도표</a>
       <button class="btn btn-ghost" id="backupBtn" type="button"><span aria-hidden="true">💾</span> 백업</button>
     </div>
@@ -6154,7 +6154,7 @@ function setSyncStatus(kind, note) {
   if (btn && label) {
     btn.classList.toggle('on', sync.status === 'on');
     btn.classList.toggle('warn', sync.status === 'connecting' || sync.status === 'retry');
-    label.textContent = sync.status === 'on' ? '실시간 연결됨'
+    label.textContent = sync.status === 'on' ? '연결됨'
       : sync.status === 'connecting' ? '연결 중…'
       : sync.status === 'retry' ? '다시 연결 중…' : '로컬 모드';
     btn.title = sync.status === 'on' ? `'${sync.room}' 방에 연결됨 · 눌러서 설정` : '실시간 연동 설정';
